@@ -2,7 +2,7 @@ function onClickMenu()
 {
 	alert ('u hebt op het menu-knopke gedruk!!!!');
 }
-
+/*
 function buildOverzicht ()
 {
 	
@@ -55,6 +55,7 @@ function initTables (db)
 		alert ('er is een fout opgetreden\r\n' + error.message);
 	});
 }
+*/
 
 function onShowMed (vIndex)
 {
