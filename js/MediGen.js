@@ -19,7 +19,7 @@ function onLoad()
 function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
-	BuildOverzicht ();
+//	BuildOverzicht ();
 }
 
 function isDeviceReady ()
