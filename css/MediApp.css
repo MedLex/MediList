@@ -249,9 +249,14 @@ body
 	right:0px;
 	border-bottom:solid 1px #909090;
 	padding-left:30px;
-	padding-top:12px;
-	padding-bottom:12px;
+	padding-top:16px;
+	padding-bottom:16px;
 	vertical-align:center;
+}
+
+.item:hover
+{
+	background-color:#FFE0B2;
 }
 
 .right-white
