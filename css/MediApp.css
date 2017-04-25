@@ -240,7 +240,6 @@ body
 	right:0px;
 	bottom:0px;
 	overflow:auto;
-	padding-top:10px;
 }
 
 .item
@@ -250,8 +249,8 @@ body
 	right:0px;
 	border-bottom:solid 1px #909090;
 	padding-left:30px;
-	padding-top:5px;
-	padding-bottom:5px;
+	padding-top:12px;
+	padding-bottom:12px;
 	vertical-align:center;
 }
 
