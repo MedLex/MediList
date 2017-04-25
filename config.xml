@@ -31,7 +31,7 @@
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <preference name="iosPersistentFileLocation" value="Compatibility" />
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
-	<plugin spec="https://github.com/litehelpers/Cordova-sqlite-storage" source="git" />
+	<plugin spec="https://github.com/litehelpers/Cordova-sqlite-storage.git" source="git" />
     <access origin="mailto:*" launch-external="yes"/>
     <feature name="http://api.phonegap.com/1.0/file" />
     <platform name="android">
