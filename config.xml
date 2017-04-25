@@ -1,0 +1,111 @@
+<widget xmlns="http://www.w3.org/ns/widgets"
+	xmlns:gap="http://phonegap.com/ns/1.0"
+	id="nl.alexanderengberts.MediList"
+	versionCode="100"
+	version="1.0.0">
+    <name>MediList</name>
+    <description>Medicatieoverzicht</description>
+    <author href="http://alexanderengberts.nl" email="info@alexanderengberts.nl">MedLex</author>
+    <gap:platform name="ios" />
+    <gap:platform name="android" />
+    <gap:platform name="winphone" />
+    <content src="index.html" width="72" height="72"/>
+    <preference name="permissions" value="none"/>
+    <preference name="orientation" value="default"/>
+    <preference name="target-device" value="universal"/>
+    <preference name="fullscreen" value="false"/>
+    <preference name="webviewbounce" value="true"/>
+    <preference name="prerendered-icon" value="true"/>
+    <preference name="stay-in-webview" value="false"/>
+    <preference name="ios-statusbarstyle" value="black-opaque"/>
+    <preference name="detect-data-types" value="true"/>
+    <preference name="exit-on-suspend" value="false"/>
+    <preference name="show-splash-screen-spinner" value="true"/>
+    <preference name="auto-hide-splash-screen" value="true"/>
+    <preference name="disable-cursor" value="false"/>
+    <preference name="android-minSdkVersion" value="7"/>
+    <preference name="android-installLocation" value="auto"/>
+    <preference name="StatusBarOverlaysWebView" value="false"/>
+    <preference name="StatusBarBackgroundColor" value="#000000"/>
+    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="iosPersistentFileLocation" value="Compatibility" />
+	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
+	<plugin spec="https://github.com/litehelpers/Cordova-sqlite-storage" source="git" />
+    <access origin="mailto:*" launch-external="yes"/>
+    <feature name="http://api.phonegap.com/1.0/file" />
+    <platform name="android">
+        <icon   src="res/icon/android/drawable-mdpi-icon.png"     platform="android" density="mdpi"    qualifier="mdpi"   />
+        <icon   src="res/icon/android/drawable-hdpi-icon.png"     platform="android" density="hdpi"    qualifier="hdpi"   />
+        <icon   src="res/icon/android/drawable-xhdpi-icon.png"    platform="android" density="xhdpi"   qualifier="xhdpi"  />
+        <icon   src="res/icon/android/drawable-xxhdpi-icon.png"   platform="android" density="xxhdpi"  qualifier="xxhdpi" />
+        <icon   src="res/icon/android/drawable-xxxhdpi-icon.png"  platform="android" density="xxxhdpi" qualifier="xxxhdpi" />
+        <icon   src="res/icon/android/drawable-ldpi-icon.png"     platform="android" density="ldpi"    qualifier="ldpi"   />
+        <gap:splash src="res/screen/android/LDPIPortrait.png"         gap:platform="android" gap:qualifier="port-ldpi"/>
+        <gap:splash src="res/screen/android/LDPILandscape.png"        gap:platform="android" gap:qualifier="land-ldpi"/>
+        <gap:splash src="res/screen/android/MDPIPortrait.png"         gap:platform="android" gap:qualifier="port-mdpi"/>
+        <gap:splash src="res/screen/android/MDPILandscape.png"        gap:platform="android" gap:qualifier="land-mdpi"/>
+        <gap:splash src="res/screen/android/HDPIPortrait.png"         gap:platform="android" gap:qualifier="port-hdpi"/>
+        <gap:splash src="res/screen/android/HDPILandscape.png"        gap:platform="android" gap:qualifier="land-hdpi"/>
+        <gap:splash src="res/screen/android/XHDPIPortrait.png"        gap:platform="android" gap:qualifier="port-xhdpi"/>
+        <gap:splash src="res/screen/android/XHDPILandscape.png"       gap:platform="android" gap:qualifier="land-xhdpi"/>
+        <gap:splash src="res/screen/android/XXHDPIPortrait.png"       gap:platform="android" gap:qualifier="port-xxhdpi"/>
+        <gap:splash src="res/screen/android/XXHDPILandscape.png"      gap:platform="android" gap:qualifier="land-xxhdpi"/>
+        <gap:splash src="res/screen/android/XXXHDPIPortrait.png"      gap:platform="android" gap:qualifier="port-xxxhdpi"/>
+        <gap:splash src="res/screen/android/XXXHDPILandscape.png"     gap:platform="android" gap:qualifier="land-xxxhdpi"/>
+        <preference name="SplashScreenDelay" value="10000" />
+        <preference name="SplashMaintainAspectRatio" value="false" />
+        <preference name="SplashShowOnlyFirstTime" value="false" />
+        <preference name="SplashScreen" value="screen" />  
+    </platform>
+
+    <platform name="ios">
+        <icon   src="res/icon/ios/icon.png"                       platform="ios" width="57"   height="57" />
+        <icon   src="res/icon/ios/icon@2x.png"                    platform="ios" width="114"  height="114" />
+        <icon   src="res/icon/ios/icon-40.png"                    platform="ios" width="40"   height="40" />
+        <icon   src="res/icon/ios/icon-40@2x.png"                 platform="ios" width="80"   height="80" />
+        <icon   src="res/icon/ios/icon-50.png"                    platform="ios" width="50"   height="50" />
+        <icon   src="res/icon/ios/icon-50@2x.png"                 platform="ios" width="100"  height="100" />
+        <icon   src="res/icon/ios/icon-60.png"                    platform="ios" width="60"   height="60" />
+        <icon   src="res/icon/ios/icon-60@2x.png"                 platform="ios" width="120"  height="120" />
+        <icon   src="res/icon/ios/icon-60@3x.png"                 platform="ios" width="180"  height="180" />
+        <icon   src="res/icon/ios/icon-72.png"                    platform="ios" width="72"   height="72" />
+        <icon   src="res/icon/ios/icon-72@2x.png"                 platform="ios" width="144"  height="144" />
+        <icon   src="res/icon/ios/icon-76.png"                    platform="ios" width="76"   height="76" />
+        <icon   src="res/icon/ios/icon-76@2x.png"                 platform="ios" width="152"  height="152" />
+        <icon   src="res/icon/ios/icon-small.png"                 platform="ios" width="29"   height="29" />
+        <icon   src="res/icon/ios/icon-small@2x.png"              platform="ios" width="58"   height="58" />
+        <icon   src="res/icon/ios/icon-small@3x.png"              platform="ios" width="87"   height="87" />
+        <!-- iPad -->
+        <splash src="res/screen/ios/TabletNonRetinaPortrait.png"  platform="ios" width="768" height="1024"/>
+        <splash src="res/screen/ios/TabletNonRetinaLandscape.png" platform="ios" width="1024" height="768"/>
+        <splash src="res/screen/ios/TabletRetinaPortrait.png"     platform="ios" width="1536" height="2048"/>
+        <splash src="res/screen/ios/TabletRetinaLandscape.png"    platform="ios" width="2048" height="1536"/>
+        <!-- iPhone -->
+        <splash src="res/screen/ios/iPhoneRetinaPortrait.png"     platform="ios" width="640" height="960" />
+        <splash src="res/screen/ios/iPhoneRetinaLandscape.png"    platform="ios" width="960" height="640" />
+        <splash src="res/screen/ios/iPhoneNonRetinaPortrait.png"  platform="ios" width="320" height="480" />
+        <splash src="res/screen/ios/iPhoneNonRetinaLandscape.png" platform="ios" width="480" height="320" />
+        <!-- iPhone 5 -->
+        <splash src="res/screen/ios/iPhone5RetinaPortrait.png"    platform="ios" width="640" height="1136" />
+        <splash src="res/screen/ios/iPhone5RetinaLandscape.png"   platform="ios" width="1136" height="640" />
+        <!-- iPhone 6 -->
+        <splash src="res/screen/ios/iPhone6Portrait.png"          platform="ios" width="750" height="1334" />
+        <splash src="res/screen/ios/iPhone6Landscape.png"         platform="ios" width="1334" height="750" />
+        <!-- iPhone 6Plus -->
+        <splash src="res/screen/ios/iPhone6PlusPortrait.png"      platform="ios" width="1242" height="2208" />
+        <splash src="res/screen/ios/iPhone6PlusLandscape.png"     platform="ios" width="2208" height="1242" />
+        <preference name="SplashScreenDelay" value="5000" />
+        <preference name="SplashMaintainAspectRatio" value="false" />
+        <preference name="SplashShowOnlyFirstTime" value="false" />  
+    </platform>
+
+    <access origin="*"/>
+    <platform name="android">
+        <allow-intent href="market:*"/>
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
+    </platform>
+</widget>
