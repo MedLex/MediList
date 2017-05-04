@@ -292,7 +292,7 @@ body
 	width:65%;
 	background-color:#292929;
 	color:white;
-	padding-left:15px;
+	padding-left:5px;
 	padding-top:15px;
     transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
@@ -327,6 +327,7 @@ body
     label:pointer;
     padding-left:50px;
     padding-right:5px;
+	margin-top:10px;
 }
 
 .arrowUp
