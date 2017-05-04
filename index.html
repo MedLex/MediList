@@ -43,12 +43,19 @@
 				<div class="right-black"></div>
 			</div>
 		</div>
+		<div id="menuCover" onclick="showMenu (0);"></div>
+		<div id="menuBox" class="standard">
+            <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
+            <div class="divMenu large" onclick="showNadro();"><div class="arrowDown"></div>Haal nieuwe lijst</div>
+            <div class="divMenu large" onclick="showNadro();"><div class="arrowUp"></div>Stuur huidige lijst</div>
+            <div class="divMenu large" onclick="showNadro();"><div class="person"></div>Persoonlijke gegevens</div>
+		</div>
 		<div id="menubar" class="standard standard500 materialHeader">
 			<div id="vijzel"></div>
 			<div id="headertext" class="standard500 header">Medicatieoverzicht</div>
-			<div id="menubutton" onmouseup="onClickMenu();"></div>
+			<div id="menubutton" onmouseup="showMenu(1);"></div>
 		</div>
-		<div id="load" class="material alt500" onmouseup="onClickMenu();"></div>
+		<div id="load" class="material alt500" onmouseup="showMenu(1);"></div>
     </div>
     <script type="text/javascript">onLoad ();</script>
   </body>
