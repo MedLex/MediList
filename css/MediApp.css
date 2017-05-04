@@ -282,3 +282,93 @@ body
 	background:transparent url('../img/right-black.png') center no-repeat;
     background-size:36px;
 }
+
+#menuBox
+{
+	position:absolute;
+	top:50px;
+	bottom:0px;
+	right:100%;
+	width:65%;
+	background-color:#292929;
+	color:white;
+	padding-left:15px;
+	padding-top:15px;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+}
+
+#menuCover
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    transition:opacity 0.5s ease;
+    -webkit-transition:opacity 0.5s ease;
+    opacity:0.1;
+    display:none;
+    background:#000;
+}
+
+.divMenu
+{
+    position:relative;
+    left:0px;
+    right:0px;
+    
+    display:block;
+    text-decoration:none;
+    color:white;
+    background:transparent;
+    height:35px;
+    line-height:35px;
+    label:pointer;
+    padding-left:50px;
+    padding-right:5px;
+}
+
+.arrowUp
+{
+	position:absolute;
+	left:10px;
+	top:3px;
+	height:30px;
+	width:30px;
+	background:transparent url('../img/ArrowUp.png') center no-repeat;
+    background-size:30px;
+}
+
+.arrowDown
+{
+	position:absolute;
+	left:10px;
+	top:3px;
+	height:30px;
+	width:30px;
+	background:transparent url('../img/ArrowDown.png') center no-repeat;
+    background-size:30px;
+}
+
+.person
+{
+	position:absolute;
+	left:10px;
+	top:3px;
+	height:30px;
+	width:30px;
+	background:transparent url('../img/Person.png') center no-repeat;
+    background-size:30px;
+}
+
+.menuBack
+{
+	position:absolute;
+	left:10px;
+	top:3px;
+	height:30px;
+	width:30px;
+	background:transparent url('../img/left-white.png') center no-repeat;
+    background-size:30px;
+}
