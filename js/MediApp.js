@@ -1,7 +1,19 @@
-function onClickMenu()
+function showMenu (vShow)
 {
-	alert ('u hebt op het menu-knopke gedruk!!!!');
+   	var vMenu = document.getElementById ('menuBox');
+	
+    if (vShow == 0)
+    {
+    	setVisibility ('menuCover', false);
+    	menuBox.style.left  = '-70%';
+    }
+    else
+    {
+    	setVisibility ('menuCover', true);
+    	menuBox.style.left  = '0px';
+    }
 }
+
 /*
 function buildOverzicht ()
 {
