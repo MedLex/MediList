@@ -31,7 +31,7 @@ function isDeviceReady ()
 // Bedek alle onderliggende zaken met een semi-transparante waas
 // Deze krijgt standaard als id '__brCover'. Die wordt later weggegooid bij de OK knop.
 //
-function Cover ()
+function Cover (bRespond)
 {
     
     elemCover = document.createElement ('div');
@@ -40,6 +40,8 @@ function Cover ()
     elemCover.id = '__brCover';
     elemCover.style.transition = 'opacity 0.5s ease';
     elemCover.style.webkitTransition = 'opacity 0.5s ease';
+	if (bRespond)
+		elemCover.onclick = 'closemenu();';
     document.body.appendChild (elemCover);
 }
 
@@ -59,13 +61,13 @@ function myAlert (szText)
     elemWrapper.style.transition = 'opacity 0.5s ease';
     elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
     elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 2px #00a651;font-family:arial, helvetica, sans-serif;'
-                          + 'font-size:large;text-align:left;color:#00a651;background-color:#ffffff;padding-left:15px;';
+    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+                          + 'font-size:large;text-align:left;color:#000000;background-color:#FF9800;padding-left:15px;';
     elemDiv.innerHTML = 'Let op!';
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
     elemDiv.id = '__brAlertText';
-    elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 2px #afafaf;font-family:arial, helvetica, sans-serif;'
+    elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
     elemDiv.innerHTML = szText;
     elemWrapper.appendChild (elemDiv);
@@ -184,4 +186,29 @@ function onClickOK (szName)
 				divCover.parentNode.removeChild (divCover);
 		}, 500);
 	}
+}
+
+//---------------------------------------------------------------------------
+// Maak een div zichtbaar of onzichtbaar
+//
+function setVisibility(id, nVisible)
+{
+    var test;
+    var e;
+    
+    e = document.getElementById(id);
+    if (!e)
+        alert ('id \'' + id + '\' not found!');
+    test = e.style.display;
+    if (nVisible == 2)
+    {
+        if(e.style.display == 'block')
+           e.style.display = 'none';
+        else
+           e.style.display = 'block';
+    }
+    else if (nVisible == 0)
+        e.style.display = 'none';
+    else
+        e.style.display = 'block';
 }
