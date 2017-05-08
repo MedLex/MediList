@@ -290,7 +290,7 @@ body
 	bottom:0px;
 	left:-70%;
 	width:65%;
-	background-color:#292929;
+	background-color:#2c3338;
 	color:white;
 	padding-left:5px;
 	padding-top:15px;
@@ -327,14 +327,17 @@ body
     label:pointer;
     padding-left:50px;
     padding-right:5px;
-	margin-top:10px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-bottom:solid 1px #61666a;
+	vertical-align: center;
 }
 
 .arrowUp
 {
 	position:absolute;
 	left:10px;
-	top:3px;
+	top:13px;
 	height:30px;
 	width:30px;
 	background:transparent url('../img/ArrowUp.png') center no-repeat;
@@ -345,7 +348,7 @@ body
 {
 	position:absolute;
 	left:10px;
-	top:3px;
+	top:13px;
 	height:30px;
 	width:30px;
 	background:transparent url('../img/ArrowDown.png') center no-repeat;
@@ -356,7 +359,7 @@ body
 {
 	position:absolute;
 	left:10px;
-	top:3px;
+	top:13px;
 	height:30px;
 	width:30px;
 	background:transparent url('../img/Person.png') center no-repeat;
@@ -367,7 +370,7 @@ body
 {
 	position:absolute;
 	left:10px;
-	top:3px;
+	top:13px;
 	height:30px;
 	width:30px;
 	background:transparent url('../img/left-white.png') center no-repeat;
