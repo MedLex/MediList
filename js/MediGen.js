@@ -7,14 +7,16 @@ var __divName;
 //---------------------------------------------------------------
 // Cordova is ready
 //
-function myDeviceReady()
+function onDeviceReady()
 {
-    g_bDeviceIsReady = true;
+	g_bDeviceIsReady = true;
 	
+	myAlert ('device is ready now!');
 //    app.receivedEvent('deviceready');
 
     // Read NDEF formatted NFC Tags
-    nfc.addNdefListener (onNfc,
+	nfc.addTagDiscoveredListener(nfcTagDetected,
+//    nfc.addNdefListener (onNfc,
         function ()						// success callback
 		{
             myAlert("Waiting for NDEF tag");
@@ -34,7 +36,7 @@ function myDeviceReady()
 function init()
 {
 	g_bDeviceIsReady = false;
-    document.addEventListener("deviceready", myDeviceReady, false);
+    document.addEventListener("deviceready", onDeviceReady, false);
 }
 
 function isDeviceReady ()
