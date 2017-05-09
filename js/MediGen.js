@@ -35,7 +35,6 @@ function myDeviceReady()
 function init()
 {
 	g_bDeviceIsReady = false;
-	myAlert ('adding event listener');
     document.addEventListener("deviceready", myDeviceReady, false);
 }
 
