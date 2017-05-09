@@ -1,3 +1,21 @@
+
+onDeviceReady: function()
+{
+    app.receivedEvent('deviceready');
+
+    // Read NDEF formatted NFC Tags
+    nfc.addNdefListener (onNfc,
+        function ()						// success callback
+		{
+            myAlert("Waiting for NDEF tag");
+        },
+        function (error)				// error callback
+		{
+            myAlert("Error adding NDEF listener " + JSON.stringify(error));
+        }
+    );
+}
+
 function showMenu (vShow)
 {
    	var vMenu = document.getElementById ('menuBox');
@@ -97,22 +115,8 @@ function onShowMed (vIndex)
 	                      + '<tr><td>Voorschrijver</td><td>:</td><td>Lorsheyd, A<br />CAR 03053035</td></tr>');
 }
 
-function readTag ()
+function onNfc(nfcEvent)
 {
-	myAlert ('reading NFC tags (I hope!)');
-	nfc.addNdefListener(
-		function()
-		{
-			myAlert("Found an NDEF formatted tag");
-		},
-		function()
-		{
-			console.log("Success.");
-		},
-		function()
-		{
-			console.log("Fail.");
-		}
-	);
-	myAlert ('eventlistener added....');
+    // display the tag as JSON
+    myAlert(JSON.stringify(nfcEvent.tag));
 }
