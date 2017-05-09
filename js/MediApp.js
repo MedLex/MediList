@@ -106,8 +106,7 @@ function onNfc(nfcEvent)
 
 function nfcTagDetected (reading)
 {
-	myAlert (reading.tag.id); // alert the id of the NFC reading
-	myAlert (reading.tag.data); // alert the id of the NFC reading
+	myAlert ('the ID of your NFC card is \'' + reading.tag.id + '\''); // alert the id of the NFC reading
 }
 
 // See more at: http://www.dogu.io/blog/technology/adding-rfid-capabilities-to-your-android-phonegap-application/#sthash.JQ1T8QKW.dpuf
