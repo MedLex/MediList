@@ -9,7 +9,6 @@ var __divName;
 //
 function myDeviceReady()
 {
-    myAlert ('device is ready now!');
     g_bDeviceIsReady = true;
 	
 //    app.receivedEvent('deviceready');
