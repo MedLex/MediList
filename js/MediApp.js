@@ -97,7 +97,7 @@ function onShowMed (vIndex)
 	                      + '<tr><td>Voorschrijver</td><td>:</td><td>Lorsheyd, A<br />CAR 03053035</td></tr>');
 }
 
-function readtag ()
+function readTag ()
 {
 	nfc.addNdefListener(
 		function()
