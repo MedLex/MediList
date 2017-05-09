@@ -11,10 +11,7 @@ function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
 	
-	myAlert ('device is ready now!');
-//    app.receivedEvent('deviceready');
-
-    // Read NDEF formatted NFC Tags
+    // Discover RFID tags first!
 	nfc.addTagDiscoveredListener(nfcTagDetected,
 //    nfc.addNdefListener (onNfc,
         function ()						// success callback
