@@ -9,10 +9,10 @@ var __divName;
 //
 function myDeviceReady()
 {
-	g_bDeviceIsReady = true;
+    myAlert ('device is ready now!');
+    g_bDeviceIsReady = true;
 	
     app.receivedEvent('deviceready');
-	myAlert ('device is ready now!');
 
     // Read NDEF formatted NFC Tags
     nfc.addNdefListener (onNfc,
