@@ -96,3 +96,21 @@ function onShowMed (vIndex)
 	                      + '<tr><td>Toediening</td><td>:</td><td>Oraal</td></tr>'
 	                      + '<tr><td>Voorschrijver</td><td>:</td><td>Lorsheyd, A<br />CAR 03053035</td></tr>');
 }
+
+function readtag ()
+{
+	nfc.addNdefListener(
+		function()
+		{
+			myAlert("Found an NDEF formatted tag");
+		},
+		function()
+		{
+			console.log("Success.");
+		},
+		function()
+		{
+			console.log("Fail.");
+		}
+	);
+}
