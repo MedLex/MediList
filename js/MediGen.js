@@ -7,7 +7,7 @@ var __divName;
 //--------------------------------------------------------------
 // Wait for Cordova to load
 //
-function onLoad()
+function init()
 {
 	g_bDeviceIsReady = false;
     document.addEventListener("deviceready", onDeviceReady, false);
