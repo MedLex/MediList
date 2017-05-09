@@ -19,6 +19,22 @@ function onLoad()
 function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
+	
+    app.receivedEvent('deviceready');
+	myAlert ('device is ready now!');
+
+    // Read NDEF formatted NFC Tags
+    nfc.addNdefListener (onNfc,
+        function ()						// success callback
+		{
+            myAlert("Waiting for NDEF tag");
+        },
+        function (error)				// error callback
+		{
+            myAlert("Error adding NDEF listener " + JSON.stringify(error));
+        }
+    );
+	
 //	BuildOverzicht ();
 }
 
