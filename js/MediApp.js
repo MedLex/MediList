@@ -99,6 +99,7 @@ function onShowMed (vIndex)
 
 function readTag ()
 {
+	myAlert ('reading NFC tags (I hope!)');
 	nfc.addNdefListener(
 		function()
 		{
@@ -113,4 +114,5 @@ function readTag ()
 			console.log("Fail.");
 		}
 	);
+	myAlert ('eventlistener added....');
 }
