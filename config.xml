@@ -58,8 +58,8 @@
         <preference name="SplashMaintainAspectRatio" value="false" />
         <preference name="SplashShowOnlyFirstTime" value="false" />
         <preference name="SplashScreen" value="screen" />
-<!--		<uses-permission android:name="android.permission.NFC" />
-		<uses-feature android:name="android.hardware.nfc" android:required="true" /> -->
+		<uses-permission android:name="android.permission.NFC" />
+		<uses-feature android:name="android.hardware.nfc" android:required="true" />
 <!--		<uses-sdk android:minSdkVersion="10" /> -->
     </platform>
 
