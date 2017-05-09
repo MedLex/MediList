@@ -10,6 +10,7 @@ var __divName;
 function init()
 {
 	g_bDeviceIsReady = false;
+	myAlert ('adding event listener');
     document.addEventListener("deviceready", onDeviceReady, false);
 }
 
