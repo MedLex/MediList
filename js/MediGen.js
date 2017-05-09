@@ -4,20 +4,10 @@
 var g_bDeviceIsReady	= false;
 var __divName;
 
-//--------------------------------------------------------------
-// Wait for Cordova to load
-//
-function init()
-{
-	g_bDeviceIsReady = false;
-	myAlert ('adding event listener');
-    document.addEventListener("deviceready", onDeviceReady, false);
-}
-
 //---------------------------------------------------------------
 // Cordova is ready
 //
-function onDeviceReady()
+function myDeviceReady()
 {
 	g_bDeviceIsReady = true;
 	
@@ -37,6 +27,16 @@ function onDeviceReady()
     );
 	
 //	BuildOverzicht ();
+}
+
+//--------------------------------------------------------------
+// Wait for Cordova to load
+//
+function init()
+{
+	g_bDeviceIsReady = false;
+	myAlert ('adding event listener');
+    document.addEventListener("deviceready", myDeviceReady, false);
 }
 
 function isDeviceReady ()
