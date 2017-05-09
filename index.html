@@ -21,6 +21,7 @@
       
       <script type="text/javascript" src="js/MediGen.js"></script>
       <script type="text/javascript" src="js/MediApp.js"></script>
+	  <script type="text/javascript" charset="utf-8" src="js/nfc.js"></script>
 <!--      <script type="text/javascript" src="js/phonegap.js"></script> -->
       <title>Medicatieoverzicht</title>
 </head>
@@ -44,9 +45,9 @@
 			</div>
 		</div>
 		<div id="menuCover" onclick="showMenu (0);"></div>
-		<div id="menuBox" class="standard">
+		<div id="menuBox" class="standard material">
             <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
-            <div class="divMenu large" onclick="showNadro();"><div class="arrowDown"></div>Haal nieuwe lijst</div>
+            <div class="divMenu large" onclick="readTag();"><div class="arrowDown"></div>Haal nieuwe lijst</div>
             <div class="divMenu large" onclick="showNadro();"><div class="arrowUp"></div>Stuur huidige lijst</div>
             <div class="divMenu large" onclick="showNadro();"><div class="person"></div>Persoonlijke gegevens</div>
 		</div>
