@@ -60,7 +60,7 @@
 		<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
 		<uses-permission android:name="android.permission.NFC" />
 		<uses-feature android:name="android.hardware.nfc" android:required="true" />
-		<uses-sdk android:minSdkVersion="10" />
+<!--		<uses-sdk android:minSdkVersion="10" /> -->
     </platform>
 
     <platform name="ios">
