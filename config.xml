@@ -32,9 +32,9 @@
     <preference name="iosPersistentFileLocation" value="Compatibility" />
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
-<!--	<plugin spec="https://github.com/litehelpers/Cordova-sqlite-storage.git" source="git" /> -->
-    <access origin="mailto:*" launch-external="yes"/>
-    <feature name="http://api.phonegap.com/1.0/file" />
+	<plugin spec="https://github.com/litehelpers/Cordova-sqlite-storage" source="git" />
+<!--    <access origin="mailto:*" launch-external="yes"/> -->
+<!--    <feature name="http://api.phonegap.com/1.0/file" /> -->
     <platform name="android">
         <icon   src="res/icon/android/drawable-mdpi-icon.png"     platform="android" density="mdpi"    qualifier="mdpi"   />
         <icon   src="res/icon/android/drawable-hdpi-icon.png"     platform="android" density="hdpi"    qualifier="hdpi"   />
@@ -58,9 +58,6 @@
         <preference name="SplashMaintainAspectRatio" value="false" />
         <preference name="SplashShowOnlyFirstTime" value="false" />
         <preference name="SplashScreen" value="screen" />
-<!--		<uses-permission android:name="android.permission.NFC" />
-		<uses-feature android:name="android.hardware.nfc" android:required="true" /> -->
-<!--		<uses-sdk android:minSdkVersion="10" /> -->
     </platform>
 
     <platform name="ios">
