@@ -3,6 +3,7 @@
 //
 var g_bDeviceIsReady	= false;
 var __divName;
+var db = null;
 
 //---------------------------------------------------------------
 // Cordova is ready
@@ -11,7 +12,9 @@ function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
 	
-    // Discover RFID tags first!
+//    app.receivedEvent('deviceready');
+
+    // Read NDEF formatted NFC Tags
 	nfc.addTagDiscoveredListener(nfcTagDetected,
 //    nfc.addNdefListener (onNfc,
         function ()						// success callback
@@ -23,7 +26,47 @@ function onDeviceReady()
             myAlert("Error adding NDEF listener " + JSON.stringify(error));
         }
     );
-	
+	db = window.sqlitePlugin.openDatabase({name: 'MediList.db', location: 'default'});
+	if (db)
+	{
+		db.transaction(function(tx)
+		{
+			tx.executeSql('CREATE TABLE IF NOT EXISTS Person (id, name, dob)');
+	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Alice', 101]);
+	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Betty', 202]);
+		}, function(error)
+		{
+			alert ('Transaction ERROR: ' + error.message);
+		}, function()
+		{
+			alert ('Person table created');
+		});	
+		db.transaction(function(tx)
+		{
+			tx.executeSql('CREATE TABLE IF NOT EXISTS List (id, person, date, pharmacy, complete)');
+	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Alice', 101]);
+	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Betty', 202]);
+		}, function(error)
+		{
+			alert ('Transaction ERROR: ' + error.message);
+		}, function()
+		{
+			alert ('List table created');
+		});	
+		db.transaction(function(tx)
+		{
+			tx.executeSql('CREATE TABLE IF NOT EXISTS Line (list, medication, dose, comment, prescribed)');
+	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Alice', 101]);
+	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Betty', 202]);
+		}, function(error)
+		{
+			alert ('Transaction ERROR: ' + error.message);
+		}, function()
+		{
+			alert ('Line table created');
+		});	
+	}
+
 //	BuildOverzicht ();
 }
 
