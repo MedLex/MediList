@@ -26,7 +26,7 @@ function onDeviceReady()
             myAlert("Error adding NDEF listener " + JSON.stringify(error));
         }
     );
-	db = window.sqlitePlugin.openDatabase({name: 'MediList.db', location: 'default'});
+	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
 	{
 		db.transaction(function(tx)
