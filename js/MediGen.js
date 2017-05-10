@@ -28,44 +28,7 @@ function onDeviceReady()
     );
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
-	{
-		db.transaction(function(tx)
-		{
-			tx.executeSql('CREATE TABLE IF NOT EXISTS Person (id, name, dob)');
-	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Alice', 101]);
-	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Betty', 202]);
-		}, function(error)
-		{
-			alert ('Transaction ERROR: ' + error.message);
-		}, function()
-		{
-			alert ('Person table created');
-		});	
-		db.transaction(function(tx)
-		{
-			tx.executeSql('CREATE TABLE IF NOT EXISTS List (id, person, date, pharmacy, complete)');
-	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Alice', 101]);
-	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Betty', 202]);
-		}, function(error)
-		{
-			alert ('Transaction ERROR: ' + error.message);
-		}, function()
-		{
-			alert ('List table created');
-		});	
-		db.transaction(function(tx)
-		{
-			tx.executeSql('CREATE TABLE IF NOT EXISTS Line (list, medication, dose, comment, prescribed)');
-	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Alice', 101]);
-	//		tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Betty', 202]);
-		}, function(error)
-		{
-			alert ('Transaction ERROR: ' + error.message);
-		}, function()
-		{
-			alert ('Line table created');
-		});	
-	}
+		initTables (db);
 
 //	BuildOverzicht ();
 }

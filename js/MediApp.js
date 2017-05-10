@@ -40,17 +40,22 @@ function buildOverzicht ()
 	
 	db.close ();
 }
-
+*/
 function initTables (db)
 {
 	db.transaction (function (tx)
 	{
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS overzichten(id integer primary key,'
+		tx.executeSql ('DROP TABLE IF EXISTS Person');
+		tx.executeSql ('DROP TABLE IF EXISTS List');
+		tx.executeSql ('DROP TABLE IF EXISTS Line');
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id integer primary key,'
+														    + 'naam text,'
+														    + 'geboren text)');
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id integer primary key,'
 														    + 'apotheek text,'
 		                                                    + 'datum text,'
-														    + 'patient text'
-														    + 'geboren text)');
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS medicatie  (overzicht integer,'
+														    + 'patient integer');
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS medicatie  (lijst integer,'
 														    + 'regel integer,'
 		                                                    + 'datum text,'
 														    + 'voorschrijver text'
@@ -66,9 +71,11 @@ function initTables (db)
 	}, function (error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
+	}, function ()
+	{
+		alert ('tables created');
 	});
 }
-*/
 
 function onShowMed (vIndex)
 {
