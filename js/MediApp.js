@@ -48,26 +48,26 @@ function initTables (db)
 		tx.executeSql ('DROP TABLE IF EXISTS Person');
 		tx.executeSql ('DROP TABLE IF EXISTS List');
 		tx.executeSql ('DROP TABLE IF EXISTS Line');
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id integer primary key,'
-														    + 'naam text,'
-														    + 'geboren text)');
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id integer primary key,'
-														    + 'apotheek text,'
-		                                                    + 'datum text,'
-														    + 'patient integer');
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS medicatie  (lijst integer,'
-														    + 'regel integer,'
-		                                                    + 'datum text,'
-														    + 'voorschrijver text'
-															+ 'medicijn text,'
-															+ 'dosering text,'
-															+ 'start text,'
-															+ 'end text,'
-															+ 'duur integer,'
-															+ 'toediening text,'
-															+ 'toelichting text,'
-															+ 'herhaling bool,'
-														    + 'code text)');
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
+														    + 'naam TEXT,'
+														    + 'geboren TEXT)');
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id integer PRIMARY KEY ASC,'
+														    + 'apotheek TEXT,'
+		                                                    + 'datum TEXT,'
+														    + 'patient INTEGER)');
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS medicatie  (lijst INTEGER,'
+														    + 'regel INTEGER,'
+		                                                    + 'datum TEXT,'
+														    + 'voorschrijver TEXT'
+															+ 'medicijn TEXT,'
+															+ 'dosering TEXT,'
+															+ 'start TEXT,'
+															+ 'end TEXT,'
+															+ 'duur INTEGER,'
+															+ 'toediening TEXT,'
+															+ 'toelichting TEXT,'
+															+ 'herhaling INTEGER,'
+														    + 'code TEXT)');
 	}, function (error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
