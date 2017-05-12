@@ -45,6 +45,10 @@ function initTables (db)
 {
 	db.transaction (function (tx)
 	{
+		var id;
+		var naam;
+		var geboren;
+
 		tx.executeSql ('DROP TABLE IF EXISTS Person');
 		tx.executeSql ('DROP TABLE IF EXISTS List');
 		tx.executeSql ('DROP TABLE IF EXISTS Line');
@@ -68,13 +72,12 @@ function initTables (db)
 															+ 'toelichting TEXT,'
 															+ 'herhaling INTEGER,'
 														    + 'code TEXT)');
-		var id = 0;
-		var naam = 'Suzanna Smit';
-		var geboren = '12-03-1982';
-		tx.executeSql ('INSERT INTO person (id, naam, geboren) VALUES (?, ?, ?)', [id, naam, geboren]);
-		id = 1;
-		naam = 'Peter Herrewegen';
-		geboren = '11-06-1985';
+		id     [0] = 0;
+		naam   [0] = 'Suzanna Smit';
+		geboren[0] = '12-03-1982';
+		id     [1] = 1;
+		naam   [1] = 'Peter Herrewegen';
+		geboren[1] = '11-06-1985';
 		tx.executeSql ('INSERT INTO person (id, naam, geboren) VALUES (?, ?, ?)', [id, naam, geboren]);
 	}, function (error)
 	{
