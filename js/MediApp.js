@@ -144,8 +144,8 @@ function showPersons ()
 		setHeader ('gebruikers', 'Persons');
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
-		fillPersons (persons);
 		setVisibility ('load', true);
+		fillPersons (persons);
 	}
 }
 
