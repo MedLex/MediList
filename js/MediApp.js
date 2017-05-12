@@ -45,9 +45,7 @@ function initTables (db)
 {
 	db.transaction (function (tx)
 	{
-		tx.executeSql ('DROP TABLE IF EXISTS Person');
-		tx.executeSql ('DROP TABLE IF EXISTS List');
-		tx.executeSql ('DROP TABLE IF EXISTS Line');
+		tx.executeSql ('DROP TABLE IF EXISTS person');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
 														    + 'naam TEXT,'
 														    + 'geboren TEXT)');
@@ -68,6 +66,20 @@ function initTables (db)
 															+ 'toelichting TEXT,'
 															+ 'herhaling INTEGER,'
 														    + 'code TEXT)');
+	}, function (error)
+	{
+		alert ('er is een fout opgetreden\r\n' + error.message);
+	}, function ()
+	{
+		alert ('tables created');
+	});
+}
+
+function populatePersons ()
+{
+
+	db.transaction (function (tx)
+	{
 		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\', \'12-03-1982)\'');
 		tx.executeSql ('INSERT INTO person VALUES (2, \'Peter Herrewegen\', \'04-06-1985)\'');
 	}, function (error)
@@ -75,7 +87,7 @@ function initTables (db)
 		alert ('er is een fout opgetreden\r\n' + error.message);
 	}, function ()
 	{
-		alert ('tables created');
+		alert ('tables populated');
 	});
 }
 
