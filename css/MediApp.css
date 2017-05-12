@@ -362,7 +362,7 @@ body
 	top:13px;
 	height:30px;
 	width:30px;
-	background:transparent url('../img/Person.png') center no-repeat;
+	background:transparent url('../img/Persons.png') center no-repeat;
     background-size:30px;
 }
 
@@ -375,4 +375,44 @@ body
 	width:30px;
 	background:transparent url('../img/left-white.png') center no-repeat;
     background-size:30px;
+}
+
+#persons
+{
+	position:absolute;
+	top:50px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	background-color:white;
+	color:black;
+	padding-left:5px;
+	padding-top:15px;
+	opacity:0;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+	display:none;
+}
+
+#okButton
+{
+	position:absolute;
+	bottom:8px;
+	right:30px;
+	left:30px;
+	height:35px;
+	line-height:35px;
+	text-align:center;
+}
+
+.personLine
+{
+	position:relative;
+	left:0px;
+	right:0px;
+	border-bottom:solid 1px #909090;
+	padding-left:30px;
+	padding-top:16px;
+	padding-bottom:16px;
+	vertical-align:center;
 }
