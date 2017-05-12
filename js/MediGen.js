@@ -28,7 +28,10 @@ function onDeviceReady()
     );
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
+	{
 		initTables (db);
+		populatePersons ();
+	}
 
 //	BuildOverzicht ();
 }
