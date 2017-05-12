@@ -71,7 +71,7 @@ function initTables (db)
 		alert ('er is een fout opgetreden\r\n' + error.message);
 	}, function ()
 	{
-		alert ('tables created');
+//		alert ('tables created');
 	});
 }
 
@@ -80,14 +80,14 @@ function populatePersons ()
 
 	db.transaction (function (tx)
 	{
-		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\', \'12-03-1982)\'');
-		tx.executeSql ('INSERT INTO person VALUES (2, \'Peter Herrewegen\', \'04-06-1985)\'');
+		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\', \'12-03-1982\')');
+		tx.executeSql ('INSERT INTO person VALUES (2, \'Peter Herrewegen\', \'04-06-1985\')');
 	}, function (error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
 	}, function ()
 	{
-		alert ('tables populated');
+//		alert ('tables populated');
 	});
 }
 
@@ -145,6 +145,7 @@ function showPersons ()
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
 		fillPersons (persons);
+		setVisibility ('load', true);
 	}
 }
 
@@ -157,6 +158,7 @@ function personsOK ()
 	{
 		setHeader ('Medicatieoverzicht', 'Mortar');
 		persons.style.opacity = '0';
+		setVisibility ('load', false);
 		setTimeout(function()
 		{
 			setVisibility ('persons', false);
@@ -192,19 +194,80 @@ function fillPersons (person)
 	}
 	db.transaction(function(tx)
 	{
-		tx.executeSql('SELECT * FROM person', [id, naam, geboren]);
+		tx.executeSql('SELECT * FROM person', [], function (tx, results)
+		{
+			for (var i = 0; i < results.rows.length; i++)
+			{
+				row = results.rows.item(i);
+				div = document.createElement ('div');
+				div.setAttribute('onmouseup', 'showPerson(' + row['id'] + ');');
+				if (i%2)
+					div.className = 'personLine standard50 standard';
+				else
+					div.className = 'personLine standard200 standard';
+				var szHTML = row['geboren'];
+				szHTML += ', ';
+				szHTML += row['naam'];
+				div.innerHTML = szHTML;
+				person.appendChild (div);
+			}
+		}), function (error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+			alert ('namen gelezen en verwerkt');
+		};
 	});
-	for (var i = 0; i < naam.length; i++)
+}
+
+function showPerson (id)
+{
+	alert ('showing person with id = \'' + id + '\'');
+}
+
+function plus ()
+{
+	var individual;
+	
+	individual = document.getElementById ('individual');
+	setVisibility ('individualCover', true);
+	setVisibility ('individual', true);
+	if (individual)
 	{
-		div = document.createElement ('div');
-		div.onmouseup = 'showPerson (\' + id[i] + \')';
-		if (i%2)
-			div.className = 'personLine standard50';
-		else
-			div.className = 'personLine standard200';
-		var szHTML = geboren[i];
-		szHTML += ', ';
-		szHTML += naam[i];
-		div.innerHTML = szHTML;
+		individual.style.opacity = '1';
+	}
+}
+
+
+function indiOK ()
+{
+	var individual;
+	
+	setVisibility ('individualCover', false);
+	individual = document.getElementById ('individual');
+	if (individual)
+	{
+		individual.style.opacity = '0';
+		setTimeout(function()
+		{
+			setVisibility ('individual', false);
+		}, 500);
+	}
+}
+
+function indiCancel ()
+{
+	var individual;
+	
+	setVisibility ('individualCover', false);
+	individual = document.getElementById ('individual');
+	if (individual)
+	{
+		individual.style.opacity = '0';
+		setTimeout(function()
+		{
+			setVisibility ('individual', false);
+		}, 500);
 	}
 }

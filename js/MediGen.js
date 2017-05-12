@@ -15,6 +15,7 @@ function onDeviceReady()
 //    app.receivedEvent('deviceready');
 
     // Read NDEF formatted NFC Tags
+	/*
 	nfc.addTagDiscoveredListener(nfcTagDetected,
 //    nfc.addNdefListener (onNfc,
         function ()						// success callback
@@ -25,13 +26,15 @@ function onDeviceReady()
 		{
             myAlert("Error adding NDEF listener " + JSON.stringify(error));
         }
-    );
+    ); */
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
 	{
 		initTables (db);
 		populatePersons ();
 	}
+	else
+		alert ('no database available!');
 
 //	BuildOverzicht ();
 }
@@ -42,7 +45,8 @@ function onDeviceReady()
 function init()
 {
 	g_bDeviceIsReady = false;
-    document.addEventListener("deviceready", onDeviceReady, false);
+//    document.addEventListener("deviceready", onDeviceReady, false);
+	onDeviceReady ();
 }
 
 function isDeviceReady ()
