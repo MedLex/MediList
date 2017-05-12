@@ -68,6 +68,14 @@ function initTables (db)
 															+ 'toelichting TEXT,'
 															+ 'herhaling INTEGER,'
 														    + 'code TEXT)');
+		var id = 0;
+		var naam = 'Suzanna Smit';
+		var geboren = '12-03-1982';
+		tx.executeSql ('INSERT INTO person (id, naam, geboren) VALUES (?, ?, ?)', [id, naam, geboren]);
+		id = 1;
+		naam = 'Peter Herrewegen';
+		geboren = '11-06-1985';
+		tx.executeSql ('INSERT INTO person (id, naam, geboren) VALUES (?, ?, ?)', [id, naam, geboren]);
 	}, function (error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
@@ -117,3 +125,80 @@ function nfcTagDetected (reading)
 }
 
 // See more at: http://www.dogu.io/blog/technology/adding-rfid-capabilities-to-your-android-phonegap-application/#sthash.JQ1T8QKW.dpuf
+
+function showPersons ()
+{
+	var persons;
+	
+	showMenu (false);
+	persons = document.getElementById ('persons');
+	
+	if (persons)
+	{
+		setHeader ('gebruikers', 'Persons');
+		persons.style.display = 'block';
+		persons.style.opacity = '1';
+		fillPersons (persons);
+	}
+}
+
+function personsOK ()
+{
+	var persons;
+	
+	persons = document.getElementById ('persons');
+	if (persons)
+	{
+		setHeader ('Medicatieoverzicht', 'Mortar');
+		persons.style.opacity = '0';
+		setTimeout(function()
+		{
+			setVisibility ('persons', false);
+		}, 500);
+	}
+}
+
+function setHeader (szText, szImage)
+{
+	var header = document.getElementById ('headertext');
+	var icon = document.getElementById ('vijzel');
+	
+	if (header && icon)
+	{
+		header.innerHTML = szText;
+		icon.style.background = 'transparent url(\'img/' + szImage + '.png\') center no-repeat';
+		icon.style.backgroundSize = '46px';
+	}
+
+}
+
+function fillPersons (person)
+{
+	var id;
+	var naam;
+	var geboren;
+	var div;
+	
+	div = person.getElementsByClassName ('personLine');
+	for (var i = 0; i < div.length;i++)
+	{
+		person.removeChild (div[i]);
+	}
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM person', [id, naam, geboren]);
+	});
+	for (var i = 0; i < naam.length; i++)
+	{
+		div = document.createElement ('div');
+		div.onmouseup = 'showPerson (\' + id[i] + \')';
+		if (i%2)
+			div.className = 'personLine standard50';
+		else
+			div.className = 'personLine standard200';
+		var szHTML = geboren[i];
+		szHTML += ', ';
+		szHTML += naam[i];
+		div.innerHTML = szHTML;
+	}
+}
