@@ -68,8 +68,8 @@ function initTables (db)
 															+ 'toelichting TEXT,'
 															+ 'herhaling INTEGER,'
 														    + 'code TEXT)');
-		tx.executeSql ('INSERT INTO person VALUES (1, Suzanna Smit, 12-03-1982)');
-		tx.executeSql ('INSERT INTO person VALUES (2, Peter Herrewegen, 04-06-1985)');
+		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\', \'12-03-1982)\'');
+		tx.executeSql ('INSERT INTO person VALUES (2, \'Peter Herrewegen\', \'04-06-1985)\'');
 	}, function (error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
