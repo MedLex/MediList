@@ -140,14 +140,14 @@ body
 
 #load
 {
-	display:block;
+	display:none;
 	position:absolute;
 	top:25px;
 	border-radius: 25px;
 	right:20%;
 	height:50px;
 	width:50px;
-    background-image: url('../img/nfc.png');
+    background-image: url('../img/plus.png');
 	background-position:center;
 	background-repeat:no-repeat;
     background-size:40px;
@@ -389,9 +389,74 @@ body
 	padding-left:5px;
 	padding-top:15px;
 	opacity:0;
+	padding-left:0px;
+	padding-top:0px;
     transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
 	display:none;
+}
+
+#individualCover
+{
+	position:absolute;
+	top:50px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	background-color:black;
+	opacity:0.5;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+	display:none;
+}
+
+#individual
+{
+	position:absolute;
+	width:80%;
+	top:25%;
+	left:10%;
+	height:50%;
+	padding:0px;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+	display:none;
+	background-color:white;
+	color:black;
+	opacity:0;
+}
+
+#individualHeader
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	height:50px;
+	line-height:50px;
+	padding-left:10px;
+}
+
+#individualClose
+{
+	position:absolute;
+	right:0px;
+	top:0px;
+	height:50px;
+	width:50px;
+	background:transparent url('../img/cross.png') center no-repeat;
+	background-size:42px;
+}
+
+#individualBody
+{
+	position:absolute;
+	top:50px;
+	right:0px;
+	left:0px;
+	bottom:50px;
+	padding-left:10px;
+	padding-top:30px;
 }
 
 #okButton
@@ -415,4 +480,5 @@ body
 	padding-top:16px;
 	padding-bottom:16px;
 	vertical-align:center;
+	padding-left:8px;
 }
