@@ -53,7 +53,26 @@
 		<div id="persons">
 			<div id="okButton" class="ok alt500 material large" onmouseup="personsOK();"><b>OK</b></div>
 		</div>
-		<div id="individual">
+		<div id="individualCover"></div>
+		<div id="individual" class="material">
+			<div id="individualHeader" class="materialHeader alt500 large">Toevoegen nieuwe persoon
+				<div id="individualClose" onmouseup="indiCancel();"></div>
+			</div>
+			<div id="individualBody">
+				<form>
+					<table>
+						<tr>
+							<td>naam</td>
+							<td><input id="indiNaam" type="text" /></td>
+						</tr>
+						<tr>
+							<td>geboortedatum</td>
+							<td><input id="indigeboren" type="date" /></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div id="okButton" class="ok alt500 material large" onmouseup="indiOK();"><b>OK</b></div>
 		</div>
 
 		<!--
@@ -71,7 +90,7 @@
 			<div id="headertext" class="standard500 header">Medicatieoverzicht</div>
 			<div id="menubutton" onmouseup="showMenu(1);"></div>
 		</div>
-		<div id="load" class="material alt500" onmouseup="showMenu(1);"></div>
+		<div id="load" class="material alt500" onmouseup="plus();"></div>
     </div>
 <!--    <script type="text/javascript">onLoad ();</script> -->
   </body>
