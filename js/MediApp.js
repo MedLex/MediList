@@ -22,7 +22,6 @@ function initTables (db)
 {
 	db.transaction (function (tx)
 	{
-		tx.executeSql ('DROP TABLE IF EXISTS person');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
 														    + 'naam TEXT,'
 														    + 'gebJaar INTEGER,'
@@ -51,22 +50,6 @@ function initTables (db)
 	}, function ()							// Succes. Hoeven we niet meer te melden
 	{
 //		alert ('tables created');
-	});
-}
-
-function populatePersons ()
-{
-
-	db.transaction (function (tx)
-	{
-		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\', 1982, 3, 12)');
-		tx.executeSql ('INSERT INTO person VALUES (2, \'Peter Herrewegen\', 1985, 6, 4)');
-	}, function (error)
-	{
-		alert ('er is een fout opgetreden\r\n' + error.message);
-	}, function ()
-	{
-//		alert ('tables populated');			// Succes, hoeven we niet meer te melden
 	});
 }
 
@@ -169,7 +152,8 @@ function fillPersons (person)
 	var colorName;
 	
 	div = person.getElementsByClassName ('personLine');
-	for (var i = 0; i < div.length;i++)
+	var i = div.length;
+	while (i--)
 	{
 		person.removeChild (div[i]);
 	}
@@ -247,8 +231,8 @@ function editPerson (id)
 					
 					document.getElementById ('indiNaam').value = row['naam'];
 					document.getElementById ('indiGeboren').value = dateString;
-					document.getElementById ('individualHeader').innerHTML = 'wijzigen gegevens';
-					document.getElementById ('individualButton').onmouseup = 'indiOK (' + row['id'] + ')';
+					document.getElementById ('individualText').innerHTML = 'wijzigen gegevens';
+					document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (' + row['id'] + ');');
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
 					individual.style.opacity = '1';
@@ -271,10 +255,10 @@ function plus ()
 	individual = document.getElementById ('individual');
 	setVisibility ('individualCover', true);
 	setVisibility ('individual', true);
-	document.getElementById ('individualHeader').innerHTML = 'nieuwe gebruiker';
+	document.getElementById ('individualText').innerHTML = 'nieuwe gebruiker';
 	document.getElementById ('indiNaam').value = '';
 	document.getElementById ('indiGeboren').value = '';
-	document.getElementById ('individualButton').onmouseup = 'indiOK (-1)';
+	document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1);');
 	if (individual)
 	{
 		individual.style.opacity = '1';
@@ -310,7 +294,7 @@ function indiOK (id)
 		if (globalID == -1)
 			sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + globalNaam + '\', ' + globalDate.getFullYear() + ', ' + globalDate.getMonth() + ', ' + globalDate.getDate () + ')';
 		else
-			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + 'WHERE id = ' + globalID;
+			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + ' WHERE id = ' + globalID;
 		tx.executeSql(sqlStatement, [], function ()
 		{
 		}, function (error)
@@ -320,8 +304,10 @@ function indiOK (id)
 		{
 		});
 	});
+	
+	var persons = document.getElementById ('persons');
 
-	fillPersons ();
+	fillPersons (persons);
 	setVisibility ('individualCover', false);
 	individual = document.getElementById ('individual');
 	if (individual)
@@ -348,4 +334,60 @@ function indiCancel ()
 			setVisibility ('individual', false);
 		}, 500);
 	}
+}
+
+function deletePerson (id)
+{
+	var individual;
+	var row;
+	var aantal = 1;
+	
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM lijsten WHERE patient = ' + id, [], function (tx, results)
+		{
+			aantal = results.rows.length;
+		}), function (error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+//			alert ('namen gelezen en verwerkt');
+		};
+		tx.executeSql('SELECT * FROM person WHERE id = ' + id, [], function (tx, results)
+		{
+			if (results.rows.length < 1)
+				myAlert ('Oeps, er is geen gebruiker gevonden met id '+ id);
+			else
+			{
+				row = results.rows.item(0);
+				var question = 'weet u zeker dat u \'' + row['naam'] + '\' wilt verwijderen?\r\nEr zijn ';
+				if (aantal == 0)
+					question += 'nog geen medicatielijsten aanwezig';
+				else
+					question += aantal + ' medicatielijsten aanwezig';
+				var r = confirm (question);
+				if (r == true)
+				{
+					tx.executeSql('DELETE FROM person WHERE id = ' + id, [], function (tx, results)
+					{
+					}), function (error)
+					{
+						alert ('er is een fout opgetreden\r\n' + error.message);
+					}, function ()
+					{
+					};
+					var persons = document.getElementById ('persons');
+				
+					fillPersons (persons);
+				}
+			}
+		}), function (error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+//			alert ('namen gelezen en verwerkt');
+		};
+	});
 }

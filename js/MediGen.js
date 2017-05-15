@@ -14,7 +14,7 @@ function onDeviceReady()
 	
 
     // Read NDEF formatted NFC Tags
-	
+
 	nfc.addTagDiscoveredListener(nfcTagDetected,
 //    nfc.addNdefListener (onNfc,
         function ()						// success callback
@@ -31,7 +31,6 @@ function onDeviceReady()
 	if (db)
 	{
 		initTables (db);
-		populatePersons ();
 	}
 	else
 		alert ('no database available!');
@@ -43,6 +42,7 @@ function onDeviceReady()
 function init()
 {
 	g_bDeviceIsReady = false;
+//	onDeviceReady ();
     document.addEventListener("deviceready", onDeviceReady, false);
 }
 
