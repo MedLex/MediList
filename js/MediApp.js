@@ -22,11 +22,13 @@ function initTables (db)
 {
 	db.transaction (function (tx)
 	{
+		tx.executeSql ('DROP TABLE IF  EXISTS person');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
 														    + 'naam TEXT,'
 														    + 'gebJaar INTEGER,'
 															+ 'gebMaand INTEGER,'
-															+ 'gebDag INTEGER)');
+															+ 'gebDag INTEGER,'
+															+ 'selected INTEGER)');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id INTEGER PRIMARY KEY ASC,'
 														    + 'apotheek TEXT,'
 		                                                    + 'datum TEXT,'
@@ -190,6 +192,14 @@ function fillPersons (person)
 				action = document.createElement ('div');
 				action.className = 'personEdit ' + colorName;
 				action.setAttribute('onmouseup', 'editPerson(' + row['id'] + ');');
+				div.appendChild (action);
+
+				action = document.createElement ('div');
+				if (row['selected'])
+					action.className = 'personSelected ' + colorName;
+				else
+					action.className = 'personUnselected ' + colorName;
+				action.setAttribute('onmouseup', 'selectPerson(' + row['id'] + ');');
 				div.appendChild (action);
 
 				person.appendChild (div);
@@ -390,4 +400,41 @@ function deletePerson (id)
 //			alert ('namen gelezen en verwerkt');
 		};
 	});
+}
+
+function selectPerson (id)
+{
+	var selected;
+	
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT id, selected FROM person', [], function (tx, results)
+		{
+			for (var i = 0; i < results.rows.length; i++)
+			{
+				row = results.rows.item(i);
+				if (row['id'] == id)
+					selected = 1;
+				else
+					selected = 0;
+				tx.executeSql('UPDATE person SET selected = ' + selected + ' WHERE id = ' + row['id'], [], function (tx, results)
+				{
+				}), function (error)
+				{
+					alert ('er is een fout opgetreden\r\n' + error.message);
+				}, function ()
+				{
+				};
+			}
+		}), function (error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+//			alert ('namen gelezen en verwerkt');
+		};
+	});
+
+	var persons = document.getElementById ('persons');
+	fillPersons (persons);
 }
