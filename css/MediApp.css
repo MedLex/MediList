@@ -481,28 +481,28 @@ body
 	padding-bottom:16px; */
 	vertical-align:center;
 	padding-left:8px;
-	height:36px;
-	line-height:36px;
+	height:40px;
+	line-height:40px;
 }
 
 .personDelete
 {
 	position:absolute;
-	right:5px;
-	top:2px;
-	height:32px;
-	width:32px;
-	background:transparent url('../img/delete.png') center no-repeat;
-	background-size:32px;
+	right:0px;
+	top:0px;
+	height:40px;
+	width:40px;
+	background:url('../img/delete.png') center no-repeat;
+	background-size:40px;
 }
 
 .personEdit
 {
 	position:absolute;
-	right:40px;
-	top:2px;
-	height:32px;
-	width:32px;
-	background:transparent url('../img/edit.png') center no-repeat;
-	background-size:32px;
+	right:45px;
+	top:0px;
+	height:40px;
+	width:40px;
+	background:url('../img/edit.png') center no-repeat;
+	background-size:40px;
 }
