@@ -444,7 +444,7 @@ body
 	top:0px;
 	height:50px;
 	width:50px;
-	background:transparent url('../img/cross.png') center no-repeat;
+	background:transparent url('../img/close.png') center no-repeat;
 	background-size:42px;
 }
 
@@ -481,4 +481,28 @@ body
 	padding-bottom:16px;
 	vertical-align:center;
 	padding-left:8px;
+	height:36px;
+	line-height:36px;
+}
+
+.personDelete
+{
+	position:absolute;
+	right:5px;
+	top:2px;
+	height:32px;
+	width:32px;
+	background:transparent url ('../img/delete.png')
+	background-size:32px;
+}
+
+.personEdit
+{
+	position:absolute;
+	right:40px;
+	top:2px;
+	height:32px;
+	width:32px;
+	background:transparent url ('../img/edit.png')
+	background-size:32px;
 }
