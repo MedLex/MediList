@@ -142,15 +142,15 @@ body
 {
 	display:none;
 	position:absolute;
-	top:25px;
-	border-radius: 25px;
+	top:20px;
+	border-radius: 20px;
 	right:20%;
-	height:50px;
-	width:50px;
+	height:40px;
+	width:40px;
     background-image: url('../img/plus.png');
 	background-position:center;
 	background-repeat:no-repeat;
-    background-size:40px;
+    background-size:30px;
 }
 
 #load:hover
