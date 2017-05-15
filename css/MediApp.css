@@ -470,6 +470,17 @@ body
 	text-align:center;
 }
 
+#okButton
+{
+	position:absolute;
+	bottom:8px;
+	right:30px;
+	left:30px;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+}
+
 .personLine
 {
 	position:relative;
