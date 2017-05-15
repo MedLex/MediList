@@ -207,6 +207,11 @@ function fillPersons (person)
 	});
 }
 
+function editPerson (id)
+{
+	alert ('editing person with id = \'' + id + '\'');
+}
+
 function showPerson (id)
 {
 	alert ('showing person with id = \'' + id + '\'');
