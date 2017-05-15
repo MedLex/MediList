@@ -12,8 +12,6 @@ function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
 	
-//    app.receivedEvent('deviceready');
-	alert ('the device is ready');
 
     // Read NDEF formatted NFC Tags
 	
@@ -47,12 +45,7 @@ function onDeviceReady()
 function init()
 {
 	g_bDeviceIsReady = false;
-//    document.addEventListener("deviceready", onDeviceReady, false);
-	setTimeout(function()
-	{
-		onDeviceReady ();
-	}, 500);
-
+    document.addEventListener("deviceready", onDeviceReady, false);
 }
 
 function isDeviceReady ()
