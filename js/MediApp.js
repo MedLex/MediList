@@ -22,10 +22,10 @@ function initTables (db)
 		tx.executeSql ('DROP TABLE IF EXISTS person');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
 														    + 'naam TEXT,'
-														    + 'gebJaar INT,'
-															+ 'gebMaand INT,'
-															+ 'gebDag INT');
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id integer PRIMARY KEY ASC,'
+														    + 'gebJaar INTEGER,'
+															+ 'gebMaand INTEGER,'
+															+ 'gebDag INTEGER');
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id INTEGER PRIMARY KEY ASC,'
 														    + 'apotheek TEXT,'
 		                                                    + 'datum TEXT,'
 														    + 'patient INTEGER)');
@@ -56,7 +56,7 @@ function populatePersons ()
 
 	db.transaction (function (tx)
 	{
-		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\',, 1982, 3, 12)');
+		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\', 1982, 3, 12)');
 		tx.executeSql ('INSERT INTO person VALUES (2, \'Peter Herrewegen\', 1985, 6, 4)');
 	}, function (error)
 	{
@@ -186,7 +186,6 @@ function fillPersons (person)
 				
 				div.className = 'personLine standard ' + colorName;
 				var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
-				var szHTML = row['geboren'];
 				var szHTML = date.toLocaleDateString ();
 				szHTML += ', ';
 				szHTML += row['naam'];
