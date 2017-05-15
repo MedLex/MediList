@@ -15,32 +15,6 @@ function showMenu (vShow)
     }
 }
 
-/*
-function buildOverzicht ()
-{
-	
-	if (!isDeviceReady ())
-	{
-		alert ('Cordova is nog niet geladen....');
-		return ;
-	}
-	var db = sqlitePlugin.openDatabase (
-		{
-			name: "medi.db",
-			location: 'default'
-		});
-	initTables (db);
-	db.executeSql ('select * from overzichten;', [], function (res)
-	{
-		for (var i=0; i < res.count; i++)
-		{
-			alert (res[i][0]);
-		}
-	});
-	
-	db.close ();
-}
-*/
 function initTables (db)
 {
 	db.transaction (function (tx)
@@ -71,7 +45,7 @@ function initTables (db)
 		alert ('er is een fout opgetreden\r\n' + error.message);
 	}, function ()
 	{
-//		alert ('tables created');
+		alert ('tables created');
 	});
 }
 
@@ -87,7 +61,7 @@ function populatePersons ()
 		alert ('er is een fout opgetreden\r\n' + error.message);
 	}, function ()
 	{
-//		alert ('tables populated');
+		alert ('tables populated');
 	});
 }
 
