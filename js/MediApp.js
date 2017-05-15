@@ -43,9 +43,9 @@ function initTables (db)
 	}, function (error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
-	}, function ()
+	}, function ()							// Succes. Hoeven we niet meer te melden
 	{
-		alert ('tables created');
+//		alert ('tables created');
 	});
 }
 
@@ -61,7 +61,7 @@ function populatePersons ()
 		alert ('er is een fout opgetreden\r\n' + error.message);
 	}, function ()
 	{
-		alert ('tables populated');
+//		alert ('tables populated');			// Succes, hoeven we niet meer te melden
 	});
 }
 
@@ -160,6 +160,7 @@ function fillPersons (person)
 	var naam;
 	var geboren;
 	var div;
+	var action;
 	
 	div = person.getElementsByClassName ('personLine');
 	for (var i = 0; i < div.length;i++)
@@ -183,6 +184,17 @@ function fillPersons (person)
 				szHTML += ', ';
 				szHTML += row['naam'];
 				div.innerHTML = szHTML;
+				
+				action = document.createElement ('div');
+				action.className = 'personDelete';
+				action.setAttribute('onmouseup', 'deletePerson(' + row['id'] + ');');
+				div.appendChild (action);
+
+				action = document.createElement ('div');
+				action.className = 'personEdit';
+				action.setAttribute('onmouseup', 'editPerson(' + row['id'] + ');');
+				div.appendChild (action);
+
 				person.appendChild (div);
 			}
 		}), function (error)

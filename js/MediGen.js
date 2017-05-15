@@ -19,7 +19,7 @@ function onDeviceReady()
 //    nfc.addNdefListener (onNfc,
         function ()						// success callback
 		{
-            myAlert("Waiting for NDEF tag");
+//            myAlert("Waiting for NDEF tag");
         },
         function (error)				// error callback
 		{
@@ -35,8 +35,6 @@ function onDeviceReady()
 	}
 	else
 		alert ('no database available!');
-
-//	BuildOverzicht ();
 }
 
 //--------------------------------------------------------------
