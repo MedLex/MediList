@@ -310,7 +310,7 @@ function indiOK (id)
 		if (globalID == -1)
 			sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + globalNaam + '\', ' + globalDate.getFullYear() + ', ' + globalDate.getMonth() + ', ' + globalDate.getDate () + ')';
 		else
-			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + \', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + 'WHERE id = ' + globalID;
+			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + 'WHERE id = ' + globalID;
 		tx.executeSql(sqlStatement, [], function ()
 		{
 		}, function (error)
@@ -318,8 +318,8 @@ function indiOK (id)
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
 		{
-		};
-	};
+		});
+	});
 
 	fillPersons ();
 	setVisibility ('individualCover', false);
