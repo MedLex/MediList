@@ -176,7 +176,7 @@ function fillPersons (person)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-				div.setAttribute('onmouseup', 'showPerson(' + row['id'] + ');');
+//				div.setAttribute('onmouseup', 'showPerson(' + row['id'] + ');');
 				if (i%2)
 					colorName = 'standard50';
 				else
@@ -212,7 +212,30 @@ function fillPersons (person)
 
 function editPerson (id)
 {
-	alert ('editing person with id = \'' + id + '\'');
+	var individual;
+	
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM person WHERE id = ' + id, [], function (tx, results)
+		{
+			if (results.rows.length < 1)
+				myAlert ('Oeps, er is geen gebruiker gevonden met id '+ id);
+			else
+			{
+				row = results.rows.item(0);
+
+				individual = document.getElementById ('individual');
+				if (individual)
+				{
+					document.getElementById ('indiNaam').innerHTML = row['naam'];
+					document.getElementById ('indigeboren').innerHTML = row['geboren'];
+					setVisibility ('individualCover', true);
+					setVisibility ('individual', true);
+					individual.style.opacity = '1';
+				}
+			}
+		}
+	}
 }
 
 function showPerson (id)
