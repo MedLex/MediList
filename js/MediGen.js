@@ -14,7 +14,7 @@ function onDeviceReady()
 	
 
     // Read NDEF formatted NFC Tags
-/*
+
 	nfc.addTagDiscoveredListener(nfcTagDetected,
 //    nfc.addNdefListener (onNfc,
         function ()						// success callback
@@ -25,7 +25,7 @@ function onDeviceReady()
 		{
             myAlert("Error adding NDEF listener " + JSON.stringify(error));
         }
-    );*/
+    );
 	
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
@@ -42,8 +42,8 @@ function onDeviceReady()
 function init()
 {
 	g_bDeviceIsReady = false;
-	onDeviceReady ();
-//    document.addEventListener("deviceready", onDeviceReady, false);
+//	onDeviceReady ();
+    document.addEventListener("deviceready", onDeviceReady, false);
 }
 
 function isDeviceReady ()
