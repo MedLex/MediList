@@ -44,8 +44,7 @@ function onDeviceReady()
 //
 function init()
 {
-	alert ('initializing');
-	g_bDeviceIsReady = false;
+    g_bDeviceIsReady = false;
     document.addEventListener("deviceready", onDeviceReady, false);
 //	onDeviceReady ();
 }
