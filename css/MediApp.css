@@ -413,10 +413,10 @@ body
 #individual
 {
 	position:absolute;
-	width:80%;
-	top:25%;
-	left:10%;
-	height:50%;
+	width:86%;
+	top:20%;
+	left:7%;
+	height:60%;
 	padding:0px;
     transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
@@ -459,14 +459,14 @@ body
 	padding-top:30px;
 }
 
-#okButton
+#individualButton
 {
 	position:absolute;
 	bottom:8px;
 	right:30px;
 	left:30px;
-	height:35px;
-	line-height:35px;
+	height:40px;
+	line-height:40px;
 	text-align:center;
 }
 
