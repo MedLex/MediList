@@ -1,3 +1,6 @@
+var globalNaam;
+var globalDate;
+var globalID;
 
 function showMenu (vShow)
 {
@@ -245,6 +248,7 @@ function editPerson (id)
 					document.getElementById ('indiNaam').value = row['naam'];
 					document.getElementById ('indiGeboren').value = dateString;
 					document.getElementById ('individualHeader').innerHTML = 'wijzigen gegevens';
+					document.getElementById ('individualButton').onmouseup = 'indiOK (' + row['id'] + ')';
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
 					individual.style.opacity = '1';
@@ -260,11 +264,6 @@ function editPerson (id)
 	});
 }
 
-function showPerson (id)
-{
-	alert ('showing person with id = \'' + id + '\'');
-}
-
 function plus ()
 {
 	var individual;
@@ -274,7 +273,8 @@ function plus ()
 	setVisibility ('individual', true);
 	document.getElementById ('individualHeader').innerHTML = 'nieuwe gebruiker';
 	document.getElementById ('indiNaam').value = '';
-	document.getElementById ('indigeboren').value = '';
+	document.getElementById ('indiGeboren').value = '';
+	document.getElementById ('individualButton').onmouseup = 'indiOK (-1)';
 	if (individual)
 	{
 		individual.style.opacity = '1';
@@ -282,10 +282,46 @@ function plus ()
 }
 
 
-function indiOK ()
+function indiOK (id)
 {
 	var individual;
+	var geboren;
+
+	globalNaam    = document.getElementById ('indiNaam').value;
+	geboren = document.getElementById ('indiGeboren').value;
+	globalDate = new Date (geboren);
+	globalID = id;
 	
+	if (geboren == '')
+	{
+		myAlert ('Er is nog geen geboortedatum ingevuld');
+		return ;
+	}
+	if (globalNaam == '')
+	{
+		myAlert ('Er is nog geen naam ingevuld');
+		return ;
+	}
+	
+	db.transaction(function(tx)
+	{
+		var sqlStatement;
+		
+		if (globalID == -1)
+			sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + globalNaam + '\', ' + globalDate.getFullYear() + ', ' + globalDate.getMonth() + ', ' + globalDate.getDate () + ')';
+		else
+			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + \', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + 'WHERE id = ' + globalID;
+		tx.executeSql(sqlStatement, [], function ()
+		{
+		}, function (error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	};
+
+	fillPersons ();
 	setVisibility ('individualCover', false);
 	individual = document.getElementById ('individual');
 	if (individual)
