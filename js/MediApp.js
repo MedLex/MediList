@@ -22,7 +22,9 @@ function initTables (db)
 		tx.executeSql ('DROP TABLE IF EXISTS person');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
 														    + 'naam TEXT,'
-														    + 'geboren TEXT)');
+														    + 'gebJaar INT,'
+															+ 'gebMaand INT,'
+															+ 'gebDag INT');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id integer PRIMARY KEY ASC,'
 														    + 'apotheek TEXT,'
 		                                                    + 'datum TEXT,'
@@ -54,8 +56,8 @@ function populatePersons ()
 
 	db.transaction (function (tx)
 	{
-		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\', \'12-03-1982\')');
-		tx.executeSql ('INSERT INTO person VALUES (2, \'Peter Herrewegen\', \'04-06-1985\')');
+		tx.executeSql ('INSERT INTO person VALUES (1, \'Suzanna Smit\',, 1982, 3, 12)');
+		tx.executeSql ('INSERT INTO person VALUES (2, \'Peter Herrewegen\', 1985, 6, 4)');
 	}, function (error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
@@ -183,7 +185,9 @@ function fillPersons (person)
 					colorName = 'standard200';
 				
 				div.className = 'personLine standard ' + colorName;
+				var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
 				var szHTML = row['geboren'];
+				var szHTML = date.toLocaleDateString ();
 				szHTML += ', ';
 				szHTML += row['naam'];
 				div.innerHTML = szHTML;
@@ -213,6 +217,7 @@ function fillPersons (person)
 function editPerson (id)
 {
 	var individual;
+	var row;
 	
 	db.transaction(function(tx)
 	{
@@ -227,8 +232,9 @@ function editPerson (id)
 				individual = document.getElementById ('individual');
 				if (individual)
 				{
+					var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
 					document.getElementById ('indiNaam').value = row['naam'];
-					document.getElementById ('indigeboren').value = row['geboren'];
+					document.getElementById ('indigeboren').value = date.toISOString ();
 					document.getElementById ('individualHeader').innerHTML = 'wijzigen gegevens';
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
