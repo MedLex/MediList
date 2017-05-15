@@ -186,7 +186,11 @@ function fillPersons (person)
 				
 				div.className = 'personLine standard ' + colorName;
 				var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
-				var szHTML = date.toLocaleDateString ();
+				var day = date.getDate();
+				if(day<10){ day="0"+day;}
+				var month = date.getMonth()+1;
+				if(month<10){ month="0"+month;}
+				var szHTML = day + '-' + month + '-' + date.getFullYear();
 				szHTML += ', ';
 				szHTML += row['naam'];
 				div.innerHTML = szHTML;
@@ -232,8 +236,13 @@ function editPerson (id)
 				if (individual)
 				{
 					var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
+					var day = date.getDate();
+					if(day<10){ day="0"+day;}
+					var month = date.getMonth()+1;
+					if(month<10){ month="0"+month;}
+					
 					document.getElementById ('indiNaam').value = row['naam'];
-					document.getElementById ('indigeboren').value = date.toISOString ();
+					document.getElementById ('indigeboren').value = date.getFullYear()+"-"+month+"-"+day;
 					document.getElementById ('individualHeader').innerHTML = 'wijzigen gegevens';
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
@@ -263,6 +272,8 @@ function plus ()
 	setVisibility ('individualCover', true);
 	setVisibility ('individual', true);
 	document.getElementById ('individualHeader').innerHTML = 'nieuwe gebruiker';
+	document.getElementById ('indiNaam').value = '';
+	document.getElementById ('indigeboren').value = '';
 	if (individual)
 	{
 		individual.style.opacity = '1';
