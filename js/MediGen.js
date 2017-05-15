@@ -12,7 +12,7 @@ function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
 	
-    app.receivedEvent('deviceready');
+//    app.receivedEvent('deviceready');
 	alert ('the device is ready');
 
     // Read NDEF formatted NFC Tags
