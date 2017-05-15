@@ -380,7 +380,7 @@ body
 #persons
 {
 	position:absolute;
-	top:50px;
+	top:65px;
 	bottom:0px;
 	left:0px;
 	right:0px;
@@ -515,5 +515,27 @@ body
 	height:40px;
 	width:40px;
 	background:url('../img/edit.png') center no-repeat;
+	background-size:40px;
+}
+
+.personUnselected
+{
+	position:absolute;
+	right:90px;
+	top:0px;
+	height:40px;
+	width:40px;
+	background:url('../img/unselected.png') center no-repeat;
+	background-size:40px;
+}
+
+.personSelected
+{
+	position:absolute;
+	right:90px;
+	top:0px;
+	height:40px;
+	width:40px;
+	background:url('../img/selected.png') center no-repeat;
 	background-size:40px;
 }
