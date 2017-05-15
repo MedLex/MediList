@@ -22,7 +22,7 @@ function initTables (db)
 {
 	db.transaction (function (tx)
 	{
-		tx.executeSql ('DROP TABLE IF  EXISTS person');
+//		tx.executeSql ('DROP TABLE IF  EXISTS person');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
 														    + 'naam TEXT,'
 														    + 'gebJaar INTEGER,'
