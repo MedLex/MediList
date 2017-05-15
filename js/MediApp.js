@@ -161,6 +161,7 @@ function fillPersons (person)
 	var geboren;
 	var div;
 	var action;
+	var colorName;
 	
 	div = person.getElementsByClassName ('personLine');
 	for (var i = 0; i < div.length;i++)
@@ -177,21 +178,23 @@ function fillPersons (person)
 				div = document.createElement ('div');
 				div.setAttribute('onmouseup', 'showPerson(' + row['id'] + ');');
 				if (i%2)
-					div.className = 'personLine standard50 standard';
+					colorName = 'standard50';
 				else
-					div.className = 'personLine standard200 standard';
+					colorName = 'standard200';
+				
+				div.className = 'personLine standard ' + colorName;
 				var szHTML = row['geboren'];
 				szHTML += ', ';
 				szHTML += row['naam'];
 				div.innerHTML = szHTML;
 				
 				action = document.createElement ('div');
-				action.className = 'personDelete';
+				action.className = 'personDelete ' + colorName;
 				action.setAttribute('onmouseup', 'deletePerson(' + row['id'] + ');');
 				div.appendChild (action);
 
 				action = document.createElement ('div');
-				action.className = 'personEdit';
+				action.className = 'personEdit ' + colorName;
 				action.setAttribute('onmouseup', 'editPerson(' + row['id'] + ');');
 				div.appendChild (action);
 
