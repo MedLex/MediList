@@ -24,7 +24,7 @@ function initTables (db)
 														    + 'naam TEXT,'
 														    + 'gebJaar INTEGER,'
 															+ 'gebMaand INTEGER,'
-															+ 'gebDag INTEGER');
+															+ 'gebDag INTEGER)');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id INTEGER PRIMARY KEY ASC,'
 														    + 'apotheek TEXT,'
 		                                                    + 'datum TEXT,'
