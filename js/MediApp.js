@@ -205,7 +205,7 @@ function fillPersons (person)
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
 		{
-			alert ('namen gelezen en verwerkt');
+//			alert ('namen gelezen en verwerkt');
 		};
 	});
 }
@@ -234,8 +234,14 @@ function editPerson (id)
 					individual.style.opacity = '1';
 				}
 			}
-		}
-	}
+		}), function (error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+//			alert ('namen gelezen en verwerkt');
+		};
+	});
 }
 
 function showPerson (id)
