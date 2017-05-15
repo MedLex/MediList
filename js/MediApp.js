@@ -240,7 +240,7 @@ function editPerson (id)
 					if(day<10){ day="0"+day;}
 					var month = date.getMonth()+1;
 					if(month<10){ month="0"+month;}
-					var dateString = 'day + '-' + month + '-' + date.getFullYear();
+					var dateString = day + '-' + month + '-' + date.getFullYear();
 					
 					document.getElementById ('indiNaam').value = row['naam'];
 					document.getElementById ('indigeboren').value = dateString;
