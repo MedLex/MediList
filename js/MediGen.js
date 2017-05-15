@@ -44,9 +44,13 @@ function onDeviceReady()
 //
 function init()
 {
-    g_bDeviceIsReady = false;
-    document.addEventListener("deviceready", onDeviceReady, false);
-//	onDeviceReady ();
+	g_bDeviceIsReady = false;
+//    document.addEventListener("deviceready", onDeviceReady, false);
+	setTimeout(function()
+	{
+		onDeviceReady ();
+	}, 500);
+
 }
 
 function isDeviceReady ()
