@@ -227,8 +227,9 @@ function editPerson (id)
 				individual = document.getElementById ('individual');
 				if (individual)
 				{
-					document.getElementById ('indiNaam').innerHTML = row['naam'];
-					document.getElementById ('indigeboren').innerHTML = row['geboren'];
+					document.getElementById ('indiNaam').value = row['naam'];
+					document.getElementById ('indigeboren').value = row['geboren'];
+					document.getElementById ('individualHeader').innerHTML = 'wijzigen gegevens';
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
 					individual.style.opacity = '1';
@@ -256,6 +257,7 @@ function plus ()
 	individual = document.getElementById ('individual');
 	setVisibility ('individualCover', true);
 	setVisibility ('individual', true);
+	document.getElementById ('individualHeader').innerHTML = 'nieuwe gebruiker';
 	if (individual)
 	{
 		individual.style.opacity = '1';
