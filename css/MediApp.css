@@ -492,7 +492,7 @@ body
 	top:2px;
 	height:32px;
 	width:32px;
-	background:transparent url ('../img/delete.png')
+	background:transparent url ('../img/delete.png');
 	background-size:32px;
 }
 
@@ -503,6 +503,7 @@ body
 	top:2px;
 	height:32px;
 	width:32px;
-	background:transparent url ('../img/edit.png')
+	background:transparent url ('../img/edit.png');
 	background-size:32px;
 }
+
