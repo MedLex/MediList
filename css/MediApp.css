@@ -491,7 +491,7 @@ body
 /*	padding-top:16px;
 	padding-bottom:16px; */
 	vertical-align:center;
-	padding-left:8px;
+	padding-left:48px;
 	height:40px;
 	line-height:40px;
 }
@@ -521,7 +521,7 @@ body
 .personUnselected
 {
 	position:absolute;
-	right:90px;
+	left:0px;
 	top:0px;
 	height:40px;
 	width:40px;
@@ -532,7 +532,7 @@ body
 .personSelected
 {
 	position:absolute;
-	right:90px;
+	left:0px;
 	top:0px;
 	height:40px;
 	width:40px;
