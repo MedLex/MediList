@@ -1,6 +1,8 @@
 var globalNaam;
 var globalDate;
 var globalID;
+var globalDeleteAll;
+var globalDeleteLists;
 
 function showMenu (vShow)
 {
@@ -173,7 +175,7 @@ function fillPersons (person)
 				else
 					colorName = 'standard200';
 				
-				div.className = 'personLine standard ' + colorName;
+				div.className = 'personLine large ' + colorName;
 				var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
 				var day = date.getDate();
 				if(day<10){ day="0"+day;}
@@ -269,6 +271,7 @@ function plus ()
 	document.getElementById ('indiNaam').value = '';
 	document.getElementById ('indiGeboren').value = '';
 	document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1);');
+	document.getElementById ('indiNaam').focus();
 	if (individual)
 	{
 		individual.style.opacity = '1';
@@ -346,6 +349,87 @@ function indiCancel ()
 	}
 }
 
+function deleteOK (id)
+{
+	var individual;
+	var row;
+	var aantal = 1;
+	
+	if (   !globalDeleteAll
+	    && !globalDeleteLists)
+	{
+		myAlert ('U hebt niets aangegeven om te verwijderen');
+	}
+	else if (globalDeleteAll)
+	{
+		db.transaction(function(tx)
+		{
+			tx.executeSql('SELECT * FROM lijsten WHERE patient = ' + id, [], function (tx, results)
+			{
+				aantal = results.rows.length;
+			}), function (error)
+			{
+				alert ('er is een fout opgetreden\r\n' + error.message);
+			}, function ()
+			{
+//				alert ('namen gelezen en verwerkt');
+			};
+			tx.executeSql('SELECT * FROM person WHERE id = ' + id, [], function (tx, results)
+			{
+				if (results.rows.length < 1)
+					myAlert ('Oeps, er is geen gebruiker gevonden met id '+ id);
+				else
+				{
+					row = results.rows.item(0);
+					var question = 'weet u zeker dat u\r\n\'' + row['naam'] + '\'\r\nwilt verwijderen';
+					if (aantal != 0)
+						question += '\r\ninclusief ' + aantal + ' medicatielijsten';
+					question += '?';
+					var r = confirm (question);
+					if (r == true)
+					{
+						tx.executeSql('DELETE FROM person WHERE id = ' + id, [], function (tx, results)
+						{
+						}), function (error)
+						{
+							alert ('er is een fout opgetreden\r\n' + error.message);
+						}, function ()
+						{
+						};
+						var persons = document.getElementById ('persons');
+					
+						fillPersons (persons);
+					}
+				}
+			}), function (error)
+			{
+				alert ('er is een fout opgetreden\r\n' + error.message);
+			}, function ()
+			{
+//				alert ('namen gelezen en verwerkt');
+			};
+		});
+		deleteCancel ();				// haal het scherm weg
+	}
+	if (   globalDeleteLists			// Alleen medicatielijsten weg
+		|| globalDeleteAll)				// Of persoon inclusief de lijsten
+	{
+		db.transaction(function(tx)
+		{
+			tx.executeSql('DELETE FROM lijsten WHERE patient = ' + id, [], function (tx, results)
+			{
+			}), function (error)
+			{
+				alert ('er is een fout opgetreden\r\n' + error.message);
+			}, function ()
+			{
+				alert (id + ' medicatielijsten verwijderd');
+			};
+		});
+		deleteCancel ();				// haal het scherm weg
+	}
+}
+
 function deletePerson (id)
 {
 	var individual;
@@ -371,26 +455,26 @@ function deletePerson (id)
 			else
 			{
 				row = results.rows.item(0);
-				var question = 'weet u zeker dat u \'' + row['naam'] + '\' wilt verwijderen?\r\nEr zijn ';
-				if (aantal == 0)
-					question += 'nog geen medicatielijsten aanwezig';
-				else
-					question += aantal + ' medicatielijsten aanwezig';
-				var r = confirm (question);
-				if (r == true)
-				{
-					tx.executeSql('DELETE FROM person WHERE id = ' + id, [], function (tx, results)
-					{
-					}), function (error)
-					{
-						alert ('er is een fout opgetreden\r\n' + error.message);
-					}, function ()
-					{
-					};
-					var persons = document.getElementById ('persons');
+				var szQuestion;
 				
-					fillPersons (persons);
+				globalDeleteAll   = false;
+				globalDeleteLists = false;
+				szQuestion = 'Weet u  zeker dat u de gegevens van ' + row['naam'] + ' wilt verwijderen?';
+				document.getElementById ('deleteQuestion').innerHTML = szQuestion;
+				szQuestion = 'Verwijder ' + aantal + ' medicatielijsten';
+				document.getElementById ('iconDeleteAll').className = 'unchecked';
+				document.getElementById ('iconDeleteLists').className = 'unchecked';
+				document.getElementById ('deleteListsText').innerHTML = szQuestion;
+				document.getElementById ('deleteIndividual').setAttribute('onmouseup','deleteOK(' + id + ');');
+				setVisibility ('individualCover', true);
+				setVisibility ('individualDelete', true);
+				var individual = document.getElementById ('individualDelete');
+				if (individual)
+				{
+					individual.style.opacity = '1';
 				}
+				else
+					alert ('kan individualDelete niet vinden');
 			}
 		}), function (error)
 		{
@@ -400,6 +484,52 @@ function deletePerson (id)
 //			alert ('namen gelezen en verwerkt');
 		};
 	});
+}
+
+function deleteCancel ()
+{
+	var individual;
+	
+	setVisibility ('individualCover', false);
+	individual = document.getElementById ('individualDelete');
+	if (individual)
+	{
+		individual.style.opacity = '0';
+		setTimeout(function()
+		{
+			setVisibility ('individual', false);
+		}, 500);
+	}
+}
+
+function onClickDeleteAll ()
+{
+	
+	if (globalDeleteAll)
+	{
+		globalDeleteAll = 0;
+		document.getElementById ('iconDeleteAll').className = 'unchecked';
+	}
+	else
+	{
+		globalDeleteAll = 1;
+		document.getElementById ('iconDeleteAll').className = 'checked';
+	}
+}
+
+function onClickDeleteLists ()
+{
+	
+	if (globalDeleteLists)
+	{
+		globalDeleteLists = 0;
+		document.getElementById ('iconDeleteLists').className = 'unchecked';
+	}
+	else
+	{
+		globalDeleteLists = 1;
+		document.getElementById ('iconDeleteLists').className = 'checked';
+	}
 }
 
 function selectPerson (id)
