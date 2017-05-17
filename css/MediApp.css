@@ -74,6 +74,8 @@
 .altA400 { background-color:#FF9100; color:black; }
 .altA700 { background-color:#FF6D00; color:black; }
 
+.standardGrey   { background-color:#dadada; color:black; }
+
 .material
 {
 	box-shadow: 2px 4px 4px grey;
@@ -254,6 +256,18 @@ body
 	vertical-align:center;
 }
 
+#itemHeader
+{
+	position:relative;
+	left:0px;
+	right:0px;
+	border-bottom:solid 1px #909090;
+	padding-left:30px;
+	padding-top:12px;
+	padding-bottom:6px;
+	vertical-align:center;
+}
+
 .item:hover
 {
 	background-color:#FFE0B2;
@@ -333,25 +347,14 @@ body
 	vertical-align: center;
 }
 
-.arrowUp
+.allLists
 {
 	position:absolute;
 	left:10px;
 	top:13px;
 	height:30px;
 	width:30px;
-	background:transparent url('../img/ArrowUp.png') center no-repeat;
-    background-size:30px;
-}
-
-.arrowDown
-{
-	position:absolute;
-	left:10px;
-	top:13px;
-	height:30px;
-	width:30px;
-	background:transparent url('../img/ArrowDown.png') center no-repeat;
+	background:transparent url('../img/documents.png') center no-repeat;
     background-size:30px;
 }
 
@@ -401,6 +404,7 @@ body
 	position:absolute;
 	top:50px;
 	bottom:0px;
+	left:0px;
 	left:0px;
 	right:0px;
 	background-color:black;
