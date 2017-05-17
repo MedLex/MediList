@@ -480,7 +480,7 @@ function deletePerson (id)
 				globalDeleteLists = false;
 				szQuestion = 'Weet u  zeker dat u de gegevens van ' + row['naam'] + ' wilt verwijderen?';
 				document.getElementById ('deleteQuestion').innerHTML = szQuestion;
-				szQuestion = 'Verwijder ' + aantal + ' medicatielijsten';
+				szQuestion = aantal + ' medicatielijsten';
 				document.getElementById ('iconDeleteAll').className = 'unchecked';
 				document.getElementById ('iconDeleteLists').className = 'unchecked';
 				document.getElementById ('deleteListsText').innerHTML = szQuestion;
