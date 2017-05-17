@@ -26,11 +26,12 @@ function onDeviceReady()
             myAlert("Error adding NDEF listener " + JSON.stringify(error));
         }
     );
-	
+
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
 	{
 		initTables (db);
+		showList (db);
 	}
 	else
 		alert ('no database available!');

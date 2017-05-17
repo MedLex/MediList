@@ -57,6 +57,11 @@ function initTables (db)
 	});
 }
 
+function showList (db)
+{
+	getSelectedPerson (db);
+}
+
 function onShowMed (vIndex)
 {
 	if (vIndex == 1)
@@ -124,6 +129,7 @@ function personsOK ()
 	{
 		setHeader ('Medicatieoverzicht', 'Mortar');
 		persons.style.opacity = '0';
+		getSelectedPerson (db);
 		setVisibility ('load', false);
 		setTimeout(function()
 		{
@@ -144,6 +150,29 @@ function setHeader (szText, szImage)
 		icon.style.backgroundSize = '46px';
 	}
 
+}
+
+function getSelectedPerson (db)
+{
+	
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM person WHERE selected = 1', [], function (tx, results)
+		{
+			if (results.rows.length > 0)
+			{
+				row = results.rows.item(0);
+				document.getElementById ('itemHeader').innerHTML = '<b>Medicatielijst van ' + row['naam'] + '</b>';
+			}
+			else
+				document.getElementById ('itemHeader').innerHTML = '<b>Nog niemand geselecteerd</b>';
+		}), function (error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	});
 }
 
 function fillPersons (person)
@@ -247,6 +276,7 @@ function editPerson (id)
 					document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (' + row['id'] + ');');
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
+					document.getElementById ('individualCover').style.opacity = '0.4';
 					individual.style.opacity = '1';
 				}
 			}
@@ -272,6 +302,7 @@ function plus ()
 	document.getElementById ('indiGeboren').value = '';
 	document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1);');
 	document.getElementById ('indiNaam').focus();
+	document.getElementById ('individualCover').style.opacity = '0.4';
 	if (individual)
 	{
 		individual.style.opacity = '1';
@@ -321,32 +352,20 @@ function indiOK (id)
 	var persons = document.getElementById ('persons');
 
 	fillPersons (persons);
-	setVisibility ('individualCover', false);
-	individual = document.getElementById ('individual');
-	if (individual)
-	{
-		individual.style.opacity = '0';
-		setTimeout(function()
-		{
-			setVisibility ('individual', false);
-		}, 500);
-	}
+
+	indiCancel ();							// Sluit de vensters
 }
 
 function indiCancel ()
 {
-	var individual;
 	
-	setVisibility ('individualCover', false);
-	individual = document.getElementById ('individual');
-	if (individual)
+	document.getElementById ('individual').style.opacity = '0';
+	document.getElementById ('individualCover').style.opacity = '0';
+	setTimeout(function()
 	{
-		individual.style.opacity = '0';
-		setTimeout(function()
-		{
-			setVisibility ('individual', false);
-		}, 500);
-	}
+		setVisibility ('individual', false);
+		setVisibility ('individualCover', false);
+	}, 500);
 }
 
 function deleteOK (id)
@@ -469,6 +488,7 @@ function deletePerson (id)
 				setVisibility ('individualCover', true);
 				setVisibility ('individualDelete', true);
 				var individual = document.getElementById ('individualDelete');
+				document.getElementById ('individualCover').style.opacity = '0.4';
 				if (individual)
 				{
 					individual.style.opacity = '1';
@@ -490,16 +510,13 @@ function deleteCancel ()
 {
 	var individual;
 	
-	setVisibility ('individualCover', false);
-	individual = document.getElementById ('individualDelete');
-	if (individual)
+	document.getElementById ('individualDelete').style.opacity = '0';
+	document.getElementById ('individualCover').style.opacity = '0';
+	setTimeout(function()
 	{
-		individual.style.opacity = '0';
-		setTimeout(function()
-		{
-			setVisibility ('individual', false);
-		}, 500);
-	}
+		setVisibility ('individualDelete', false);
+		setVisibility ('individualCover', false);
+	}, 500);
 }
 
 function onClickDeleteAll ()
