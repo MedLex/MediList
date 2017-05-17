@@ -437,15 +437,15 @@ body
 	padding-left:10px;
 }
 
-#individualClose
+.individualClose
 {
 	position:absolute;
 	right:0px;
 	top:0px;
 	height:50px;
 	width:50px;
-	background:transparent url('../img/close.png') center no-repeat;
-	background-size:42px;
+	background:transparent url('../img/cancel.png') center no-repeat;
+	background-size:50px;
 }
 
 #individualBody
@@ -481,6 +481,112 @@ body
 	text-align:center;
 }
 
+#individualDelete
+{
+	position:absolute;
+	width:86%;
+	top:20%;
+	left:7%;
+	height:60%;
+	padding:0px;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+	display:none;
+	background-color:white;
+	color:black;
+	opacity:0;
+}
+
+#deleteBody
+{
+	position:absolute;
+	top:50px;
+	right:0px;
+	left:0px;
+	bottom:50px;
+}
+
+#deleteQuestion
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	height:auto;
+	padding-top:20px;
+	padding-left:8px;
+	padding-right:8px;
+	padding-bottom:10px;
+}
+
+.unchecked
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:35px;
+	width:35px;
+	background:transparent url('../img/unchecked.png') center no-repeat;
+	background-size:35px;
+}
+
+.checked
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:35px;
+	width:35px;
+	background:transparent url('../img/checked.png') center no-repeat;
+	background-size:35px;
+}
+
+#deleteAll
+{
+	position:absolute;
+	display:block;
+	left:0px;
+	right:0px;
+	height:35px;
+	top:60px;
+	line-height:35px;
+	padding-left:48px;
+}
+
+#deleteLists
+{
+	position:absolute;
+	display:block;
+	top:95px;
+	left:0px;
+	right:0px;
+	height:35px;
+	line-height:35px;
+	padding-left:48px;
+}
+
+#deleteIndividual
+{
+	position:absolute;
+	bottom:10px;
+	left:4%;
+	width:44%;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+}
+
+#deleteCancel
+{
+	position:absolute;
+	bottom:10px;
+	right:4%;
+	width:44%;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+}
+
 .personLine
 {
 	position:relative;
@@ -488,10 +594,8 @@ body
 	right:0px;
 	border-bottom:solid 1px #909090;
 	padding-left:30px;
-/*	padding-top:16px;
-	padding-bottom:16px; */
 	vertical-align:center;
-	padding-left:48px;
+	padding-left:8px;
 	height:40px;
 	line-height:40px;
 }
@@ -510,7 +614,7 @@ body
 .personEdit
 {
 	position:absolute;
-	right:45px;
+	right:40px;
 	top:0px;
 	height:40px;
 	width:40px;
@@ -521,7 +625,7 @@ body
 .personUnselected
 {
 	position:absolute;
-	left:0px;
+	right:80px;
 	top:0px;
 	height:40px;
 	width:40px;
@@ -532,7 +636,7 @@ body
 .personSelected
 {
 	position:absolute;
-	left:0px;
+	right:80px;
 	top:0px;
 	height:40px;
 	width:40px;
