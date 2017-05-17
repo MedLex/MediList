@@ -48,15 +48,18 @@
 			</div>
 		</div>
 		<!--
-			Hier komt de lijst met personen en de plekken waar een specifieke persoon kan worden onderhouden / toegevoegd
+			De lijst met personen
 		 -->
 		<div id="persons">
 			<div id="okButton" class="ok alt500 material large" onmouseup="personsOK();"><b>OK</b></div>
 		</div>
+		<!--
+			Onderhoud / toevoegen van de gegevens van een individuele persoon
+		 -->
 		<div id="individualCover"></div>
 		<div id="individual" class="material">
 			<div id="individualHeader" class="materialHeader alt500 large"><div id="individualText">Toevoegen nieuwe persoon</div>
-				<div id="individualClose" onmouseup="indiCancel();"></div>
+				<div class="individualClose" onmouseup="indiCancel();"></div>
 			</div>
 			<div id="individualBody">
 				<form>
@@ -74,6 +77,21 @@
 			</div>
 			<div id="individualButton" class="ok alt500 material large" onmouseup="indiOK(-1);"><b>OK</b></div>
 		</div>
+		<!--
+			Verwijderen van een persoon en/of de medicatielijst(en) van een persoon
+		 -->
+		<div id="individualDelete" class="material">
+			<div id="individualHeader" class="materialHeader alt500 large"><div id="individualText">Verwijderen</div>
+				<div class="individualClose" onmouseup="deleteCancel();"></div>
+			</div>
+			<div id="deleteBody">
+				<div id="deleteQuestion" class="large"></div>
+				<div id="deleteAll" class="large" onmouseup="onClickDeleteAll();"><div id="iconDeleteAll" class="unchecked"></div>Verwijder gebruiker en medicatielijsten</div>
+				<div id="deleteLists" onmouseup="onClickDeleteLists();"><div id="iconDeleteLists" class="unchecked"></div><div id="deleteListsText" class="large">Verwijder medicatielijsten</div></div>
+			</div>
+			<div id="deleteIndividual" class="ok alt500 material large" onmouseup="deleteOK(-1);"><b>Verwijder</b></div>
+			<div id="deleteCancel" class="ok alt500 material large" onmouseup="deleteCancel();"><b>Annuleer</b></div>
+		</div>
 
 		<!--
 			Hier komt het menu. Dit moet helemaal onderaan blijven om te zorgen dat het overal overheen kan
@@ -85,6 +103,9 @@
             <div class="divMenu large" onclick="showNadro();"><div class="arrowUp"></div>Stuur huidige lijst</div>
             <div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
 		</div>
+		<!--
+			En de menubalk
+		 -->
 		<div id="menubar" class="standard standard500 materialHeader">
 			<div id="vijzel"></div>
 			<div id="headertext" class="standard500 header">Medicatieoverzicht</div>
