@@ -31,17 +31,18 @@
 			Hier volgt het medicatieoverzicht
 		 -->
 		<div id="overzicht">
-			<div class="item standard50 standard" onmouseup="onShowMed(1);">
+			<div id="itemHeader" class="standardGrey large"><b>Medicatielijst</b></div>
+			<div class="item standard200 standard" onmouseup="onShowMed(1);">
 				<b>pantoprazol tablet msr 20mg</b><br />
 				1 x per dag 40 milligram
 				<div class="right-black"></div>
 			</div>
-			<div class="item standard200 standard" onmouseup="onShowMed(2);">
+			<div class="item standard50 standard" onmouseup="onShowMed(2);">
 				<b>carbasalaatcalcium bruistablet 100mg</b><br />
 				1 x per dag 100 milligram
 				<div class="right-black"></div>
 			</div>
-			<div class="item standard50 standard" onmouseup="onShowMed(3);">
+			<div class="item standard200 standard" onmouseup="onShowMed(3);">
 				<b>furosemide tablet 40mg</b><br />
 				1 x per dag 40 milligram
 				<div class="right-black"></div>
@@ -99,8 +100,7 @@
 		<div id="menuCover" onclick="showMenu (0);"></div>
 		<div id="menuBox" class="standard material">
             <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
-            <div class="divMenu large" onclick="readTag();"><div class="arrowDown"></div>Haal nieuwe lijst</div>
-            <div class="divMenu large" onclick="showNadro();"><div class="arrowUp"></div>Stuur huidige lijst</div>
+            <div class="divMenu large" onclick="readTag();"><div class="allLists"></div>Toon alle lijsten</div>
             <div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
 		</div>
 		<!--
