@@ -23,6 +23,7 @@
 	  <script type="text/javascript" charset="utf-8" src="js/nfc.js"></script>
       <script type="text/javascript" src="js/MediGen.js"></script>
       <script type="text/javascript" src="js/MediApp.js"></script>
+      <script type="text/javascript" src="js/lijsten.js"></script>
       <title>Medicatieoverzicht</title>
 </head>
 <body onload="init()">
@@ -31,7 +32,7 @@
 			Hier volgt het medicatieoverzicht
 		 -->
 		<div id="overzicht">
-			<div id="itemHeader" class="standardGrey large"><b>Medicatielijst</b></div>
+			<div id="itemHeader" class="itemHeader standardGrey large"><b>Medicatielijst</b></div>
 			<div class="item standard200 standard" onmouseup="onShowMed(1);">
 				<b>pantoprazol tablet msr 20mg</b><br />
 				1 x per dag 40 milligram
@@ -52,6 +53,7 @@
 			De lijst met personen
 		 -->
 		<div id="persons">
+			<div class="itemHeader standardGrey large"><b>Gebruikers</b></div>
 			<div id="okButton" class="ok alt500 material large" onmouseup="personsOK();"><b>OK</b></div>
 		</div>
 		<!--
@@ -87,11 +89,31 @@
 			</div>
 			<div id="deleteBody">
 				<div id="deleteQuestion" class="large"></div>
-				<div id="deleteAll" class="large" onmouseup="onClickDeleteAll();"><div id="iconDeleteAll" class="unchecked"></div>Gebruiker en medicatielijsten</div>
-				<div id="deleteLists" onmouseup="onClickDeleteLists();"><div id="iconDeleteLists" class="unchecked"></div><div id="deleteListsText" class="large">Medicatielijsten</div></div>
+				<div id="deleteAll" class="large" onmouseup="toggle('iconDeleteAll');"><div id="iconDeleteAll" class="unchecked"></div>Gebruiker en medicatielijsten</div>
+				<div id="deleteLists" onmouseup="toggle('iconDeleteLists');"><div id="iconDeleteLists" class="unchecked"></div><div id="deleteListsText" class="large">Medicatielijsten</div></div>
 			</div>
 			<div id="deleteIndividual" class="ok alt500 material large" onmouseup="deleteOK(-1);"><b>Verwijder</b></div>
 			<div id="deleteCancel" class="ok alt500 material large" onmouseup="deleteCancel();"><b>Annuleer</b></div>
+		</div>
+
+		<!--
+			De configuratie settings
+		 -->
+		<div id="config">
+			<div class="itemHeader standardGrey large"><b>Instellingen</b></div>
+			<div id="configBody" class="large">
+				<table>
+					<tr class="cHeight">
+						<td class="cHeight large">Bewaartermijn oude lijsten</td>
+						<td class="cHeight large">&nbsp;<input type="number" id="termijn" min="0" max="12" value="0" style="width:4em;" />&nbsp;maanden</td>
+					</tr>
+					<tr class="cHeight">
+						<td class="cHeight large">Vraag toestemming voor verzenden</td>
+						<td class="cHeight"><div class="cHeight" style="position:relative;"><div id="askOK" class="unchecked" onmouseup="toggle('askOK');"></div></div></td>
+					</tr>
+				</table>
+			</div>
+			<div id="okButton" class="ok alt500 material large" onmouseup="configOK();"><b>OK</b></div>
 		</div>
 
 		<!--
@@ -102,13 +124,14 @@
             <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
             <div class="divMenu large" onclick="readTag();"><div class="allLists"></div>Toon alle lijsten</div>
             <div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
+            <div class="divMenu large" onclick="showConfig();"><div class="settings"></div>Instellingen</div>
 		</div>
 		<!--
 			En de menubalk
 		 -->
 		<div id="menubar" class="standard standard500 materialHeader">
 			<div id="vijzel"></div>
-			<div id="headertext" class="standard500 header">Medicatieoverzicht</div>
+			<div id="headertext" class="standard500 header">MediList</div>
 			<div id="menubutton" onmouseup="showMenu(1);"></div>
 		</div>
 		<div id="load" class="material alt500" onmouseup="plus();"></div>
