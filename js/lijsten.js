@@ -189,14 +189,3 @@ function onShowMed (lijst, regel)
 		};
 	});
 }
-
-
-
-	if (vIndex == 1)
-		ShowPrescription ('pantozaprol tablet msr 20mg',
-	                        '<tr><td>Startdatum</td><td>:</td><td>18-09-2014</td></tr>'
-	                      + '<tr><td>Stopdatum</td><td>:</td><td></td></tr>'
-	                      + '<tr><td>Dosering</td><td>:</td><td>1 x per dag 40 milligram</td></tr>'
-	                      + '<tr><td>Toelichting</td><td>:</td><td></td></tr>'
-	                      + '<tr><td>Toediening</td><td>:</td><td>Oraal</td></tr>'
-	                      + '<tr><td>Voorschrijver</td><td>:</td><td>Lorsheyd, A<br />CAR 03053035</td></tr>');
