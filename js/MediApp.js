@@ -1,8 +1,6 @@
 var globalNaam;
 var globalDate;
 var globalID;
-var globalDeleteAll;
-var globalDeleteLists;
 
 function showMenu (vShow)
 {
@@ -18,76 +16,6 @@ function showMenu (vShow)
     	setVisibility ('menuCover', true);
     	menuBox.style.left  = '0px';
     }
-}
-
-function initTables (db)
-{
-	db.transaction (function (tx)
-	{
-//		tx.executeSql ('DROP TABLE IF  EXISTS person');
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
-														    + 'naam TEXT,'
-														    + 'gebJaar INTEGER,'
-															+ 'gebMaand INTEGER,'
-															+ 'gebDag INTEGER,'
-															+ 'selected INTEGER)');
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id INTEGER PRIMARY KEY ASC,'
-														    + 'apotheek TEXT,'
-		                                                    + 'datum TEXT,'
-														    + 'patient INTEGER)');
-		tx.executeSql ('CREATE TABLE IF NOT EXISTS medicatie  (lijst INTEGER,'
-														    + 'regel INTEGER,'
-		                                                    + 'datum TEXT,'
-														    + 'voorschrijver TEXT'
-															+ 'medicijn TEXT,'
-															+ 'dosering TEXT,'
-															+ 'start TEXT,'
-															+ 'end TEXT,'
-															+ 'duur INTEGER,'
-															+ 'toediening TEXT,'
-															+ 'toelichting TEXT,'
-															+ 'herhaling INTEGER,'
-														    + 'code TEXT)');
-	}, function (error)
-	{
-		alert ('er is een fout opgetreden\r\n' + error.message);
-	}, function ()							// Succes. Hoeven we niet meer te melden
-	{
-//		alert ('tables created');
-	});
-}
-
-function showList (db)
-{
-	getSelectedPerson (db);
-}
-
-function onShowMed (vIndex)
-{
-	if (vIndex == 1)
-		ShowPrescription ('pantozaprol tablet msr 20mg',
-	                        '<tr><td>Startdatum</td><td>:</td><td>18-09-2014</td></tr>'
-	                      + '<tr><td>Stopdatum</td><td>:</td><td></td></tr>'
-	                      + '<tr><td>Dosering</td><td>:</td><td>1 x per dag 40 milligram</td></tr>'
-	                      + '<tr><td>Toelichting</td><td>:</td><td></td></tr>'
-	                      + '<tr><td>Toediening</td><td>:</td><td>Oraal</td></tr>'
-	                      + '<tr><td>Voorschrijver</td><td>:</td><td>Lorsheyd, A<br />CAR 03053035</td></tr>');
-	else if (vIndex == 2)
-		ShowPrescription ('carbasalaatcalcium bruistablet 100mg',
-	                        '<tr><td>Startdatum</td><td>:</td><td>07-01-2013</td></tr>'
-	                      + '<tr><td>Stopdatum</td><td>:</td><td></td></tr>'
-	                      + '<tr><td>Dosering</td><td>:</td><td>1 x per dag 100 milligram</td></tr>'
-	                      + '<tr><td>Toelichting</td><td>:</td><td></td></tr>'
-	                      + '<tr><td>Toediening</td><td>:</td><td>Oraal</td></tr>'
-	                      + '<tr><td>Voorschrijver</td><td>:</td><td>Lorsheyd, A<br />CAR 03053035</td></tr>');
-	else if (vIndex == 3)
-		ShowPrescription ('furosemide tablet 40mg',
-	                        '<tr><td>Startdatum</td><td>:</td><td>08-09-2016</td></tr>'
-	                      + '<tr><td>Stopdatum</td><td>:</td><td></td></tr>'
-	                      + '<tr><td>Dosering</td><td>:</td><td>1 x per dag 100 milligram</td></tr>'
-	                      + '<tr><td>Toelichting</td><td>:</td><td>Chronisch</td></tr>'
-	                      + '<tr><td>Toediening</td><td>:</td><td>Oraal</td></tr>'
-	                      + '<tr><td>Voorschrijver</td><td>:</td><td>Lorsheyd, A<br />CAR 03053035</td></tr>');
 }
 
 function onNfc(nfcEvent)
@@ -109,10 +37,10 @@ function showPersons ()
 	
 	showMenu (false);
 	persons = document.getElementById ('persons');
+	setVisibility ('menubutton', false);
 	
 	if (persons)
 	{
-		setHeader ('gebruikers', 'Persons');
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
 		setVisibility ('load', true);
@@ -125,11 +53,11 @@ function personsOK ()
 	var persons;
 	
 	persons = document.getElementById ('persons');
+	setVisibility ('menubutton', true);
 	if (persons)
 	{
-		setHeader ('Medicatieoverzicht', 'Mortar');
 		persons.style.opacity = '0';
-		getSelectedPerson (db);
+		showList (db);
 		setVisibility ('load', false);
 		setTimeout(function()
 		{
@@ -138,41 +66,38 @@ function personsOK ()
 	}
 }
 
-function setHeader (szText, szImage)
+function showConfig ()
 {
-	var header = document.getElementById ('headertext');
-	var icon = document.getElementById ('vijzel');
+	var config;
 	
-	if (header && icon)
+	showMenu (false);
+	setVisibility ('menubutton', false);
+	config = document.getElementById ('config');
+	
+	if (config)
 	{
-		header.innerHTML = szText;
-		icon.style.background = 'transparent url(\'img/' + szImage + '.png\') center no-repeat';
-		icon.style.backgroundSize = '46px';
+		config.style.display = 'block';
+		config.style.opacity = '1';
 	}
-
 }
 
-function getSelectedPerson (db)
+function configOK ()
 {
+	var config;
 	
-	db.transaction(function(tx)
+	saveSetting ('monthsSave', document.getElementById ('termijn').value);
+	saveSetting ('sendPermission', document.getElementById ('askOK').className);
+
+	config = document.getElementById ('config');
+	setVisibility ('menubutton', true);
+	if (config)
 	{
-		tx.executeSql('SELECT * FROM person WHERE selected = 1', [], function (tx, results)
+		config.style.opacity = '0';
+		setTimeout(function()
 		{
-			if (results.rows.length > 0)
-			{
-				row = results.rows.item(0);
-				document.getElementById ('itemHeader').innerHTML = '<b>Medicatielijst van ' + row['naam'] + '</b>';
-			}
-			else
-				document.getElementById ('itemHeader').innerHTML = '<b>Nog niemand geselecteerd</b>';
-		}), function (error)
-		{
-			alert ('er is een fout opgetreden\r\n' + error.message);
-		}, function ()
-		{
-		};
-	});
+			setVisibility ('config', false);
+		}, 500);
+	}
 }
 
 function fillPersons (person)
@@ -198,7 +123,6 @@ function fillPersons (person)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-//				div.setAttribute('onmouseup', 'showPerson(' + row['id'] + ');');
 				if (i%2)
 					colorName = 'standard50';
 				else
@@ -277,6 +201,7 @@ function editPerson (id)
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
 					document.getElementById ('individualCover').style.opacity = '0.4';
+					setVisibility ('load', false);
 					individual.style.opacity = '1';
 				}
 			}
@@ -308,7 +233,6 @@ function plus ()
 		individual.style.opacity = '1';
 	}
 }
-
 
 function indiOK (id)
 {
@@ -361,6 +285,7 @@ function indiCancel ()
 	
 	document.getElementById ('individual').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
+	setVisibility ('load', true);
 	setTimeout(function()
 	{
 		setVisibility ('individual', false);
@@ -374,12 +299,12 @@ function deleteOK (id)
 	var row;
 	var aantal = 1;
 	
-	if (   !globalDeleteAll
-	    && !globalDeleteLists)
+	if (   !isChecked ('iconDeleteAll')
+	    && !isChecked ('iconDeleteLists'))
 	{
 		myAlert ('U hebt niets aangegeven om te verwijderen');
 	}
-	else if (globalDeleteAll)
+	else if (isChecked ('iconDeleteAll'))
 	{
 		db.transaction(function(tx)
 		{
@@ -428,10 +353,10 @@ function deleteOK (id)
 //				alert ('namen gelezen en verwerkt');
 			};
 		});
-		deleteCancel ();				// haal het scherm weg
+		deleteCancel ();								// haal het scherm weg
 	}
-	if (   globalDeleteLists			// Alleen medicatielijsten weg
-		|| globalDeleteAll)				// Of persoon inclusief de lijsten
+	if (   isChecked ('iconDeleteAll')					// Alleen medicatielijsten weg
+		|| isChecked ('iconDeleteLists'))				// Of persoon inclusief de lijsten
 	{
 		db.transaction(function(tx)
 		{
@@ -487,6 +412,7 @@ function deletePerson (id)
 				document.getElementById ('deleteIndividual').setAttribute('onmouseup','deleteOK(' + id + ');');
 				setVisibility ('individualCover', true);
 				setVisibility ('individualDelete', true);
+				setVisibility ('load', false);
 				var individual = document.getElementById ('individualDelete');
 				document.getElementById ('individualCover').style.opacity = '0.4';
 				if (individual)
@@ -512,41 +438,12 @@ function deleteCancel ()
 	
 	document.getElementById ('individualDelete').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
+	setVisibility ('load', true);
 	setTimeout(function()
 	{
 		setVisibility ('individualDelete', false);
 		setVisibility ('individualCover', false);
 	}, 500);
-}
-
-function onClickDeleteAll ()
-{
-	
-	if (globalDeleteAll)
-	{
-		globalDeleteAll = 0;
-		document.getElementById ('iconDeleteAll').className = 'unchecked';
-	}
-	else
-	{
-		globalDeleteAll = 1;
-		document.getElementById ('iconDeleteAll').className = 'checked';
-	}
-}
-
-function onClickDeleteLists ()
-{
-	
-	if (globalDeleteLists)
-	{
-		globalDeleteLists = 0;
-		document.getElementById ('iconDeleteLists').className = 'unchecked';
-	}
-	else
-	{
-		globalDeleteLists = 1;
-		document.getElementById ('iconDeleteLists').className = 'checked';
-	}
 }
 
 function selectPerson (id)

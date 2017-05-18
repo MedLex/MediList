@@ -42,7 +42,16 @@ function onDeviceReady()
 //
 function init()
 {
+	var setting;
+	
 	g_bDeviceIsReady = false;
+	setting = loadSetting ('monthsSave');
+	if (setting)
+		document.getElementById ('termijn').value = setting;
+	setting = loadSetting ('sendPermission');
+	if (   setting
+        && setting != '')
+		document.getElementById ('askOK').className = setting;
 //	onDeviceReady ();
     document.addEventListener("deviceready", onDeviceReady, false);
 }
@@ -236,4 +245,67 @@ function setVisibility(id, nVisible)
         e.style.display = 'none';
     else
         e.style.display = 'block';
+}
+
+//------------------------------------------------------------------------------
+// Toggle een div tussen selected en unselected
+//
+function toggle (divID)
+{
+	var div = document.getElementById (divID);
+
+	if (div)
+	{
+		if (div.className == 'checked')
+			div.className = 'unchecked';
+		else
+			div.className = 'checked';
+	}
+}
+
+//------------------------------------------------------------------------------
+// Kijk of een div checked is
+//
+function isChecked (divID)
+{
+	var r = false;
+	var div = document.getElementById (divID);
+	
+	if (div)
+	{
+		if (div.className == 'checked')
+			r = true;
+	}
+
+	return r;
+}
+
+//-----------------------------------------------------------------------------------
+// Sla een setting parameter op in de permanente storage
+//
+function saveSetting (szKey, szValue)
+{
+    if(typeof(Storage) !== "undefined")
+    {
+        localStorage.setItem (szKey, szValue);
+    }
+    else
+        alert ('Sorry! No Web Storage support..');
+}
+
+//-----------------------------------------------------------------------------------
+// Haal een setting parameter op uit de permanente storage
+//
+function loadSetting (szKey)
+{
+    var szResult = '';
+
+    if(typeof(Storage) !== "undefined")
+    {
+        szResult = localStorage.getItem(szKey);
+    }
+    else
+        alert ('Sorry! No Web Storage support..');
+        
+    return szResult;
 }
