@@ -256,7 +256,19 @@ body
 	vertical-align:center;
 }
 
-#itemHeader
+/* #itemHeader
+{
+	position:relative;
+	left:0px;
+	right:0px;
+	border-bottom:solid 1px #909090;
+	padding-left:30px;
+	padding-top:12px;
+	padding-bottom:6px;
+	vertical-align:center;
+} */
+
+.itemHeader
 {
 	position:relative;
 	left:0px;
@@ -369,6 +381,17 @@ body
     background-size:30px;
 }
 
+.settings
+{
+	position:absolute;
+	left:10px;
+	top:13px;
+	height:30px;
+	width:30px;
+	background:transparent url('../img/settings.png') center no-repeat;
+    background-size:30px;
+}
+
 .menuBack
 {
 	position:absolute;
@@ -383,7 +406,7 @@ body
 #persons
 {
 	position:absolute;
-	top:65px;
+	top:50px;
 	bottom:0px;
 	left:0px;
 	right:0px;
@@ -597,7 +620,6 @@ body
 	left:0px;
 	right:0px;
 	border-bottom:solid 1px #909090;
-	padding-left:30px;
 	vertical-align:center;
 	padding-left:8px;
 	height:40px;
@@ -646,4 +668,37 @@ body
 	width:40px;
 	background:url('../img/selected.png') center no-repeat;
 	background-size:40px;
+}
+
+#config
+{
+	position:absolute;
+	top:50px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	background-color:white;
+	color:black;
+	padding-left:5px;
+	padding-top:15px;
+	opacity:0;
+	padding-left:0px;
+	padding-top:0px;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+	display:none;
+}
+
+#configBody
+{
+	position:absolute;
+	top:50px;
+	bottom:50px;
+	left:10px;
+	right:0px;
+}
+
+.cHeight
+{
+	height:35px;
 }
