@@ -1,5 +1,6 @@
 <widget xmlns="http://www.w3.org/ns/widgets"
 	xmlns:gap="http://phonegap.com/ns/1.0"
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	id="nl.alexanderengberts.MediList"
 	versionCode="100"
 	version="1.0.0">
@@ -57,7 +58,7 @@
         <preference name="SplashMaintainAspectRatio" value="false" />
         <preference name="SplashShowOnlyFirstTime" value="false" />
         <preference name="SplashScreen" value="screen" />
-		<gap:config-file platform="android" target="AndroidManifest.xml" parent="/manifest" mode="add">
+		<gap:config-file platform="android" parent="/manifest">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
