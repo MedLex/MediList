@@ -68,7 +68,7 @@
 				<action android:name="android.intent.action.PICK" />
 				<category android:name="android.intent.category.DEFAULT" />
 <!--				<data android:mimeType="*/*" /> -->
-				<data android:mimeType="*/*" host="*" android:pathPattern="*.medApp" android:scheme="content" />
+				<data android:mimeType="*/*" host="*" android:pathPattern=".*.medApp" android:scheme="content" />
 			</intent-filter>
 		</gap:config-file>
 	</platform>
@@ -115,11 +115,11 @@
     </platform>
 
     <access origin="*"/>
-    <platform name="android">
+<!--    <platform name="android">
         <allow-intent href="market:*"/>
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*"/>
         <allow-intent href="itms-apps:*"/>
-    </platform>
+    </platform> -->
 </widget>
