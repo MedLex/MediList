@@ -482,3 +482,8 @@ function selectPerson (id)
 	var persons = document.getElementById ('persons');
 	fillPersons (persons);
 }
+
+function handleOpenURL(url)
+{
+	alert ("received url: " + url);
+}
