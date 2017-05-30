@@ -35,6 +35,14 @@ function onDeviceReady()
 	}
 	else
 		alert ('no database available!');
+	window.plugins.webintent.getUri(function(url)
+	{
+		if(url !== "")
+		{
+			// url is the url the intent was launched with
+			alert ('URL was '+url);
+		}
+	});
 }
 
 //--------------------------------------------------------------
@@ -52,8 +60,8 @@ function init()
 	if (   setting
         && setting != '')
 		document.getElementById ('askOK').className = setting;
-//	onDeviceReady ();
-    document.addEventListener("deviceready", onDeviceReady, false);
+	onDeviceReady ();
+//    document.addEventListener("deviceready", onDeviceReady, false);
 }
 
 function isDeviceReady ()
