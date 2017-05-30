@@ -68,7 +68,7 @@
 				<action android:name="android.intent.action.PICK" />
 				<category android:name="android.intent.category.DEFAULT" />
 <!--				<data android:mimeType="*/*" /> -->
-				<data android:mimeType="*/*" host="*" android:pathPattern=".*.xml" android:scheme="content" />
+				<data android:mimeType="*/*" host="*" android:pathPattern="*.medApp" android:scheme="content" />
 			</intent-filter>
 		</gap:config-file>
 	</platform>
