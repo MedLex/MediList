@@ -65,8 +65,10 @@
 			</intent-filter>
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.PICK" />
 				<category android:name="android.intent.category.DEFAULT" />
-				<data android:mimeType="*/*" />
+<!--				<data android:mimeType="*/*" /> -->
+				<data android:mimeType="*/*" host="*" android:pathPattern=".*.xml" android:scheme="content" />
 			</intent-filter>
 		</gap:config-file>
 	</platform>
