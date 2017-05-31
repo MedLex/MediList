@@ -58,7 +58,7 @@
         <preference name="SplashMaintainAspectRatio" value="false" />
         <preference name="SplashShowOnlyFirstTime" value="false" />
         <preference name="SplashScreen" value="screen" />
-		<gap:config-file platform="android" target="AndroidManifest.xml" parent="application/activity" mode="merge">
+		<gap:config-file platform="android" parent="/manifest/application/activity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
