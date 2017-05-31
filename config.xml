@@ -59,21 +59,22 @@
         <preference name="SplashShowOnlyFirstTime" value="false" />
         <preference name="SplashScreen" value="screen" />
 		<gap:config-file platform="android" parent="/manifest">
-<!--			<intent-filter>
+			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter> -->
+			</intent-filter>
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<action android:name="android.intent.action.QUICK_VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="content" />
 				<data android:mimeType="*/*" />
 <!--				<data android:mimeType="*/*" host="*" android:pathPattern=".*.meddApp" android:scheme="content" />
 				<data android:mimeType="*/*" host="*" android:pathPattern=".*.meddApp" android:scheme="file" /> -->
 			</intent-filter>
 		</gap:config-file>
 	</platform>
-
+z
     <platform name="ios">
         <icon   src="res/icon/ios/icon.png"                       platform="ios" width="57"   height="57" />
         <icon   src="res/icon/ios/icon@2x.png"                    platform="ios" width="114"  height="114" />
