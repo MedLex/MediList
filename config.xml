@@ -72,6 +72,28 @@
 <!--				<data android:mimeType="*/*" host="*" android:pathPattern=".*.meddApp" android:scheme="content" />
 				<data android:mimeType="*/*" host="*" android:pathPattern=".*.meddApp" android:scheme="file" /> -->
 			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
+				<action android:name="android.intent.action.QUICK_VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data
+				   android:mimeType="application/octet-stream"
+				   android:host="*" 
+				   android:pathPattern=".*\\.medApp"
+				/>
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
+				<action android:name="android.intent.action.QUICK_VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data
+					android:mimeType="application/meddApp"
+					android:host="*" 
+					android:pathPattern=".*\\.medApp"
+				/>
+			</intent-filter>
 		</gap:config-file>
 	</platform>
 z
