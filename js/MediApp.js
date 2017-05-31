@@ -487,3 +487,8 @@ function handleOpenURL(url)
 {
 	alert ("received url: " + url);
 }
+
+function getData ()
+{
+	alert ('getData invoked!!');
+}
