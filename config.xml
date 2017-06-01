@@ -34,20 +34,17 @@
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
 
-	<gap:config-file platform="android" parent="/manifest/application/activity" mode="merge">
+	<gap:config-file platform="android" parent="/manifest/application/activity" mode="add">
         <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>
         </intent-filter>
 		<intent-filter>
-			<action android:name="android.intent.action.VIEW" />
-			<action android:name="android.intent.action.QUICK_VIEW" />
+			<action
+				android:name="android.intent.action.QUICK_VIEW"
+				android:name="android.intent.action.VIEW" />
 			<category android:name="android.intent.category.DEFAULT" />
-			<data android:scheme="content" />
 			<data android:mimeType="*/*" />
-			<data android:mimeType="text/plain" />
-			<data android:mimeType="application/xhtml+xml" />
-			<data android:mimeType="text/html" />
 		</intent-filter>
 	</gap:config-file>
 
