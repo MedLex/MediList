@@ -34,17 +34,17 @@
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
 
-	<gap:config-file platform="android" parent="/manifest/application/activity" mode="add">
+	<config-file platform="android" parent="/manifest/application/activity" mode="add">
 		<intent-filter>
 			<action android:name="android.intent.action.QUICK_VIEW" />
 			<action android:name="android.intent.action.VIEW" />
 			<category android:name="android.intent.category.DEFAULT" />
 			<data android:mimeType="*.*" />
 		</intent-filter>
-	</gap:config-file>
-	<gap:config-file platform="android" parent="/manifest" mode="add">
+	</config-file>
+	<config-file platform="android" parent="/manifest">
 		<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	</gap:config-file>
+	</config-file>
 
 	<!--    <access origin="mailto:*" launch-external="yes"/> -->
 <!--    <feature name="http://api.phonegap.com/1.0/file" /> -->
