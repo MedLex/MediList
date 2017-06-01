@@ -39,8 +39,11 @@
 			<action android:name="android.intent.action.QUICK_VIEW" />
 			<action android:name="android.intent.action.VIEW" />
 			<category android:name="android.intent.category.DEFAULT" />
-			<data android:mimeType="*/*" />
+			<data android:mimeType="file" />
 		</intent-filter>
+	</gap:config-file>
+	<gap:config-file platform="android" parent="/manifest" mode="add">
+		<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	</gap:config-file>
 
 	<!--    <access origin="mailto:*" launch-external="yes"/> -->
