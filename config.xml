@@ -39,7 +39,7 @@
 			<action android:name="android.intent.action.QUICK_VIEW" />
 			<action android:name="android.intent.action.VIEW" />
 			<category android:name="android.intent.category.DEFAULT" />
-			<data android:mimeType="file" />
+			<data android:mimeType="*.*" />
 		</intent-filter>
 	</gap:config-file>
 	<gap:config-file platform="android" parent="/manifest" mode="add">
