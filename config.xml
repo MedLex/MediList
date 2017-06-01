@@ -39,7 +39,7 @@
 			<action android:name="android.intent.action.QUICK_VIEW" />
 			<action android:name="android.intent.action.VIEW" />
 			<category android:name="android.intent.category.DEFAULT" />
-			<data android:mimeType="*.*" />
+			<data android:mimeType="*/*" />
 		</intent-filter>
 	</config-file>
 	<config-file platform="android" parent="/manifest">
