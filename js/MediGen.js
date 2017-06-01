@@ -64,11 +64,16 @@ function init()
 		document.getElementById ('askOK').className = setting;
 //	onDeviceReady ();
     document.addEventListener("deviceready", onDeviceReady, false);
-	var intent = getIntent ();
-	if (intent)
-		alert ('we hebben een intent!');
-	else
-		alert ('Nope.... geen intent....');
+	window.plugins.webintent.getUri(function(url)
+	{
+		if(url !== "")
+		{
+			// url is the url the intent was launched with
+			alert ('URL was '+url);
+        }
+		else
+			alert ('No URL received.....');
+	});
 }
 
 function isDeviceReady ()
