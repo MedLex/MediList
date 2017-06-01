@@ -58,7 +58,7 @@
         <preference name="SplashMaintainAspectRatio" value="false" />
         <preference name="SplashShowOnlyFirstTime" value="false" />
         <preference name="SplashScreen" value="screen" />
-		<gap:config-file platform="android" parent="/manifest/application/activity">
+		<gap:config-file platform="android" parent="/manifest/application/activity" mode="add">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<action android:name="android.intent.action.QUICK_VIEW" />
