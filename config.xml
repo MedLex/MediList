@@ -42,9 +42,9 @@
 			<data android:mimeType="*.*" />
 		</intent-filter>
 	</config-file>
-	<config-file platform="android" parent="/manifest">
+<!--	<config-file platform="android" parent="/manifest">
 		<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	</config-file>
+	</config-file> -->
 
 	<!--    <access origin="mailto:*" launch-external="yes"/> -->
 <!--    <feature name="http://api.phonegap.com/1.0/file" /> -->
