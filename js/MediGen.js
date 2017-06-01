@@ -45,8 +45,6 @@ function onDeviceReady()
 			alert ('URL was '+url);
 		}
 	}); */
-
-	alert ('params = \'' + window.location + '\'');
 }
 
 //--------------------------------------------------------------
@@ -66,6 +64,8 @@ function init()
 		document.getElementById ('askOK').className = setting;
 	onDeviceReady ();
 //    document.addEventListener("deviceready", onDeviceReady, false);
+	alert (  'href   = \'' + window.location.href + '\'\r\n'
+	       + 'search = \'' + window.location.search + '\'');
 }
 
 function isDeviceReady ()
