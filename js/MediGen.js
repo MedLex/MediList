@@ -62,10 +62,13 @@ function init()
 	if (   setting
         && setting != '')
 		document.getElementById ('askOK').className = setting;
-	onDeviceReady ();
-//    document.addEventListener("deviceready", onDeviceReady, false);
-	alert (  'href   = \'' + window.location.href + '\'\r\n'
-	       + 'search = \'' + window.location.search + '\'');
+//	onDeviceReady ();
+    document.addEventListener("deviceready", onDeviceReady, false);
+//	alert (  'href   = \'' + window.location.href + '\'\r\n'
+//	       + 'search = \'' + window.location.search + '\'');
+	var intent = getIntent ();
+	if (intent)
+		alert ('we hebben een intent!');
 }
 
 function isDeviceReady ()
