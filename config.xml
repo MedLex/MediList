@@ -33,7 +33,25 @@
     <preference name="iosPersistentFileLocation" value="Compatibility" />
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
-<!--    <access origin="mailto:*" launch-external="yes"/> -->
+
+	<gap:config-file platform="android" parent="/manifest/application/activity" mode="merge">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+		<intent-filter>
+			<action android:name="android.intent.action.VIEW" />
+			<action android:name="android.intent.action.QUICK_VIEW" />
+			<category android:name="android.intent.category.DEFAULT" />
+			<data android:scheme="content" />
+			<data android:mimeType="*/*" />
+			<data android:mimeType="text/plain" />
+			<data android:mimeType="application/xhtml+xml" />
+			<data android:mimeType="text/html" />
+		</intent-filter>
+	</gap:config-file>
+
+	<!--    <access origin="mailto:*" launch-external="yes"/> -->
 <!--    <feature name="http://api.phonegap.com/1.0/file" /> -->
     <platform name="android">
         <icon   src="res/icon/android/drawable-mdpi-icon.png"     platform="android" density="mdpi"    qualifier="mdpi"   />
@@ -58,18 +76,6 @@
         <preference name="SplashMaintainAspectRatio" value="false" />
         <preference name="SplashShowOnlyFirstTime" value="false" />
         <preference name="SplashScreen" value="screen" />
-		<gap:config-file platform="android" parent="/manifest/application/activity" mode="add">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<action android:name="android.intent.action.QUICK_VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="content" />
-				<data android:mimeType="*/*" />
-				<data android:mimeType="text/plain" />
-				<data android:mimeType="application/xhtml+xml" />
-				<data android:mimeType="text/html" />
-			</intent-filter>
-		</gap:config-file>
 	</platform>
 z
     <platform name="ios">
