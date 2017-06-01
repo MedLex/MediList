@@ -35,6 +35,7 @@ function onDeviceReady()
 	}
 	else
 		alert ('no database available!');
+	
 	window.plugins.webintent.getUri(function(url)
 	{
 		if(url !== "")
@@ -43,6 +44,15 @@ function onDeviceReady()
 			alert ('URL was '+url);
 		}
 	});
+	
+	var uri = getIntent ();
+	if (uri != null)
+	{
+		alert ('I got an intent');
+		var data = uri.getData ();
+		if (data != null)
+			alert ('en er is data');
+	}
 }
 
 //--------------------------------------------------------------
