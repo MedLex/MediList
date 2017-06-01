@@ -64,9 +64,11 @@ function init()
 		document.getElementById ('askOK').className = setting;
 //	onDeviceReady ();
     document.addEventListener("deviceready", onDeviceReady, false);
-/*	var intent = getIntent ();
+	var intent = getIntent ();
 	if (intent)
-		alert ('we hebben een intent!'); */
+		alert ('we hebben een intent!');
+	else
+		alert ('Nope.... geen intent....');
 }
 
 function isDeviceReady ()
