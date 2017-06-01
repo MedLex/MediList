@@ -60,10 +60,6 @@
         <preference name="SplashScreen" value="screen" />
 		<gap:config-file platform="android" parent="/manifest/application/activity">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<action android:name="android.intent.action.QUICK_VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -72,38 +68,6 @@
 				<data android:mimeType="text/plain" />
 				<data android:mimeType="application/xhtml+xml" />
 				<data android:mimeType="text/html" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<action android:name="android.intent.action.QUICK_VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="file" />
-				<data android:mimeType="*/*" />
-				<data android:mimeType="text/plain" />
-				<data android:mimeType="application/xhtml+xml" />
-				<data android:mimeType="text/html" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<action android:name="android.intent.action.EDIT" />
-				<action android:name="android.intent.action.QUICK_VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data
-				   android:mimeType="application/octet-stream"
-				   android:host="*" 
-				   android:pathPattern=".*\\.medApp"
-				/>
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<action android:name="android.intent.action.EDIT" />
-				<action android:name="android.intent.action.QUICK_VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data
-					android:mimeType="application/meddApp"
-					android:host="*" 
-					android:pathPattern=".*\\.medApp"
-				/>
 			</intent-filter>
 		</gap:config-file>
 	</platform>
