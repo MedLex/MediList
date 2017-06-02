@@ -39,7 +39,8 @@
 			<action android:name="android.intent.action.QUICK_VIEW" />
 			<action android:name="android.intent.action.VIEW" />
 			<category android:name="android.intent.category.DEFAULT" />
-			<data android:mimeType="*/*" />
+			<data android:mimeType="application/*" />
+			<data android:mimeType="text/*" />
 		</intent-filter>
 	</config-file>
 	<config-file platform="android" parent="/manifest">
@@ -48,7 +49,7 @@
 
 <!--    <access origin="mailto:*" launch-external="yes"/> -->
 <!--    <feature name="http://api.phonegap.com/1.0/file" /> -->
-    <platform name="android">
+<!--    <platform name="android"> -->
         <icon   src="res/icon/android/drawable-mdpi-icon.png"     platform="android" density="mdpi"    qualifier="mdpi"   />
         <icon   src="res/icon/android/drawable-hdpi-icon.png"     platform="android" density="hdpi"    qualifier="hdpi"   />
         <icon   src="res/icon/android/drawable-xhdpi-icon.png"    platform="android" density="xhdpi"   qualifier="xhdpi"  />
@@ -71,7 +72,7 @@
         <preference name="SplashMaintainAspectRatio" value="false" />
         <preference name="SplashShowOnlyFirstTime" value="false" />
         <preference name="SplashScreen" value="screen" />
-	</platform>
+<!--	</platform> -->
 
     <platform name="ios">
         <icon   src="res/icon/ios/icon.png"                       platform="ios" width="57"   height="57" />
