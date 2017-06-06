@@ -689,7 +689,7 @@ function importOverzicht (xml, id)
 		myAlert ('Geen geldig medApp bestand ontvangen (3)');
 		return ;
 	}
-	
+	alert ('Eerst de lijst nu toevoegen');
 	db.transaction (function (tx)
 	{
 		sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
@@ -697,6 +697,7 @@ function importOverzicht (xml, id)
 		tx.executeSql(sqlStatement, [], function ()
 		{
 			lijst = tx.lastrowid;
+			alert ('lijst toegevoegd met id = ' + lijst);
 		}, function (error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
@@ -750,7 +751,8 @@ function importOverzicht (xml, id)
 						 + herhaling + ', \''
 						 + herhaalCode + '\')';
 
-						 tx.executeSql(sqlStatement, [], function ()
+			alert ('regel '+ i + ' toevoegen');
+			tx.executeSql(sqlStatement, [], function ()
 			{
 			}, function (error)
 			{
