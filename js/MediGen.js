@@ -36,11 +36,11 @@ function onDeviceReady()
 	else
 		alert ('no database available!');
 
-	var intent = getIntent();
-	if (!intent)
-		alert ('No intent found');
+	var uri = document.URL();
+	if (!url)
+		alert ('No document URL found');
 	else
-		alert ('We hebben nu dus wel een intentje!!');
+		alert ('document URL = \'' + url + '\'');
 }
 
 //--------------------------------------------------------------
