@@ -488,7 +488,7 @@ function selectPerson (id)
 //
 function importXML(data)
 {
-	var bContinue = 0;				// Zolang we verder kunnen (of mogen)
+	var bContinue = 0;					// Zolang we verder kunnen (of mogen)
 	var id = -1;
 	var xml = loadXMLDoc (data);
 	if (!xml)
@@ -530,6 +530,8 @@ function checkPatient (xml)
 		gebDag   = date.getDate  ();
 		gebMaand = date.getMonth ()+1;
 		gebJaar  = date.getFullYear  ();
+		
+		alert ('we gaan nu zoeken naar iemand met als geboortedatum \'' + geboren[0].childNodes[0].textContent + '\'');
 
 		db.transaction(function(tx)
 		{
