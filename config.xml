@@ -33,6 +33,7 @@
     <preference name="iosPersistentFileLocation" value="Compatibility" />
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
+	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" />
 
 	<config-file platform="android" parent="/manifest/application/activity" mode="add">
 		<intent-filter>
