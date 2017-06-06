@@ -590,9 +590,9 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 		var sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + naam[0].childNodes[0].textContent + '\', ' + gebJaar + ', ' + gebMaand + ', ' + gebDag + ')';
 		db.transaction(function(tx)
 		{
-			tx.executeSql(sqlStatement, [], function ()
+			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
-				alert ('patient met id ' + tx.lastrowid + ' toegevoegd');
+				alert ('patient met id ' + results.insertId + ' toegevoegd');
 			}, function (error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
@@ -701,9 +701,9 @@ function importOverzicht (xml, id)
 	{
 		sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
 		             + apotheekID + '\', \'' + apotheek[0].childNodes[0].textContent + '\', ' + date.getDate() + ', ' + date.getMonth() + ', ' + date.getFullYear() + ', ' + id + ')';
-		tx.executeSql(sqlStatement, [], function ()
+		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
-			lijst = tx.lastrowid;
+			lijst = results.insertId;
 			alert ('lijst toegevoegd met id = ' + lijst);
 		}, function (error)
 		{
