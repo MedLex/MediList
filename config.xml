@@ -37,13 +37,14 @@
 
 	<config-file platform="android" parent="/manifest/application/activity" mode="add">
 		<intent-filter>
-<!--			<action android:name="android.intent.action.QUICK_VIEW" />
-			<action android:name="android.intent.action.VIEW" /> -->
-			<action android:name="android.intent.action.SEND" />
-			<action android:name="android.intent.action.SEND_MULTIPLE" />
+			<action android:name="android.intent.action.QUICK_VIEW" />
+			<action android:name="android.intent.action.VIEW" />
+<!--			<action android:name="android.intent.action.SEND" />
+			<action android:name="android.intent.action.SEND_MULTIPLE" /> -->
 			<category android:name="android.intent.category.DEFAULT" />
-			<data android:mimeType="application/*" />
-			<data android:mimeType="text/*" />
+<!--			<data android:mimeType="application/*" />
+			<data android:mimeType="text/*" /> -->
+			<data android:mimeType="*/*" />
 		</intent-filter>
 	</config-file>
 	<config-file platform="android" parent="/manifest">
