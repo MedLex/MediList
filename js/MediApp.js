@@ -517,7 +517,7 @@ function checkPatient (xml)
 	
 	if (patient)
 	{
-		geboren = patient.getElementsByTagName ('Geboortedatum');
+		geboren = patient[0].getElementsByTagName ('Geboortedatum');
 		if (!geboren)
 			alert ('kan tag \'geboren\' niet meer vinden!');
 	}
@@ -538,7 +538,7 @@ function checkPatient (xml)
 			tx.executeSql('SELECT id, FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
 			{
 				if (results.rows.length == 0)
-					nieuwePatient (patient)
+					nieuwePatient (patient[0])
 				else if (results.rows.length == 1)
 				{
 					row = results.rows.item (0);
@@ -567,7 +567,7 @@ function nieuwePatient (patient)
 {
 	var r = -1;
 	var geboren = patient.getElementsByTagName ('Geboortedatum');
-	var naam = patient.getElementsByTagName ('Geboortedatum');
+	var naam = patient.getElementsByTagName ('Naam');
 	var question;
 	
 	question = 'Er is nog geen gebruiker geregistreerd met\r\nnaam = \'' + naam[0].childNodes[0].textContent
