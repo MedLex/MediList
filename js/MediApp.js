@@ -535,7 +535,7 @@ function checkPatient (xml)
 
 		db.transaction(function(tx)
 		{
-			tx.executeSql('SELECT id, FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
+			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
 			{
 				if (results.rows.length == 0)
 					nieuwePatient (patient[0])
@@ -546,6 +546,7 @@ function checkPatient (xml)
 				}
 				else
 				{
+					alert ('ik heb er ' + results.rows.length + ' gevonden!');
 					for (var i = 0; i < results.rows.length; i++)
 					{
 						row = results.rows.item(i);
