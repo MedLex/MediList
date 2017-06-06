@@ -518,7 +518,11 @@ function checkPatient (xml)
 	if (patient)
 	{
 		geboren = patient.getElementsByTagName ('Geboortedatum');
+		if (!geboren)
+			alert ('kan tag \'geboren\' niet meer vinden!');
 	}
+	else
+		alert ('Kan tag \'Patient\' niet meer vinden');
 	if (geboren)
 	{
 		var datum = geboren[0].childNodes[0].textContent;
@@ -550,7 +554,6 @@ function checkPatient (xml)
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
 			{
-	//			alert ('namen gelezen en verwerkt');
 			};
 		});
 	}
