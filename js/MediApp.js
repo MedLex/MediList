@@ -483,11 +483,92 @@ function selectPerson (id)
 	fillPersons (persons);
 }
 
+//------------------------------------------------------------------------------------------------
+// We importeren nu het aangeboden XML bestand
+//
 function importXML(data)
 {
+	var bContinue = 0;				// Zolang we verder kunnen (of mogen)
+	var id = -1;
 	var xml = loadXMLDoc (data);
 	if (!xml)
-		alert ('failed to load \'' + data + '\'');
+		myAlert ('Het bestand \'' + data + '\' is geen MediApp bestand en kan niet worden geladen');
 	else
-		alert ('Joepie!!!!');
+	{
+		id =  checkPatient (xml);		// Zoek eerst de patient op
+		if (id >= 0)					// Hebben we een patient gevonden of ingevoerd?
+			bContinue = 1;				// dan kunnen we nu verder
+	}
+}
+
+//------------------------------------------------------------------------------------------------
+// Kijk of we deze patient al kennen of dat er een nieuwe moet worden aangemaakt (of helemaal niet)
+// return 1 als we deze patienbt kennen of als er een nieuwe is aangemaakt waar we mee vderder mogen
+// return 0 als  we de patient niet kennen en er wordt geen nieuwe aangemaakt.
+//
+function checkPatient (xml)
+{
+	var r        = -1;
+	var gebDag   = 0;
+	var gebMaand = 0;
+	var gebJaar  = 0;
+	var geboren  = null;
+	var patient  = xml.getElementsByTagName ('Patient');
+	
+	if (patient)
+	{
+		geboren = patient.getElementsByTagName ('Geboortedatum');
+	}
+	if (geboren)
+	{
+		var datum = geboren[0].childNodes[0].textContent;
+		var date = new Date (datum);
+		gebDag   = date.getDate  ();
+		gebMaand = date.getMonth ()+1;
+		gebJaar  = date.getFullYear  ();
+
+		db.transaction(function(tx)
+		{
+			tx.executeSql('SELECT id, FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
+			{
+				if (results.rows.length == 0)
+					nieuwePatient (patient)
+				else if (results.rows.length == 1)
+				{
+					row = results.rows.item (0);
+					r = row['id'];
+				}
+				else
+				{
+					for (var i = 0; i < results.rows.length; i++)
+					{
+						row = results.rows.item(i);
+					}
+				}
+			}), function (error)
+			{
+				alert ('er is een fout opgetreden\r\n' + error.message);
+			}, function ()
+			{
+	//			alert ('namen gelezen en verwerkt');
+			};
+		});
+	}
+	
+	return r;
+}
+
+function nieuwePatient (patient)
+{
+	var r = -1;
+	var geboren = patient.getElementsByTagName ('Geboortedatum');
+	var naam = patient.getElementsByTagName ('Geboortedatum');
+	var question;
+	
+	question = 'Er is nog geen gebruiker geregistreerd met\r\nnaam = \'' + naam[0].childNodes[0].textContent
+	           + '\r\nen geboortedatum ' + geboren[0].childNodes[0].textContent + '\r\n'
+			   + 'Wilt u deze gebruiker nu aanmaken?';
+	var q = confirm (question);
+	
+	return r;
 }
