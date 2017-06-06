@@ -543,9 +543,8 @@ function checkPatient (xml)
 		gebMaand = date.getMonth ()+1;
 		gebJaar  = date.getFullYear  ();
 		
-		db.transaction(r = function(tx)
+		db.transaction(function(tx)
 		{
-			var r = -1;
 			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
 			{
 				if (results.rows.length == 0)
@@ -592,9 +591,8 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 	if (q)
 	{
 		var sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + naam[0].childNodes[0].textContent + '\', ' + gebJaar + ', ' + gebMaand + ', ' + gebDag + ')';
-		db.transaction(r = function(tx)
+		db.transaction(function(tx)
 		{
-			var r = -1;
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
 				r = results.insertId;
@@ -638,9 +636,8 @@ function checkOverzicht (xml, id)
 		myAlert ('Geen geldig medApp bestand ontvangen (3)');
 	else
 	{
-		db.transaction(r = function(tx)
+		db.transaction(function(tx)
 		{
-			var r = 1;
 			tx.executeSql(  'SELECT id FROM lijsten WHERE '
 			              + 'apotheekID = "' + apotheekID + '" AND '
 						  + 'listDag = ' + date.getDate () + ' AND '
