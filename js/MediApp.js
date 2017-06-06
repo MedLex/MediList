@@ -482,3 +482,12 @@ function selectPerson (id)
 	var persons = document.getElementById ('persons');
 	fillPersons (persons);
 }
+
+function importXML(data)
+{
+	var xml = loadXMLDoc (data);
+	if (!xml)
+		alert ('failed to load \'' + data + '\'');
+	else
+		alert ('Joepie!!!!');
+}

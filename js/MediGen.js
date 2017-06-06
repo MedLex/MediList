@@ -39,6 +39,7 @@ function onDeviceReady()
 	window.plugins.intent.getCordovaIntent(function (Intent)
 	{
 		alert ('Action = ' + Intent.action + '\r\nData = \'' + Intent.data + '\'\r\nType = \'' + Intent.type + '\'');
+		importXML (Intent.data);
     }, function ()
 	{
         alert ('Error getting the intent');
@@ -316,4 +317,26 @@ function loadSetting (szKey)
         alert ('Sorry! No Web Storage support..');
         
     return szResult;
+}
+
+//---------------------------------------------------------------------------
+// Lees een xml document. Wordt synchroon geladen, omdat we zonder dit
+// document toch niet kunnen beginnen.
+//
+function loadXMLDoc(filename)
+{
+    var xhttp = null;
+    
+    if (window.XMLHttpRequest)
+    {
+        xhttp=new XMLHttpRequest();
+    }
+    else // code for IE5 and IE6
+    {
+        xhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xhttp.open("GET",filename,false);
+    xhttp.send();
+    
+    return xhttp.responseXML;
 }
