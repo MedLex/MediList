@@ -36,7 +36,7 @@ function onDeviceReady()
 	else
 		alert ('no database available!');
 
-	var url = document.URL();
+	var url = document.URL;
 	if (!url)
 		alert ('No document URL found');
 	else
