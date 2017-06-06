@@ -497,6 +497,7 @@ function importXML(data)
 	else
 	{
 		id =  checkPatient (xml);		// Zoek eerst de patient op
+		alert ('patient ID = ' + id);
 		if (id >= 0)					// Hebben we een patient gevonden of ingevoerd?
 			bContinue = 1;				// dan kunnen we nu verder
 	}
