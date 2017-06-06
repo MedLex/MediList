@@ -38,7 +38,7 @@ function onDeviceReady()
 
 	window.plugins.intent.getCordovaIntent(function (Intent)
 	{
-		alert ('Action = ' + Intent.action + '\r\nData = \'' + Intent.data + '\'');
+		alert ('Action = ' + Intent.action + '\r\nData = \'' + Intent.data + '\'\r\nType = \'' + Intent.type + '\'');
     }, function ()
 	{
         alert ('Error getting the intent');
