@@ -538,11 +538,12 @@ function checkPatient (xml)
 			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
 			{
 				if (results.rows.length == 0)
-					nieuwePatient (patient[0])
+					nieuwePatient (patient[0], gebDag, gebMaand, gebJaar)
 				else if (results.rows.length == 1)
 				{
 					row = results.rows.item (0);
 					r = row['id'];
+					alert ('patient gevonden met id = ' + r);
 				}
 				else
 				{
@@ -564,17 +565,32 @@ function checkPatient (xml)
 	return r;
 }
 
-function nieuwePatient (patient)
+function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 {
 	var r = -1;
 	var geboren = patient.getElementsByTagName ('Geboortedatum');
 	var naam = patient.getElementsByTagName ('Naam');
 	var question;
 	
-	question = 'Er is nog geen gebruiker geregistreerd met\r\nnaam = \'' + naam[0].childNodes[0].textContent
-	           + '\r\nen geboortedatum ' + geboren[0].childNodes[0].textContent + '\r\n'
+	question = 'Er is nog geen gebruiker geregistreerd met de volgende gegevens:\r\n-----------------\r\nnaam = \'' + naam[0].childNodes[0].textContent
+	           + '\r\nen geboortedatum ' + geboren[0].childNodes[0].textContent + '\r\n-----------------\r\n'
 			   + 'Wilt u deze gebruiker nu aanmaken?';
 	var q = confirm (question);
-	
+
+	if (q)
+	{
+		var sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + naam[0].childNodes[0].textContent + '\', ' + gebJaar + ', ' + gebMaand + ', ' + gebDag + ')';
+		db.transaction(function(tx)
+		{
+			tx.executeSql(sqlStatement, [], function ()
+			{
+			}, function (error)
+			{
+				alert ('er is een fout opgetreden\r\n' + error.message);
+			}, function ()
+			{
+			});
+		});
+	}
 	return r;
 }
