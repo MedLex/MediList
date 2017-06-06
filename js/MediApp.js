@@ -501,9 +501,15 @@ function importXML(data)
 			bContinue = 1;				// dan kunnen we nu verder
 	}
 	if (bContinue)						// We hebben een patient id
+	{
+		alert ('patient gevonden');
 		bContinue = checkOverzicht (xml, id);
+	}
 	if (bContinue)						// en dit overzicht was nog niet bekend
+	{
+		alert ('start importeren');
 		importOverzicht (xml, id);
+	}
 }
 
 //------------------------------------------------------------------------------------------------
@@ -624,10 +630,10 @@ function checkOverzicht (xml, id)
 	
 	if (algemeen)
 	{
-		apotheek = algemeen.getElementsByTagName ('Apotheek');
+		apotheek = algemeen[0].getElementsByTagName ('Apotheek');
 		if (apotheek)
 			apotheekID = apotheek[0].getAttribute ('ID');
-		datum = algemeen.getElementsByTagName ('DatumOverzicht');
+		datum = algemeen[0].getElementsByTagName ('DatumOverzicht');
 		if (datum)
 			date = new Date (datum[0].childNodes[0].textContent);
 	}
@@ -676,10 +682,10 @@ function importOverzicht (xml, id)
 	
 	if (algemeen)
 	{
-		apotheek = algemeen.getElementsByTagName ('Apotheek');
+		apotheek = algemeen[0].getElementsByTagName ('Apotheek');
 		if (apotheek)
 			apotheekID = apotheek[0].getAttribute ('ID');
-		datum = algemeen.getElementsByTagName ('DatumOverzicht');
+		datum = algemeen[0].getElementsByTagName ('DatumOverzicht');
 		if (datum)
 			date = new Date (datum[0].childNodes[0].textContent);
 	}
