@@ -36,11 +36,13 @@ function onDeviceReady()
 	else
 		alert ('no database available!');
 
-	var url = document.URL;
-	if (!url)
-		alert ('No document URL found');
-	else
-		alert ('document URL = \'' + url + '\'');
+	window.plugins.intent.getCordovaIntent(function (Intent)
+	{
+		alert (Intent);
+    }, function ()
+	{
+        alert ('Error getting the intent');
+    });
 }
 
 //--------------------------------------------------------------
@@ -60,16 +62,6 @@ function init()
 		document.getElementById ('askOK').className = setting;
 //	onDeviceReady ();
     document.addEventListener("deviceready", onDeviceReady, false);
-/*	window.plugins.webintent.getUri(function(url)
-	{
-		if(url !== "")
-		{
-			// url is the url the intent was launched with
-			alert ('URL was '+url);
-        }
-		else
-			alert ('No URL received.....');
-	}); */
 }
 
 function isDeviceReady ()
