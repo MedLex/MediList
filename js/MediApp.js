@@ -592,15 +592,14 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 			}, function ()
 			{
 			});
-		});
-		tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
-		{
-			if (results.rows.length == 1)
+			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
 			{
-				row = results.rows.item (0);
-				r = row['id'];
-			}
-			function ()
+				if (results.rows.length == 1)
+				{
+					row = results.rows.item (0);
+					r = row['id'];
+				}
+			}, function ()
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
@@ -741,10 +740,10 @@ function importOverzicht (xml, id)
 			sqlStatement = 'INSERT INTO medicatie (lijst, regel, datum, voorschrijver, medicijn, dosering, start, end, duur, toediening, toelichting, herhaling, code) VALUES ('
 			             + lijst + ', ' + i + ', \' '
 						 + datum + '\', \''
-						 + voorschrijver + '\', \'
+						 + voorschrijver + '\', \''
 						 + medicijn + '\', \''
-						 + dosering + '\', \'
-						 + start + '\', '\''
+						 + dosering + '\', \''
+						 + start + '\', \''
 						 + stop + '\', 0, \''
 						 + toediening + '\', \''
 						 + toelichting + '\', '
