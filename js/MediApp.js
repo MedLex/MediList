@@ -592,6 +592,7 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 		{
 			tx.executeSql(sqlStatement, [], function ()
 			{
+				alert ('patient met id ' + tx.lastrowid + ' toegevoegd');
 			}, function (error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
