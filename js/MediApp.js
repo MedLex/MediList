@@ -542,12 +542,13 @@ function checkPatient (xml)
 		gebMaand = date.getMonth ()+1;
 		gebJaar  = date.getFullYear  ();
 		
-		db.transaction(function(tx)
+		db.transaction(r = function(tx)
 		{
+			var r = -1;
 			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
 			{
 				if (results.rows.length == 0)
-					nieuwePatient (patient[0], gebDag, gebMaand, gebJaar)
+					r = nieuwePatient (patient[0], gebDag, gebMaand, gebJaar)
 				else if (results.rows.length == 1)
 				{
 					row = results.rows.item (0);
@@ -561,6 +562,8 @@ function checkPatient (xml)
 						row = results.rows.item(i);
 					}
 				}
+				
+				return r;
 			}), function (error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
@@ -588,25 +591,16 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 	if (q)
 	{
 		var sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + naam[0].childNodes[0].textContent + '\', ' + gebJaar + ', ' + gebMaand + ', ' + gebDag + ')';
-		db.transaction(function(tx)
+		db.transaction(r = function(tx)
 		{
+			var r = -1;
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
+				r = results.insertId;
 				alert ('patient met id ' + results.insertId + ' toegevoegd');
+				
+				return r;
 			}, function (error)
-			{
-				alert ('er is een fout opgetreden\r\n' + error.message);
-			}, function ()
-			{
-			});
-			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
-			{
-				if (results.rows.length == 1)
-				{
-					row = results.rows.item (0);
-					r = row['id'];
-				}
-			}, function ()
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
@@ -643,8 +637,9 @@ function checkOverzicht (xml, id)
 		myAlert ('Geen geldig medApp bestand ontvangen (3)');
 	else
 	{
-		db.transaction(function(tx)
+		db.transaction(r = function(tx)
 		{
+			var r = 1;
 			tx.executeSql(  'SELECT id FROM lijsten WHERE '
 			              + 'apotheekID = "' + apotheekID + '" AND '
 						  + 'listDag = ' + date.getDate () + ' AND '
