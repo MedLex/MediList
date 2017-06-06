@@ -6,6 +6,7 @@ function initTables (db)
 {
 	db.transaction (function (tx)
 	{
+		tx.executeSql ('DROP TABLE IF  EXISTS lijsten');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS person(id INTEGER PRIMARY KEY ASC,'
 														    + 'naam TEXT,'
 														    + 'gebJaar INTEGER,'
@@ -13,6 +14,7 @@ function initTables (db)
 															+ 'gebDag INTEGER,'
 															+ 'selected INTEGER)');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS lijsten(id INTEGER PRIMARY KEY ASC,'
+															+ 'apotheekID TEXT,'
 														    + 'apotheek TEXT,'
 															+ 'listDag INTEGER,'
 															+ 'listMaand INTEGER,'

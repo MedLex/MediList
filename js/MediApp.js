@@ -491,6 +491,7 @@ function importXML(data)
 	var bContinue = 0;					// Zolang we verder kunnen (of mogen)
 	var id = -1;
 	var xml = loadXMLDoc (data);
+	
 	if (!xml)
 		myAlert ('Het bestand \'' + data + '\' is geen MediApp bestand en kan niet worden geladen');
 	else
@@ -499,6 +500,10 @@ function importXML(data)
 		if (id >= 0)					// Hebben we een patient gevonden of ingevoerd?
 			bContinue = 1;				// dan kunnen we nu verder
 	}
+	if (bContinue)						// We hebben een patient id
+		bContinue = checkOverzicht (xml, id);
+	if (bContinue)						// en dit overzicht was nog niet bekend
+		importOverzicht (xml, id);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -519,10 +524,10 @@ function checkPatient (xml)
 	{
 		geboren = patient[0].getElementsByTagName ('Geboortedatum');
 		if (!geboren)
-			alert ('kan tag \'geboren\' niet meer vinden!');
+			myAlert ('Geen geldig medApp bestand ontvangen (2)');
 	}
 	else
-		alert ('Kan tag \'Patient\' niet meer vinden');
+		myAlert ('Geen geldig medApp bestand ontvangen (1)');
 	if (geboren)
 	{
 		var datum = geboren[0].childNodes[0].textContent;
@@ -531,8 +536,6 @@ function checkPatient (xml)
 		gebMaand = date.getMonth ()+1;
 		gebJaar  = date.getFullYear  ();
 		
-		alert ('we gaan nu zoeken naar iemand met als geboortedatum \'' + geboren[0].childNodes[0].textContent + '\'');
-
 		db.transaction(function(tx)
 		{
 			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
@@ -543,7 +546,6 @@ function checkPatient (xml)
 				{
 					row = results.rows.item (0);
 					r = row['id'];
-					alert ('patient gevonden met id = ' + r);
 				}
 				else
 				{
@@ -573,7 +575,7 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 	var question;
 	
 	question = 'Er is nog geen gebruiker geregistreerd met de volgende gegevens:\r\n-----------------\r\nnaam = \'' + naam[0].childNodes[0].textContent
-	           + '\r\nen geboortedatum ' + geboren[0].childNodes[0].textContent + '\r\n-----------------\r\n'
+	           + '\r\ngeboortedatum ' + geboren[0].childNodes[0].textContent + '\r\n-----------------\r\n'
 			   + 'Wilt u deze gebruiker nu aanmaken?';
 	var q = confirm (question);
 
@@ -591,6 +593,172 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 			{
 			});
 		});
+		tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
+		{
+			if (results.rows.length == 1)
+			{
+				row = results.rows.item (0);
+				r = row['id'];
+			}
+			function ()
+			{
+				alert ('er is een fout opgetreden\r\n' + error.message);
+			}, function ()
+			{
+			});
+		});
 	}
 	return r;
+}
+
+//------------------------------------------------------------------------------------------------
+// Kijk of we dit overzicht al kennen
+//
+function checkOverzicht (xml, id)
+{
+	var r        = 1;
+	var algemeen  = xml.getElementsByTagName ('Algemeen');
+	var apotheek;
+	var apotheekID = null;
+	var datum;
+	var date = null;
+	
+	if (algemeen)
+	{
+		apotheek = algemeen.getElementsByTagName ('Apotheek');
+		if (apotheek)
+			apotheekID = apotheek[0].getAttribute ('ID');
+		datum = algemeen.getElementsByTagName ('DatumOverzicht');
+		if (datum)
+			date = new Date (datum[0].childNodes[0].textContent);
+	}
+	if (   !apotheekID
+		|| !date)
+		myAlert ('Geen geldig medApp bestand ontvangen (3)');
+	else
+	{
+		db.transaction(function(tx)
+		{
+			tx.executeSql(  'SELECT id FROM lijsten WHERE '
+			              + 'apotheekID = "' + apotheekID + '" AND '
+						  + 'listDag = ' + date.getDate () + ' AND '
+						  + 'listMaand = ' + date.getMonth () + ' AND '
+						  + 'listJaar = ' + date.getFullYear () + ' AND '
+						  + 'patient = ' + id, [], function (tx, results)
+			{
+				if (results.rows.length > 0)
+				{
+					var question = 'Er is al een lijst bekend voor deze gebruiker op deze datum\r\n';
+					question += 'wilt u deze lijst toch toevoegen?';
+					r = confirm (question);
+				}
+			}, function ()
+			{
+				alert ('er is een fout opgetreden\r\n' + error.message);
+			}, function ()
+			{
+			});
+		});
+			
+	}
+	return r;
+}
+
+function importOverzicht (xml, id)
+{
+	var medicatie = xml.getElementsById ('Medicatie');
+	var sqlStatement;
+	var algemeen  = xml.getElementsByTagName ('Algemeen');
+	var apotheek;
+	var apotheekID = null;
+	var datum;
+	var date = null;
+	var lijst;
+	
+	if (algemeen)
+	{
+		apotheek = algemeen.getElementsByTagName ('Apotheek');
+		if (apotheek)
+			apotheekID = apotheek[0].getAttribute ('ID');
+		datum = algemeen.getElementsByTagName ('DatumOverzicht');
+		if (datum)
+			date = new Date (datum[0].childNodes[0].textContent);
+	}
+	if (   !apotheekID
+		|| !date)
+	{
+		myAlert ('Geen geldig medApp bestand ontvangen (3)');
+		return ;
+	}
+	
+	db.transaction (function (tx)
+	{
+		sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
+		             + apotheekID + '\', \'' + apotheek[0].childNodes[0].textContent + '\', ' + date.getDate() + ', ' + date.getMonth() + ', ' + date.getFullYear() + ', ' + id + ')';
+		tx.executeSql(sqlStatement, [], function ()
+		{
+			lijst = tx.lastrowid;
+		}, function (error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		});
+		
+		for (var i = 0; i < medicatie.length; i++)
+		{
+			var medicijn = getXmlValue (medicatie[i], 'NaamMedicijn');
+			var datum = '';
+			var voorschrijver = '';
+			var dosering = '';
+			var start = '';
+			var stop = '';
+			var duur = '';
+			var toediening = '';
+			var toelichting = '';
+			var herhaling = medicatie[i].getElementsByTagName ('Herhaling');
+			var magHerhaald = 0;
+			var magHerhaaldText;
+			var herhaalCode = '';
+			var voorschrift = medicatie[i].getElementsByTagName ('Voorschrift');
+			if (voorschrift && voorschrift.length > 0)
+			{
+				datum = getXmlValue (voorschrift[0], 'DatumVoorschrijven');
+				voorschrijver = getXmlValue (voorschrift[0], 'Voorschrijver');
+			}
+			if (herhaling)
+			{
+				magHerhaaldText = getXmlValue (herhaling[0], 'MagHerhaald');
+				if (magHerhaaldText == 'true')
+					magHerhaald = 1;
+				herhaalCode = getXmlValue (herhaling[0], 'HerhaalCode');
+			}
+			dosering = getXmlValue (medicatie[i], 'Dosering');
+			start = getXmlValue (medicatie[i], 'StartDatum');
+			stop = getXmlValue (medicatie[i], 'StopDatum');
+			toediening = getXmlValue (medicatie[i], 'ToedieningsWijze');
+			toelichting = getXmlValue (medicatie[i], 'Toelichting');
+			sqlStatement = 'INSERT INTO medicatie (lijst, regel, datum, voorschrijver, medicijn, dosering, start, end, duur, toediening, toelichting, herhaling, code) VALUES ('
+			             + lijst + ', ' + i + ', \' '
+						 + datum + '\', \''
+						 + voorschrijver + '\', \'
+						 + medicijn + '\', \''
+						 + dosering + '\', \'
+						 + start + '\', '\''
+						 + stop + '\', 0, \''
+						 + toediening + '\', \''
+						 + toelichting + '\', '
+						 + herhaling + ', \''
+						 + herhaalCode + '\')';
+
+						 tx.executeSql(sqlStatement, [], function ()
+			{
+			}, function (error)
+			{
+				alert ('er is een fout opgetreden bij invoeren van de lijst\r\n' + error.message);
+			}, function ()
+			{
+			});
+		}
+	});
 }
