@@ -633,7 +633,7 @@ function checkOverzicht (xml, id, callback2, callback3)
 						  + 'listDag = ' + date.getDate () + ' AND '
 						  + 'listMaand = ' + date.getMonth () + ' AND '
 						  + 'listJaar = ' + date.getFullYear () + ' AND '
-						  + 'patient = ' + id + ')';
+						  + 'patient = ' + id;
 			alert (sqlStatement);
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
