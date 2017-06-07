@@ -703,6 +703,7 @@ function addList (xml, id, callback3)
 function importOverzicht (xml, id, lijst)
 {
 	var sqlStatement;
+	alert ('ophalen medicatie tags');
 	var medicatie = xml.getElementsByTagName ('Medicatie');
 	alert ('medicatie.length = ' + medicatie.length);
 	
