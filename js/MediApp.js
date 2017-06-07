@@ -636,7 +636,6 @@ function checkOverzicht (xml, id, callback2, callback3)
 						  + 'patient = ' + id;
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
-				alert ('results.rows.length = ' + results.rows.length);
 				var bDoen = true;
 				if (results.rows.length > 0)
 				{
