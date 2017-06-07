@@ -488,29 +488,15 @@ function selectPerson (id)
 //
 function importXML(data)
 {
-	var bContinue = 0;					// Zolang we verder kunnen (of mogen)
-	var id = -1;
-	var xml = loadXMLDoc (data);
+	var xml = loadXMLDoc (data);					// Lees het opgegeven document in
 	
-	if (!xml)
+	if (!xml)										// Dat ging dus niet
 		myAlert ('Het bestand \'' + data + '\' is geen MediApp bestand en kan niet worden geladen');
 	else
-	{
-		id =  checkPatient (xml);		// Zoek eerst de patient op
-		alert ('patient ID = ' + id);
-		if (id >= 0)					// Hebben we een patient gevonden of ingevoerd?
-			bContinue = 1;				// dan kunnen we nu verder
-	}
-	if (bContinue)						// We hebben een patient id
-	{
-		alert ('patient gevonden');
-		bContinue = checkOverzicht (xml, id);
-	}
-	if (bContinue)						// en dit overzicht was nog niet bekend
-	{
-		alert ('start importeren');
-		importOverzicht (xml, id);
-	}
+		checkPatient (xml,							// Zoek eerst de patient op
+					  checkOverzicht,				// voer daarna de routine "checkOverzicht" uit.
+					  addList,						// dan de routine "addList"
+					  importOverzicht);				// en tenslotte "importOverzicht"
 }
 
 //------------------------------------------------------------------------------------------------
@@ -518,7 +504,7 @@ function importXML(data)
 // return 1 als we deze patienbt kennen of als er een nieuwe is aangemaakt waar we mee vderder mogen
 // return 0 als  we de patient niet kennen en er wordt geen nieuwe aangemaakt.
 //
-function checkPatient (xml)
+function checkPatient (xml, callback1, callback2, callback3)
 {
 	var r        = -1;
 	var gebDag   = 0;
@@ -548,11 +534,12 @@ function checkPatient (xml)
 			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
 			{
 				if (results.rows.length == 0)
-					r = nieuwePatient (patient[0], gebDag, gebMaand, gebJaar)
+					r = nieuwePatient (xml, patient[0], gebDag, gebMaand, gebJaar, callback1, callback2, callback3)
 				else if (results.rows.length == 1)
 				{
 					row = results.rows.item (0);
 					r = row['id'];
+					callback1 (xml, r, callback2, callback3);
 				}
 				else
 				{
@@ -572,11 +559,13 @@ function checkPatient (xml)
 			};
 		});
 	}
-	
-	return r;
 }
 
-function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
+//--------------------------------------------------------------------------------------------------------------------------------
+// We hebben een xml ontvangen voor een patient met een geboortedatum die we nog niet kennen.
+// Die moeten we nu dus toevoegen of we moeten stoppen
+//
+function nieuwePatient (xml, patient, gebDag, gebMaand, gebJaar, callback1, callback2, callback3)
 {
 	var r = -1;
 	var geboren = patient.getElementsByTagName ('Geboortedatum');
@@ -586,19 +575,17 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 	question = 'Er is nog geen gebruiker geregistreerd met de volgende gegevens:\r\n-----------------\r\nnaam = \'' + naam[0].childNodes[0].textContent
 	           + '\r\ngeboortedatum ' + geboren[0].childNodes[0].textContent + '\r\n-----------------\r\n'
 			   + 'Wilt u deze gebruiker nu aanmaken?';
-	var q = confirm (question);
+	var q = confirm (question);						// Wat denk u ervan?
 
-	if (q)
+	if (q)											// Toevoegen dus
 	{
 		var sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + naam[0].childNodes[0].textContent + '\', ' + gebJaar + ', ' + gebMaand + ', ' + gebDag + ')';
 		db.transaction(function(tx)
 		{
-			tx.executeSql(sqlStatement, [], function (tx, results)
+			tx.executeSql(sqlStatement, [], function (tx, results)	// Voeg nieuwe patient toe
 			{
-				r = results.insertId;
-				alert ('patient met id ' + results.insertId + ' toegevoegd');
-				
-				return r;
+				r = results.insertId;								// Dit is de id geworden
+				callback1 (xml, r, callback2, callback3);			// en daarmee kunnen we nu verder
 			}, function (error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
@@ -607,13 +594,12 @@ function nieuwePatient (patient, gebDag, gebMaand, gebJaar)
 			});
 		});
 	}
-	return r;
 }
 
 //------------------------------------------------------------------------------------------------
 // Kijk of we dit overzicht al kennen
 //
-function checkOverzicht (xml, id)
+function checkOverzicht (xml, id, callback2, callback3)
 {
 	var r        = 1;
 	var algemeen  = xml.getElementsByTagName ('Algemeen');
@@ -645,12 +631,15 @@ function checkOverzicht (xml, id)
 						  + 'listJaar = ' + date.getFullYear () + ' AND '
 						  + 'patient = ' + id, [], function (tx, results)
 			{
+				var bDoen = true;
 				if (results.rows.length > 0)
 				{
 					var question = 'Er is al een lijst bekend voor deze gebruiker op deze datum\r\n';
 					question += 'wilt u deze lijst toch toevoegen?';
-					r = confirm (question);
+					bDoen = confirm (question);
 				}
+				if (bDoen)
+					callback2 (xml, id, callback3);
 			}, function ()
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
@@ -663,9 +652,8 @@ function checkOverzicht (xml, id)
 	return r;
 }
 
-function importOverzicht (xml, id)
+function addList (xml, id, callback3)
 {
-	var medicatie = xml.getElementsById ('Medicatie');
 	var sqlStatement;
 	var algemeen  = xml.getElementsByTagName ('Algemeen');
 	var apotheek;
@@ -697,14 +685,23 @@ function importOverzicht (xml, id)
 		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
 			lijst = results.insertId;
-			alert ('lijst toegevoegd met id = ' + lijst);
+			callback3 (xml, id, lijst);
 		}, function (error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
 		{
 		});
+	});
+}
+
+function importOverzicht (xml, id, lijst)
+{
+	var sqlStatement;
+	var medicatie = xml.getElementsById ('Medicatie');
 		
+	db.transaction (function (tx)
+	{
 		for (var i = 0; i < medicatie.length; i++)
 		{
 			var medicijn = getXmlValue (medicatie[i], 'NaamMedicijn');
@@ -751,7 +748,6 @@ function importOverzicht (xml, id)
 						 + herhaling + ', \''
 						 + herhaalCode + '\')';
 
-			alert ('regel '+ i + ' toevoegen');
 			tx.executeSql(sqlStatement, [], function ()
 			{
 			}, function (error)
