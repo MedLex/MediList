@@ -110,9 +110,9 @@ function showListStep2 (db, id)
 						apotheek = row['apotheek'];
 					}
 				}
-				if (recent.getFullYear != 1900)
+				if (recent.getFullYear () != 1900)
 				{
-					szHTML += '<br><span class="standard">lijst van ' + recent.getDate() + '-' + recente.getMonth() + '-' + recent.getFullYear() + ', apotheek ' + apotheek + '</span>';
+					szHTML += '<br><span class="standard">lijst van ' + recent.getDate() + '-' + recent.getMonth() + '-' + recent.getFullYear() + ', apotheek ' + apotheek + '</span>';
 					document.getElementById ('itemHeader').innerHTML = szHTML;
 					showListStep3 (db, listID);
 				}
