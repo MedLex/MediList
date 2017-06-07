@@ -709,13 +709,12 @@ function importOverzicht (xml, id, lijst)
 	{
 		for (var i = 0; i < medicatie.length; i++)
 		{
-			alert ('regel ' + i + ', 1');
 			var medicijn = getXmlValue (medicatie[i], 'NaamMedicijn');
 			var datum = '';
 			var voorschrijver = '';
 			var dosering = '';
-			var start = '';
-			var stop = '';
+			var startDate = '';
+			var stopDate = '';
 			var duur = '';
 			var toediening = '';
 			var toelichting = '';
@@ -724,27 +723,21 @@ function importOverzicht (xml, id, lijst)
 			var magHerhaaldText;
 			var herhaalCode = '';
 			var voorschrift = medicatie[i].getElementsByTagName ('Voorschrift');
-			alert ('regel ' + i + ', 2');
 			if (voorschrift && voorschrift.length > 0)
 			{
 				datum = getXmlValue (voorschrift[0], 'DatumVoorschrijven');
 				voorschrijver = getXmlValue (voorschrift[0], 'Voorschrijver');
 			}
-			alert ('regel ' + i + ', 3');
 			if (herhaling && herhaling.length > 0)
 			{
 				magHerhaaldText = getXmlValue (herhaling[0], 'MagHerhaald');
-				alert ('regel ' + i + ', 3a');
 				if (magHerhaaldText == 'true')
 					magHerhaald = 1;
-				alert ('regel ' + i + ', 3b');
 				herhaalCode = getXmlValue (herhaling[0], 'HerhaalCode');
 			}
-			alert ('regel ' + i + ', 4');
 			dosering = getXmlValue (medicatie[i], 'Dosering');
-			start = getXmlValue (medicatie[i], 'StartDatum');
-			alert ('regel ' + i + ', 5');
-			stop = getXmlValue (medicatie[i], 'StopDatum');
+			startDate = getXmlValue (medicatie[i], 'StartDatum');
+			stopDate = getXmlValue (medicatie[i], 'StopDatum');
 			toediening = getXmlValue (medicatie[i], 'ToedieningsWijze');
 			toelichting = getXmlValue (medicatie[i], 'Toelichting');
 			sqlStatement = 'INSERT INTO medicatie (lijst, regel, datum, voorschrijver, medicijn, dosering, start, end, duur, toediening, toelichting, herhaling, code) VALUES ('

@@ -347,7 +347,10 @@ function getXmlValue (xml, tag)
 	var vElement = xml.getElementsByTagName (tag);
 	if (   vElement
 	    && vElement.length > 0)
-		r = vElement[0].childNodes[0].textContent;
+	{
+		if (vElement[0].childNodes.length > 0)
+			r = vElement[0].childNodes[0].textContent;
+	}
 	
 	return r;
 }
