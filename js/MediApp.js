@@ -629,7 +629,7 @@ function checkOverzicht (xml, id, callback2, callback3)
 		db.transaction(function(tx)
 		{
 			sqlStatement = 'SELECT id FROM lijsten WHERE '
-			              + 'apotheekID = "' + apotheekID + '" AND '
+			              + 'apotheekID = \'' + apotheekID + '\' AND '
 						  + 'listDag = ' + date.getDate () + ' AND '
 						  + 'listMaand = ' + date.getMonth () + ' AND '
 						  + 'listJaar = ' + date.getFullYear () + ' AND '
@@ -756,9 +756,11 @@ function importOverzicht (xml, id, lijst)
 						 + toelichting + '\', '
 						 + herhaling + ', \''
 						 + herhaalCode + '\')';
+			alert (sqlStatement);
 
-			tx.executeSql(sqlStatement, [], function ()
+			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
+				alert ('regel toegevoegd met id ' + results.insertId);
 			}, function (error)
 			{
 				alert ('er is een fout opgetreden bij invoeren van de lijst\r\n' + error.message);
