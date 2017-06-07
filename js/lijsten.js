@@ -105,14 +105,15 @@ function showListStep2 (db, id)
 					deze.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
 					if (deze > recent)
 					{
-						recent.setFullYear (row['listJaar'], row['listMaand'],row['listdag']);
+						alert (row['listJaar'] + '-' + row['listMaand'] + '-' + row['listDag']);
+						recent.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
 						listID = row['id'];
 						apotheek = row['apotheek'];
 					}
 				}
 				if (recent.getFullYear () != 1900)
 				{
-					szHTML += '<br><span class="standard">lijst van ' + recent.getDate() + '-' + recent.getMonth() + '-' + recent.getFullYear() + ', apotheek ' + apotheek + '</span>';
+					szHTML += '<br><span class="standard">lijst van ' + apotheek + ', ' + recent.getDate() + '-' + recent.getMonth() + '-' + recent.getFullYear() + '</span>';
 					document.getElementById ('itemHeader').innerHTML = szHTML;
 					showListStep3 (db, listID);
 				}
