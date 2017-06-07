@@ -750,9 +750,8 @@ function importOverzicht (xml, id, lijst)
 						 + stopDate + '\', 0, \''
 						 + toediening + '\', \''
 						 + toelichting + '\', '
-						 + herhaling + ', \''
+						 + magHerhaald + ', \''
 						 + herhaalCode + '\')';
-			alert (sqlStatement);
 
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
