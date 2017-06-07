@@ -488,6 +488,9 @@ function selectPerson (id)
 //
 function importXML(data)
 {
+	if (data == undefined)
+		return ;
+	
 	var xml = loadXMLDoc (data);					// Lees het opgegeven document in
 	
 	if (!xml)										// Dat ging dus niet
@@ -677,14 +680,16 @@ function addList (xml, id, callback3)
 		myAlert ('Geen geldig medApp bestand ontvangen (3)');
 		return ;
 	}
-	alert ('Eerst de lijst nu toevoegen');
+
 	db.transaction (function (tx)
 	{
 		sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
 		             + apotheekID + '\', \'' + apotheek[0].childNodes[0].textContent + '\', ' + date.getDate() + ', ' + date.getMonth() + ', ' + date.getFullYear() + ', ' + id + ')';
+		alert (sqlStatement);
 		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
 			lijst = results.insertId;
+			alert ('lijst toegevoegd met id = ' + lijst);
 			callback3 (xml, id, lijst);
 		}, function (error)
 		{
