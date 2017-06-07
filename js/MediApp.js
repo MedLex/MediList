@@ -610,6 +610,7 @@ function checkOverzicht (xml, id, callback2, callback3)
 	var apotheekID = null;
 	var datum;
 	var date = null;
+	var sqlStatement;
 	
 	if (algemeen)
 	{
@@ -627,13 +628,16 @@ function checkOverzicht (xml, id, callback2, callback3)
 	{
 		db.transaction(function(tx)
 		{
-			tx.executeSql(  'SELECT id FROM lijsten WHERE '
+			sqlStatement = 'SELECT id FROM lijsten WHERE '
 			              + 'apotheekID = "' + apotheekID + '" AND '
 						  + 'listDag = ' + date.getDate () + ' AND '
 						  + 'listMaand = ' + date.getMonth () + ' AND '
 						  + 'listJaar = ' + date.getFullYear () + ' AND '
-						  + 'patient = ' + id + ')', [], function (tx, results)
+						  + 'patient = ' + id + ')';
+			alert (sqlStatement);
+			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
+				alert ('results.rows.length = ' + results.rows.length);
 				var bDoen = true;
 				if (results.rows.length > 0)
 				{
