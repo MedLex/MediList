@@ -102,7 +102,7 @@ function showListStep2 (db, id)
 				for (var i=0; i < results.rows.length; i++)
 				{
 					row = results.rows.item(i);
-					deze.setFullYear (row['listJaar'], row['listMaand'],row['listdag']);
+					deze.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
 					if (deze > recent)
 					{
 						recent.setFullYear (row['listJaar'], row['listMaand'],row['listdag']);
