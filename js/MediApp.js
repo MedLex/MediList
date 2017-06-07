@@ -634,7 +634,6 @@ function checkOverzicht (xml, id, callback2, callback3)
 						  + 'listMaand = ' + date.getMonth () + ' AND '
 						  + 'listJaar = ' + date.getFullYear () + ' AND '
 						  + 'patient = ' + id;
-			alert (sqlStatement);
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
 				alert ('results.rows.length = ' + results.rows.length);
@@ -689,11 +688,9 @@ function addList (xml, id, callback3)
 	{
 		sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
 		             + apotheekID + '\', \'' + apotheek[0].childNodes[0].textContent + '\', ' + date.getDate() + ', ' + date.getMonth() + ', ' + date.getFullYear() + ', ' + id + ')';
-		alert (sqlStatement);
 		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
 			lijst = results.insertId;
-			alert ('lijst toegevoegd met id = ' + lijst + ', callback3 = ' + callback3);
 			callback3 (xml, id, lijst);
 		}, function (error)
 		{
@@ -706,10 +703,8 @@ function addList (xml, id, callback3)
 
 function importOverzicht (xml, id, lijst)
 {
-	alert ('nu in \'importOverzicht\'');
-
 	var sqlStatement;
-	var medicatie = xml.getElementsById ('Medicatie');
+	var medicatie = xml.getElementsByTagName ('Medicatie');
 	
 	db.transaction (function (tx)
 	{
