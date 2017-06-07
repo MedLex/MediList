@@ -706,10 +706,11 @@ function addList (xml, id, callback3)
 
 function importOverzicht (xml, id, lijst)
 {
+	alert ('nu in \'importOverzicht\'');
+
 	var sqlStatement;
 	var medicatie = xml.getElementsById ('Medicatie');
 	
-	alert ('nu in \'importOverzicht\'');
 	db.transaction (function (tx)
 	{
 		for (var i = 0; i < medicatie.length; i++)
