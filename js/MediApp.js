@@ -752,6 +752,7 @@ function importOverzicht (xml, id, lijst)
 						 + toelichting + '\', '
 						 + magHerhaald + ', \''
 						 + herhaalCode + '\')';
+			alert (sqlStatement);
 
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
