@@ -632,7 +632,7 @@ function checkOverzicht (xml, id, callback2, callback3)
 						  + 'listDag = ' + date.getDate () + ' AND '
 						  + 'listMaand = ' + date.getMonth () + ' AND '
 						  + 'listJaar = ' + date.getFullYear () + ' AND '
-						  + 'patient = ' + id, [], function (tx, results)
+						  + 'patient = ' + id + ')', [], function (tx, results)
 			{
 				var bDoen = true;
 				if (results.rows.length > 0)
