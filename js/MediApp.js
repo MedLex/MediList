@@ -704,6 +704,7 @@ function importOverzicht (xml, id, lijst)
 {
 	var sqlStatement;
 	var medicatie = xml.getElementsByTagName ('Medicatie');
+	alert ('medicatie.length = ' + medicatie.length);
 	
 	db.transaction (function (tx)
 	{
