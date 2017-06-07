@@ -703,14 +703,13 @@ function addList (xml, id, callback3)
 function importOverzicht (xml, id, lijst)
 {
 	var sqlStatement;
-	alert ('ophalen medicatie tags');
 	var medicatie = xml.getElementsByTagName ('Medicatie');
-	alert ('medicatie.length = ' + medicatie.length);
 	
 	db.transaction (function (tx)
 	{
 		for (var i = 0; i < medicatie.length; i++)
 		{
+			alert ('regel ' + i + ', 1');
 			var medicijn = getXmlValue (medicatie[i], 'NaamMedicijn');
 			var datum = '';
 			var voorschrijver = '';
@@ -725,11 +724,13 @@ function importOverzicht (xml, id, lijst)
 			var magHerhaaldText;
 			var herhaalCode = '';
 			var voorschrift = medicatie[i].getElementsByTagName ('Voorschrift');
+			alert ('regel ' + i + ', 2');
 			if (voorschrift && voorschrift.length > 0)
 			{
 				datum = getXmlValue (voorschrift[0], 'DatumVoorschrijven');
 				voorschrijver = getXmlValue (voorschrift[0], 'Voorschrijver');
 			}
+			alert ('regel ' + i + ', 3');
 			if (herhaling)
 			{
 				magHerhaaldText = getXmlValue (herhaling[0], 'MagHerhaald');
@@ -742,8 +743,9 @@ function importOverzicht (xml, id, lijst)
 			stop = getXmlValue (medicatie[i], 'StopDatum');
 			toediening = getXmlValue (medicatie[i], 'ToedieningsWijze');
 			toelichting = getXmlValue (medicatie[i], 'Toelichting');
+			alert ('regel ' + i + ', 4');
 			sqlStatement = 'INSERT INTO medicatie (lijst, regel, datum, voorschrijver, medicijn, dosering, start, end, duur, toediening, toelichting, herhaling, code) VALUES ('
-			             + lijst + ', ' + i + ', \' '
+			             + lijst + ', ' + i + ', \''
 						 + datum + '\', \''
 						 + voorschrijver + '\', \''
 						 + medicijn + '\', \''
