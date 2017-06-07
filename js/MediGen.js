@@ -345,7 +345,8 @@ function getXmlValue (xml, tag)
 {
 	var r = '';
 	var vElement = xml.getElementsByTagName (tag);
-	if (vElement)
+	if (   vElement
+	    && vElement.length > 0)
 		r = vElement[0].childNodes[0].textContent;
 	
 	return r;
@@ -355,7 +356,8 @@ function getXmlAttribute (xml, tag, attribute)
 {
 	var r = '';
 	var vElement = xml.getElementsByTagName (tag);
-	if (vElement)
+	if (   vElement
+	    && vElement.length > 0)
 		r = vElement[0].getAttribute (attribute);
 	
 	return r;
