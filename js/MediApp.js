@@ -731,19 +731,22 @@ function importOverzicht (xml, id, lijst)
 				voorschrijver = getXmlValue (voorschrift[0], 'Voorschrijver');
 			}
 			alert ('regel ' + i + ', 3');
-			if (herhaling)
+			if (herhaling && herhaling.length > 0)
 			{
 				magHerhaaldText = getXmlValue (herhaling[0], 'MagHerhaald');
+				alert ('regel ' + i + ', 3a');
 				if (magHerhaaldText == 'true')
 					magHerhaald = 1;
+				alert ('regel ' + i + ', 3b');
 				herhaalCode = getXmlValue (herhaling[0], 'HerhaalCode');
 			}
+			alert ('regel ' + i + ', 4');
 			dosering = getXmlValue (medicatie[i], 'Dosering');
 			start = getXmlValue (medicatie[i], 'StartDatum');
+			alert ('regel ' + i + ', 5');
 			stop = getXmlValue (medicatie[i], 'StopDatum');
 			toediening = getXmlValue (medicatie[i], 'ToedieningsWijze');
 			toelichting = getXmlValue (medicatie[i], 'Toelichting');
-			alert ('regel ' + i + ', 4');
 			sqlStatement = 'INSERT INTO medicatie (lijst, regel, datum, voorschrijver, medicijn, dosering, start, end, duur, toediening, toelichting, herhaling, code) VALUES ('
 			             + lijst + ', ' + i + ', \''
 						 + datum + '\', \''
