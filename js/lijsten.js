@@ -105,7 +105,6 @@ function showListStep2 (db, id)
 					deze.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
 					if (deze > recent)
 					{
-						alert (row['listJaar'] + '-' + row['listMaand'] + '-' + row['listDag']);
 						recent.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
 						listID = row['id'];
 						apotheek = row['apotheek'];
@@ -140,6 +139,7 @@ function showListStep3 (db, id)
 	{
 		tx.executeSql('SELECT * FROM medicatie WHERE lijst = ' + id, [], function (tx, results)
 		{
+			alert ('lijst met id = ' + id + ', heeft ' + results.rows.length + ' entries');
 			for (var i=0; i < results.rows.length; i++)
 			{
 				row = results.rows.item(i);
