@@ -708,7 +708,8 @@ function importOverzicht (xml, id, lijst)
 {
 	var sqlStatement;
 	var medicatie = xml.getElementsById ('Medicatie');
-		
+	
+	alert ('nu in \'importOverzicht\'');
 	db.transaction (function (tx)
 	{
 		for (var i = 0; i < medicatie.length; i++)
