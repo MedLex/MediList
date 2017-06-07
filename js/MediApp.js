@@ -737,21 +737,17 @@ function importOverzicht (xml, id, lijst)
 			}
 			dosering = getXmlValue (medicatie[i], 'Dosering');
 			startDate = getXmlValue (medicatie[i], 'StartDatum');
-			alert ('regel ' + i + ', 1');
 			stopDate = getXmlValue (medicatie[i], 'StopDatum');
-			alert ('regel ' + i + ', 2');
 			toediening = getXmlValue (medicatie[i], 'ToedieningsWijze');
-			alert ('regel ' + i + ', 3');
 			toelichting = getXmlValue (medicatie[i], 'Toelichting');
-			alert ('regel ' + i + ', 4');
 			sqlStatement = 'INSERT INTO medicatie (lijst, regel, datum, voorschrijver, medicijn, dosering, start, end, duur, toediening, toelichting, herhaling, code) VALUES ('
 			             + lijst + ', ' + (i+1) + ', \''
 						 + datum + '\', \''
 						 + voorschrijver + '\', \''
 						 + medicijn + '\', \''
 						 + dosering + '\', \''
-						 + start + '\', \''
-						 + stop + '\', 0, \''
+						 + startDate + '\', \''
+						 + stopDate + '\', 0, \''
 						 + toediening + '\', \''
 						 + toelichting + '\', '
 						 + herhaling + ', \''
