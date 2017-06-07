@@ -693,7 +693,7 @@ function addList (xml, id, callback3)
 		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
 			lijst = results.insertId;
-			alert ('lijst toegevoegd met id = ' + lijst);
+			alert ('lijst toegevoegd met id = ' + lijst + ', callback3 = ' + callback3);
 			callback3 (xml, id, lijst);
 		}, function (error)
 		{
