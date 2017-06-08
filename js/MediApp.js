@@ -729,7 +729,7 @@ function importOverzicht (xml, id, lijst)
 			var magHerhaaldText;
 			var herhaalCode = '';
 			var voorschrift = medicatie[i].getElementsByTagName ('Voorschrift');
-			var waarschuwing = medicatie[i].getElementsByTagName ('Waarschuwing');
+			var waarschuwing = getXmlValue (medicatie[i], 'Waarschuwing');
 			if (voorschrift && voorschrift.length > 0)
 			{
 				datum = getXmlValue (voorschrift[0], 'DatumVoorschrijven');
