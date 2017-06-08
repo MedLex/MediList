@@ -169,9 +169,10 @@ function showListStep3 (db, id)
 function onShowMed (lijst, regel)
 {
 
+	alert ('showing ' + lijst + ', ' + regel);
 	db.transaction(function(tx)
 	{
-		tx.executeSql('SELECT * FROM medicatie WHERE lijst = ' + lijst + 'AND regel = ' + regel, [], function (tx, results)
+		tx.executeSql('SELECT * FROM medicatie WHERE lijst = ' + lijst + ' AND regel = ' + regel, [], function (tx, results)
 		{
 			if (results.rows.length < 1)
 				myAlert ('Oeps, deze medicatie kon niet meer worden gevonden');
