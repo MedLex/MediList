@@ -32,7 +32,7 @@ function initTables (db)
 															+ 'toelichting TEXT,'
 															+ 'herhaling INTEGER,'
 														    + 'code TEXT)');
-	}, function (error)
+	}, function (tx, error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
 	}, function ()							// Succes. Hoeven we niet meer te melden
@@ -67,7 +67,7 @@ function showList (db)
 			}
 			else
 				document.getElementById ('itemHeader').innerHTML = '<b>Er is nog niemand geselecteerd</b>';
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -82,11 +82,11 @@ function showList (db)
 //
 function showListStep2 (db, id)
 {
-	var recent = new Date (1900,1,1,1,1,1,1);
-	var deze = new Date(1900,1,1,1,1,1,1);
-	var listID = 0;
+	var recent   = new Date (1900,1,1,1,1,1,1);
+	var deze     = new Date(1900,1,1,1,1,1,1);
+	var listID   = 0;
 	var apotheek = '';
-	var szHTML = document.getElementById ('itemHeader').innerHTML;
+	var szHTML   = document.getElementById ('itemHeader').innerHTML;
 	
 	db.transaction(function(tx)
 	{
@@ -103,7 +103,9 @@ function showListStep2 (db, id)
 				{
 					row = results.rows.item(i);
 					deze.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
-					if (deze > recent)
+					if (   deze > recent
+						|| (   deze == recent
+						    && row['id'] > listID))
 					{
 						recent.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
 						listID = row['id'];
@@ -117,7 +119,7 @@ function showListStep2 (db, id)
 					showListStep3 (db, listID);
 				}
 			}
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -143,7 +145,7 @@ function showListStep3 (db, id)
 			for (var i=0; i < results.rows.length; i++)
 			{
 				row = results.rows.item(i);
-				div - document.createElement ('div');
+				div = document.createElement ('div');
 				if (i%2)
 					div.className = 'item standard200 standard';
 				else
@@ -154,7 +156,7 @@ function showListStep3 (db, id)
 				szHTML += '<div class="right-black"></div>';
 				overzicht.appendChild (div);
 			}
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -183,7 +185,7 @@ function onShowMed (lijst, regel)
 	                      + '<tr><td>Toediening</td><td>:</td><td>' + row['toediening'] + '</td></tr>'
 	                      + '<tr><td>Voorschrijver</td><td>:</td><td>' + row['voorschrijver'] + '</td></tr>');
 			}
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()

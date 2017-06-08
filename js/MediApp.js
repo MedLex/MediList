@@ -159,7 +159,7 @@ function fillPersons (person)
 
 				person.appendChild (div);
 			}
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -205,7 +205,7 @@ function editPerson (id)
 					individual.style.opacity = '1';
 				}
 			}
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -265,7 +265,7 @@ function indiOK (id)
 			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + ' WHERE id = ' + globalID;
 		tx.executeSql(sqlStatement, [], function ()
 		{
-		}, function (error)
+		}, function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -311,7 +311,7 @@ function deleteOK (id)
 			tx.executeSql('SELECT * FROM lijsten WHERE patient = ' + id, [], function (tx, results)
 			{
 				aantal = results.rows.length;
-			}), function (error)
+			}), function (tx, error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
@@ -334,7 +334,7 @@ function deleteOK (id)
 					{
 						tx.executeSql('DELETE FROM person WHERE id = ' + id, [], function (tx, results)
 						{
-						}), function (error)
+						}), function (tx, error)
 						{
 							alert ('er is een fout opgetreden\r\n' + error.message);
 						}, function ()
@@ -345,7 +345,7 @@ function deleteOK (id)
 						fillPersons (persons);
 					}
 				}
-			}), function (error)
+			}), function (tx, error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
@@ -362,7 +362,7 @@ function deleteOK (id)
 		{
 			tx.executeSql('DELETE FROM lijsten WHERE patient = ' + id, [], function (tx, results)
 			{
-			}), function (error)
+			}), function (tx, error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
@@ -385,7 +385,7 @@ function deletePerson (id)
 		tx.executeSql('SELECT * FROM lijsten WHERE patient = ' + id, [], function (tx, results)
 		{
 			aantal = results.rows.length;
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -422,7 +422,7 @@ function deletePerson (id)
 				else
 					alert ('kan individualDelete niet vinden');
 			}
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -463,14 +463,14 @@ function selectPerson (id)
 					selected = 0;
 				tx.executeSql('UPDATE person SET selected = ' + selected + ' WHERE id = ' + row['id'], [], function (tx, results)
 				{
-				}), function (error)
+				}), function (tx, error)
 				{
 					alert ('er is een fout opgetreden\r\n' + error.message);
 				}, function ()
 				{
 				};
 			}
-		}), function (error)
+		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -554,7 +554,7 @@ function checkPatient (xml, callback1, callback2, callback3)
 				}
 				
 				return r;
-			}), function (error)
+			}), function (tx, error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
@@ -589,7 +589,7 @@ function nieuwePatient (xml, patient, gebDag, gebMaand, gebJaar, callback1, call
 			{
 				r = results.insertId;								// Dit is de id geworden
 				callback1 (xml, r, callback2, callback3);			// en daarmee kunnen we nu verder
-			}, function (error)
+			}, function (tx, error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
@@ -645,7 +645,7 @@ function checkOverzicht (xml, id, callback2, callback3)
 				}
 				if (bDoen)
 					callback2 (xml, id, callback3);
-			}, function ()
+			}, function (tx, error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
 			}, function ()
@@ -657,6 +657,9 @@ function checkOverzicht (xml, id, callback2, callback3)
 	return r;
 }
 
+//------------------------------------------------------------------------------------------------
+// Voeg een nieuwe medicatielijst toe
+//
 function addList (xml, id, callback3)
 {
 	var sqlStatement;
@@ -691,7 +694,7 @@ function addList (xml, id, callback3)
 		{
 			lijst = results.insertId;
 			callback3 (xml, id, lijst);
-		}, function (error)
+		}, function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
 		}, function ()
@@ -700,6 +703,9 @@ function addList (xml, id, callback3)
 	});
 }
 
+//------------------------------------------------------------------------------------------------
+// Voeg nu de regels van de nieuwe lijst toe
+//
 function importOverzicht (xml, id, lijst)
 {
 	var sqlStatement;
@@ -752,12 +758,11 @@ function importOverzicht (xml, id, lijst)
 						 + toelichting + '\', '
 						 + magHerhaald + ', \''
 						 + herhaalCode + '\')';
-			alert (sqlStatement);
 
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
-				alert ('regel toegevoegd met id ' + results.insertId);
-			}, function (error)
+//				alert ('regel toegevoegd met id ' + results.insertId);
+			}, function (tx, error)
 			{
 				alert ('er is een fout opgetreden bij invoeren van de lijst\r\n' + error.message);
 			}, function ()
