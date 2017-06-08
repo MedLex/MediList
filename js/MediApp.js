@@ -557,6 +557,7 @@ function checkPatient (xml, callback1, callback2, callback3)
 										  + 'font-size:large;text-align:left;color:#000000;background-color:#FF9800;padding-left:15px;';
 					elemDiv.innerHTML = 'Kies de juiste gebruiker';
 					elemWrapper.appendChild (elemDiv);
+					
 					elemDiv = document.createElement ('div');
 					elemDiv.id = '__brAlertText';
 					elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
@@ -574,13 +575,13 @@ function checkPatient (xml, callback1, callback2, callback3)
 					div.appendChild (action);
 					elemDiv.appendChild (div);
 					
-					var div = document.createElement ('div');
+					div = document.createElement ('div');
 					div.className = 'item standard200 standard selDiv';
 					div.setAttribute ('onmouseup', 'selectImportPatient(1);');
 					div.innerHTML = 'Deze lijst niet importeren';
 					div.setAttribute ('data-selected', 'true');
 					div.setAttribute ('data-patient', '-2');
-					var action = document.createElement ('div');
+					action = document.createElement ('div');
 					action.className = 'importSelected';
 					div.appendChild (action);
 					elemDiv.appendChild (div);
@@ -588,7 +589,7 @@ function checkPatient (xml, callback1, callback2, callback3)
 					for (var i = 0; i < results.rows.length; i++)
 					{
 						row = results.rows.item(i);
-						var div = document.createElement ('div');
+						div = document.createElement ('div');
 						if (i%2)
 							div.className = 'item standard200 standard selDiv';
 						else
@@ -605,11 +606,13 @@ function checkPatient (xml, callback1, callback2, callback3)
 						szHTML += ', ';
 						szHTML += row['naam'];
 						div.innerHTML = szHTML;
-						var action = document.createElement ('div');
+						action = document.createElement ('div');
 						action.className = 'importUnselected';
 						div.appendChild (action);
 						elemDiv.appendChild (div);
 					}
+					elemWrapper.appendChild (elemDiv);
+
 					elemDiv = document.createElement ('div');
 					elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
 										+ 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
