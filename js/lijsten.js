@@ -22,7 +22,7 @@ function initTables (db)
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS medicatie  (lijst INTEGER,'
 														    + 'regel INTEGER,'
 		                                                    + 'datum TEXT,'
-														    + 'voorschrijver TEXT'
+														    + 'voorschrijver TEXT,'
 															+ 'medicijn TEXT,'
 															+ 'dosering TEXT,'
 															+ 'start TEXT,'

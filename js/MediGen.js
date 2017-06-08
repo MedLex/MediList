@@ -38,7 +38,6 @@ function onDeviceReady()
 
 	window.plugins.intent.getCordovaIntent(function (Intent)
 	{
-//		alert ('Action = ' + Intent.action + '\r\nData = \'' + Intent.data + '\'\r\nType = \'' + Intent.type + '\'');
 		importXML (Intent.data);
     }, function ()
 	{
