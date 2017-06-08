@@ -534,19 +534,21 @@ function checkPatient (xml, callback1, callback2, callback3)
 		
 		db.transaction(function(tx)
 		{
-			tx.executeSql('SELECT id FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
+			tx.executeSql('SELECT * FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
 			{
-				if (results.rows.length == 0)
-					r = nieuwePatient (xml, patient[0], gebDag, gebMaand, gebJaar, callback1, callback2, callback3)
-				else if (results.rows.length == 1)
+				if (results.rows.length == 0)								// Geen patient gevonden
+					r = nieuwePatient (xml, patient[0], gebDag, gebMaand, gebJaar, callback1, callback2, callback3)	// vraag of we er een moeten aanmaken
+					
+				else if (results.rows.length == 1)							// Precies één gebruiker gevonden
 				{
 					row = results.rows.item (0);
-					r = row['id'];
-					callback1 (xml, r, callback2, callback3);
+					r = row['id'];											// Die heeft dus deze id
+					callback1 (xml, r, callback2, callback3);				// en daar kunnen we mee verder
 				}
-				else
-				{
-					Cover ();    						// onderliggende tekst even bedekken
+
+				else														// Oeps, meerdere gebruikers met dezelfde geboortedatum (tweeling of zo?)
+				{															// Dan moeten we dus vragen wie het gaat worden
+					Cover ();    											// onderliggende tekst even bedekken
 					var elemWrapper = document.createElement ('div');		// wrapper voor alles
 					elemWrapper.id = '__selectImportPatient';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
 					elemWrapper.style.cssText = 'position:absolute;width:80%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;box-shadow: 12px 12px 8px grey;';
@@ -560,8 +562,8 @@ function checkPatient (xml, callback1, callback2, callback3)
 					
 					elemDiv = document.createElement ('div');
 					elemDiv.id = '__brAlertText';
-					elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
-										+ 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
+					elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding:0px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+										+ 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;';
 					var szHTML  = '';
 
 					var div = document.createElement ('div');
