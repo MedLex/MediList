@@ -169,7 +169,6 @@ function showListStep3 (db, id)
 function onShowMed (lijst, regel)
 {
 
-	alert ('showing ' + lijst + ', ' + regel);
 	db.transaction(function(tx)
 	{
 		tx.executeSql('SELECT * FROM medicatie WHERE lijst = ' + lijst + ' AND regel = ' + regel, [], function (tx, results)
@@ -178,14 +177,17 @@ function onShowMed (lijst, regel)
 				myAlert ('Oeps, deze medicatie kon niet meer worden gevonden');
 			else
 			{
+				var szHTML;
 				row = results.rows.item(0);
-				showPrescription (row['medicijn'],
-	                        '<tr><td>Startdatum</td><td>:</td><td>' + row['start'] + '</td></tr>'
-	                      + '<tr><td>Stopdatum</td><td>:</td><td>' + row['end'] + '</td></tr>'
-	                      + '<tr><td>Dosering</td><td>:</td><td>' + row['dosering'] + '</td></tr>'
-	                      + '<tr><td>Toelichting</td><td>:</td><td>' + row['toelichting'] + '</td></tr>'
-	                      + '<tr><td>Toediening</td><td>:</td><td>' + row['toediening'] + '</td></tr>'
-	                      + '<tr><td>Voorschrijver</td><td>:</td><td>' + row['voorschrijver'] + '</td></tr>');
+
+				szHTML = '<tr><td>Startdatum</td><td>:</td><td>'    + row['start']         + '</td></tr>'
+	                   + '<tr><td>Stopdatum</td><td>:</td><td>'     + row['end']           + '</td></tr>'
+	                   + '<tr><td>Dosering</td><td>:</td><td>'      + row['dosering']      + '</td></tr>'
+	                   + '<tr><td>Toelichting</td><td>:</td><td>'   + row['toelichting']   + '</td></tr>'
+	                   + '<tr><td>Toediening</td><td>:</td><td>'    + row['toediening']    + '</td></tr>'
+	                   + '<tr><td>Voorschrijver</td><td>:</td><td>' + row['voorschrijver'] + '</td></tr>';
+				alert (szHTML);
+				showPrescription (row['medicijn'],szHTML);
 			}
 		}), function (tx, error)
 		{
