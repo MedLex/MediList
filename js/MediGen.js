@@ -152,7 +152,6 @@ function showPrescription (szHeader, szText)
     var elemDiv;
 	var szHTML;
 
-	alert ('showing rpescription for \'' + szHeader + '\'');
     Cover ();    						// onderliggende tekst even bedekken
     elemWrapper = document.createElement ('div');		// wrapper voor alles
     elemWrapper.id = '__myPrescription';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien

@@ -31,7 +31,8 @@ function initTables (db)
 															+ 'toediening TEXT,'
 															+ 'toelichting TEXT,'
 															+ 'herhaling INTEGER,'
-														    + 'code TEXT)');
+														    + 'code TEXT,'
+															+ 'waarschuwing TEXT)');
 	}, function (tx, error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
@@ -154,6 +155,8 @@ function showListStep3 (db, id)
 				szHTML = '<b>' + row['medicijn'] + '</b><br />';
 				szHTML += row['dosering'];
 				szHTML += '<div class="right-black"></div>';
+				if (row['waarschuwing'] != '')
+					szHTML += '<div class="warning" onmouseup="showWarning(' + id + ', ' + row['regel'] + ');"></div>';
 				div.innerHTML = szHTML;
 				overzicht.appendChild (div);
 			}
@@ -186,6 +189,37 @@ function onShowMed (lijst, regel)
 	                   + '<tr><td>Toelichting</td><td>:</td><td>'   + row['toelichting']   + '</td></tr>'
 	                   + '<tr><td>Toediening</td><td>:</td><td>'    + row['toediening']    + '</td></tr>'
 	                   + '<tr><td>Voorschrijver</td><td>:</td><td>' + row['voorschrijver'] + '</td></tr>';
+				if (row['waarschuwing'] != '')
+					szHTML += '<tr><td style="color:#f42121">Waarschuwing</td><td>:</td><td style="color:#f42121">' + row['waarschuwing'] + '</td></tr>';
+				showPrescription (row['medicijn'],szHTML);
+			}
+		}), function (tx, error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	});
+}
+
+function showWarning (lijst, regel)
+{
+
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM medicatie WHERE lijst = ' + lijst + ' AND regel = ' + regel, [], function (tx, results)
+		{
+			if (results.rows.length < 1)
+				myAlert ('Oeps, deze medicatie kon niet meer worden gevonden');
+			else
+			{
+				var szHTML;
+				row = results.rows.item(0);
+
+				if (row['waarschuwing'] != '')
+					szHTML = '<tr><td style="color:#f42121">Waarschuwing</td><td>:</td><td style="color:#f42121">' + row['waarschuwing'] + '</td></tr>';
+				else
+					szHTML = '<tr><td>Waarschuwing</td><td>:</td><td>Voor dit medicijn is geen waarschuwing afgegeven</td></tr>';
 				showPrescription (row['medicijn'],szHTML);
 			}
 		}), function (tx, error)
