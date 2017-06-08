@@ -143,9 +143,9 @@ function myAlert (szText)
 }
 
 //------------------------------------------------------------------------------------------------------
-// Geef een alert
+// GToon de details van een enkele medicatieregel
 //
-function ShowPrescription (szHeader, szText)
+function showPrescription (szHeader, szText)
 {
 
     var elemWrapper;
