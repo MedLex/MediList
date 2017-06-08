@@ -491,12 +491,12 @@ function importXML(data)
 	if (data == undefined)
 		return ;
 	
-	var xml = loadXMLDoc (data);					// Lees het opgegeven document in
+	xmlDoc = loadXMLDoc (data);					// Lees het opgegeven document in
 	
-	if (!xml)										// Dat ging dus niet
+	if (!xmlDoc)										// Dat ging dus niet
 		myAlert ('Het bestand \'' + data + '\' is geen MediApp bestand en kan niet worden geladen');
 	else
-		checkPatient (xml,							// Zoek eerst de patient op
+		checkPatient (xmlDoc,						// Zoek eerst de patient op
 					  checkOverzicht,				// voer daarna de routine "checkOverzicht" uit.
 					  addList,						// dan de routine "addList"
 					  importOverzicht);				// en tenslotte "importOverzicht"
@@ -546,14 +546,98 @@ function checkPatient (xml, callback1, callback2, callback3)
 				}
 				else
 				{
-					alert ('ik heb er ' + results.rows.length + ' gevonden!');
+					Cover ();    						// onderliggende tekst even bedekken
+					var elemWrapper = document.createElement ('div');		// wrapper voor alles
+					elemWrapper.id = '__selectImportPatient';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
+					elemWrapper.style.cssText = 'position:absolute;width:80%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;box-shadow: 12px 12px 8px grey;';
+					elemWrapper.style.transition = 'opacity 0.5s ease';
+					elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
+					var elemDiv = document.createElement ('div');
+					elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+										  + 'font-size:large;text-align:left;color:#000000;background-color:#FF9800;padding-left:15px;';
+					elemDiv.innerHTML = 'Kies de juiste gebruiker';
+					elemWrapper.appendChild (elemDiv);
+					elemDiv = document.createElement ('div');
+					elemDiv.id = '__brAlertText';
+					elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+										+ 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
+					var szHTML  = '';
+
+					var div = document.createElement ('div');
+					div.className = 'item standard50 standard selDiv';
+					div.setAttribute ('onmouseup', 'selectImportPatient(0);');
+					div.innerHTML = 'Maak een nieuwe gebruiker';
+					var action = document.createElement ('div');
+					action.className = 'importUnselected';
+					div.setAttribute ('data-selected', 'false');
+					div.setAttribute ('data-patient', '-1');
+					div.appendChild (action);
+					elemDiv.appendChild (div);
+					
+					var div = document.createElement ('div');
+					div.className = 'item standard200 standard selDiv';
+					div.setAttribute ('onmouseup', 'selectImportPatient(1);');
+					div.innerHTML = 'Deze lijst niet importeren';
+					div.setAttribute ('data-selected', 'true');
+					div.setAttribute ('data-patient', '-2');
+					var action = document.createElement ('div');
+					action.className = 'importSelected';
+					div.appendChild (action);
+					elemDiv.appendChild (div);
+
 					for (var i = 0; i < results.rows.length; i++)
 					{
 						row = results.rows.item(i);
+						var div = document.createElement ('div');
+						if (i%2)
+							div.className = 'item standard200 standard selDiv';
+						else
+							div.className = 'item standard50 standard selDiv';
+						div.setAttribute ('data-selected', 'false');
+						div.setAttribute ('data-patient', '\'' + row['id'] + '\'');
+						div.setAttribute ('onmouseup', 'selectImportPatient(' + (i+2) + ');');
+						var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
+						var day = date.getDate();
+						if(day<10){ day="0"+day;}
+						var month = date.getMonth()+1;
+						if(month<10){ month="0"+month;}
+						var szHTML = day + '-' + month + '-' + date.getFullYear();
+						szHTML += ', ';
+						szHTML += row['naam'];
+						div.innerHTML = szHTML;
+						var action = document.createElement ('div');
+						action.className = 'importUnselected';
+						div.appendChild (action);
+						elemDiv.appendChild (div);
 					}
+					elemDiv = document.createElement ('div');
+					elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+										+ 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
+					elemDiv.setAttribute('onclick', 'onClickOK(\'__selectImportPatient\');');
+					elemDiv.setAttribute('onmouseup', 'onClickOK(\'__selectImportPatient\');');
+					elemDiv.innerHTML = 'OK';
+					elemDiv.onmouseover = function ()
+					{
+						this.style.backgroundColor = '#afafaf';
+					};
+					elemDiv.onmouseout = function ()
+					{
+						this.style.backgroundColor = '#ffffff';
+					};
+					elemWrapper.appendChild (elemDiv);
+					document.body.appendChild (elemWrapper);
+					
+					var vWidth  = elemWrapper.offsetWidth;
+					var vHeight = elemWrapper.offsetHeight;
+					vWidth = parseInt (vWidth/2, 10);
+					vHeight = parseInt (vHeight/2, 10);
+					elemWrapper.style.marginLeft = '-' + vWidth + 'px';
+					elemWrapper.style.marginTop = '-' + vHeight + 'px';
+					
+					elemWrapper.style.opacity = '1';
+					elemWrapper.style.mozOpacity = '1';
+					elemWrapper.style.khtmlOpacity = '1';
 				}
-				
-				return r;
 			}), function (tx, error)
 			{
 				alert ('er is een fout opgetreden\r\n' + error.message);
@@ -562,6 +646,111 @@ function checkPatient (xml, callback1, callback2, callback3)
 			};
 		});
 	}
+}
+
+function onClickImportOK (szName)
+{
+	
+    var elemCover = document.getElementById ('__brCover');
+    var elemWrapper = document.getElementById (szName);
+	
+	var selected = getSelectedImport ();
+	if (elemWrapper)
+	{
+		elemWrapper.style.opacity = '0';
+		elemWrapper.style.mozOpacity = '0';
+		if (elemCover)
+		{
+			elemCover.style.opacity = '0';
+			elemCover.style.mozOpacity = '0';
+		}
+		__divName = szName;
+		setTimeout(function()
+		{
+			var divCover = document.getElementById ('__brCover');
+			var divWrapper = document.getElementById (__divName);
+			
+			if (divWrapper)
+				divWrapper.parentNode.removeChild (divWrapper);
+			if (divCover)
+				divCover.parentNode.removeChild (divCover);
+		}, 500);
+	}
+	if (selected == -2)				// Deze lijst niet importeren. We stoppen dus
+		return ;
+	else if (selected == -1)		// Nieuwe patient aanmaken
+	{
+		var patient  = xmlDoc.getElementsByTagName ('Patient');
+		var geboren  = null;
+		
+		if (patient)
+		{
+			geboren = patient[0].getElementsByTagName ('Geboortedatum');
+			if (!geboren)
+				myAlert ('Geen geldig medApp bestand ontvangen (2)');
+		}
+		else
+			myAlert ('Geen geldig medApp bestand ontvangen (1)');
+		if (geboren)
+		{
+			var datum = geboren[0].childNodes[0].textContent;
+			var date = new Date (datum);
+			gebDag   = date.getDate  ();
+			gebMaand = date.getMonth ();
+			gebJaar  = date.getFullYear  ();
+			nieuwePatient (xmlDoc, patient[0], gebDag, gebMaand, gebJaar, checkOverzicht,				// voer daarna de routine "checkOverzicht" uit.
+																		  addList,						// dan de routine "addList"
+																		  importOverzicht);				// en tenslotte "importOverzicht"
+		}
+	}
+	else									// Bestaaande patient gebruiken
+	{
+		checkOverzicht (xmlDoc, selected, addList, importOverzicht);
+	}
+}
+
+function selectImportPatient (row)
+{
+	var selDiv = document.getElementsByClassName ('selDiv');
+	var action;
+	var icon;
+	
+	if (row < selDiv.length)
+	{
+		for (var i = 0; i < selDiv.length; i++)
+		{
+			if (i == row)
+			{
+				icon = 'importSelected';
+				selDiv[i].setAttribute ('data-selected', 'false');
+			}
+			else
+			{
+				icon = 'importUnselected';
+				selDiv[i].setAttribute ('data-selected', 'true');
+			}
+			action = selDiv[i].getElementsByTagName ('div');
+			for (var j = 0; j < action.length; j++)
+				action[j].className = icon;
+		}
+	}
+}
+
+function getSelectedImport()
+{
+	var r = -1;
+	var selDiv = document.getElementsByClassName ('selDiv');
+	for (var i = 0; i < selDiv.length; i++)
+	{
+		var selected = selDiv[i].getAttribute ('data-selected');
+		if (selected == 'true')
+		{
+			var patient = selDiv[i].getAttribute ('data-patient');
+			r = parseInt (patient);
+		}
+	}
+	
+	return r;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------

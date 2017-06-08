@@ -4,6 +4,7 @@
 var g_bDeviceIsReady	= false;
 var __divName;
 var db = null;
+var xmlDoc = null;
 
 //---------------------------------------------------------------
 // Cordova is ready
