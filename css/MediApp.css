@@ -309,6 +309,18 @@ body
     background-size:36px;
 }
 
+.warning
+{
+	position:absolute;
+	right:45px;
+	width: 36px;
+	height:36px;
+	top:50%;
+	margin-top:-18px;
+	background:transparent url('../img/warning.png') center no-repeat;
+    background-size:36px;
+}
+
 #menuBox
 {
 	position:absolute;
