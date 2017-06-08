@@ -771,5 +771,7 @@ function importOverzicht (xml, id, lijst)
 			{
 			});
 		}
+		selectPerson (id);
+		showList (db);
 	});
 }
