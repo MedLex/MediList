@@ -141,7 +141,7 @@ function showListStep3 (db, id)
 	{
 		tx.executeSql('SELECT * FROM medicatie WHERE lijst = ' + id, [], function (tx, results)
 		{
-			alert ('lijst met id = ' + id + ', heeft ' + results.rows.length + ' entries');
+//			alert ('lijst met id = ' + id + ', heeft ' + results.rows.length + ' entries');
 			for (var i=0; i < results.rows.length; i++)
 			{
 				row = results.rows.item(i);
@@ -154,6 +154,7 @@ function showListStep3 (db, id)
 				szHTML = '<b>' + row['medicijn'] + '</b><br />';
 				szHTML += row['dosering'];
 				szHTML += '<div class="right-black"></div>';
+				div.innerHTML = szHTML;
 				overzicht.appendChild (div);
 			}
 		}), function (tx, error)
