@@ -682,6 +682,28 @@ body
 	background-size:40px;
 }
 
+.importUnselected
+{
+	position:absolute;
+	right:0px;
+	top:0px;
+	height:40px;
+	width:40px;
+	background:transparent url('../img/unselected.png') center no-repeat;
+	background-size:40px;
+}
+
+.importSelected
+{
+	position:absolute;
+	right:0px;
+	top:0px;
+	height:40px;
+	width:40px;
+	background:transparent url('../img/selected.png') center no-repeat;
+	background-size:40px;
+}
+
 #config
 {
 	position:absolute;
