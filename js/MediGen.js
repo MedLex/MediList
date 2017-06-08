@@ -152,6 +152,7 @@ function ShowPrescription (szHeader, szText)
     var elemDiv;
 	var szHTML;
 
+	alert ('showing rpescription for \'' + szHeader + '\'');
     Cover ();    						// onderliggende tekst even bedekken
     elemWrapper = document.createElement ('div');		// wrapper voor alles
     elemWrapper.id = '__myPrescription';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
@@ -175,7 +176,7 @@ function ShowPrescription (szHeader, szText)
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
-    elemDiv.setAttribute('onclick', 'onClickOK(\'__myPrescription\');');
+//    elemDiv.setAttribute('onclick', 'onClickOK(\'__myPrescription\');');
     elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myPrescription\');');
     elemDiv.innerHTML = 'OK';
     elemDiv.onmouseover = function ()

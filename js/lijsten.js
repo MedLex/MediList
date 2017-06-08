@@ -186,7 +186,6 @@ function onShowMed (lijst, regel)
 	                   + '<tr><td>Toelichting</td><td>:</td><td>'   + row['toelichting']   + '</td></tr>'
 	                   + '<tr><td>Toediening</td><td>:</td><td>'    + row['toediening']    + '</td></tr>'
 	                   + '<tr><td>Voorschrijver</td><td>:</td><td>' + row['voorschrijver'] + '</td></tr>';
-				alert (szHTML);
 				showPrescription (row['medicijn'],szHTML);
 			}
 		}), function (tx, error)
