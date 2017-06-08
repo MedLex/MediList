@@ -529,7 +529,7 @@ function checkPatient (xml, callback1, callback2, callback3)
 		var datum = geboren[0].childNodes[0].textContent;
 		var date = new Date (datum);
 		gebDag   = date.getDate  ();
-		gebMaand = date.getMonth ()+1;
+		gebMaand = date.getMonth ();
 		gebJaar  = date.getFullYear  ();
 		
 		db.transaction(function(tx)
