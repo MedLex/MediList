@@ -318,7 +318,7 @@ body
 	top:50%;
 	margin-top:-18px;
 	background:transparent url('../img/exclamation.png') center no-repeat;
-    background-size:contain;
+    background-size:13px 36px;
 }
 
 #menuBox
