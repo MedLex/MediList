@@ -312,12 +312,12 @@ body
 .warning
 {
 	position:absolute;
-	right:45px;
+	right:3px;
 	width: 36px;
-	height:36px;
+	height:15px;
 	top:50%;
 	margin-top:-18px;
-	background:transparent url('../img/warning.png') center no-repeat;
+	background:transparent url('../img/exclamation.png') center no-repeat;
     background-size:36px;
 }
 
