@@ -37,10 +37,13 @@ function showPersons ()
 	
 	showMenu (false);
 	persons = document.getElementById ('persons');
-	setVisibility ('menubutton', false);
 	
 	if (persons)
 	{
+		setVisibility ('menubutton', false);
+		header = document.getElementById ('personsHeader');
+		if (header)
+			header.innerHTML = '<b>Gebruikers</b>';
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
 		setVisibility ('load', true);
@@ -63,6 +66,23 @@ function personsOK ()
 		{
 			setVisibility ('persons', false);
 		}, 500);
+	}
+}
+
+function showAllLists ()
+{
+	var lists;
+	var header;
+	
+	showMenu (false);
+	lists = document.getElementById ('persons');
+	
+	if (lists)
+	{
+		setVisibility ('menubutton', false);
+		lists.style.display = 'block';
+		lists.style.opacity = '1';
+		fillLists (lists);
 	}
 }
 
@@ -968,4 +988,90 @@ function importOverzicht (xml, id, lijst)
 		selectPerson (id);
 		showList (db);
 	});
+}
+
+function fillLists (lists)
+{
+	var id;
+	var naam;
+	var geboren;
+	var div;
+	var action;
+	var colorName;
+	
+	div = lists.getElementsByClassName ('personLine');
+	var i = div.length;
+	while (i--)
+	{
+		lists.removeChild (div[i]);
+	}
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM person WHERE selected = 1', [], function (tx, results)
+		{
+			var header = document.getElementById ('personsHeader');
+			if (results.rows.length > 0)
+			{
+				row = results.rows.item(0);
+				if (header)
+					header.innerHTML = '<b>lijsten van ' + row['naam'] + '</b>';
+				showListsStep2 (db, lists, row['id']);
+			}
+			else
+			{
+				if (header)
+					header.innerHTML = '<b>Er is nog niemand geselecteerd</b>';
+			}
+		}), function (tx, error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	});
+}
+
+function showListsStep2 (db, lists, id)
+{
+	var div;
+	var colorName;
+
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM lijsten WHERE patient = ' + id, [], function (tx, results)
+		{
+			for (var i = 0; i < results.rows.length; i++)
+			{
+				div = document.createElement ('div');
+				if (i%2)
+					colorName = 'standard50';
+				else
+					colorName = 'standard200';
+				
+				div.className = 'personLine large ' + colorName;
+				div.setAttribute ('onmouseup', 'showSimpleList (' + row['lijst'] + ')');
+				var day = row['listDag'];
+				if(day<10){ day="0"+day;}
+				var month = row['listMaand'];
+				if(month<10){ month="0"+month;}
+				var szHTML = day + '-' + month + '-' + row['listJaar'];
+				szHTML += ', ';
+				szHTML += row['apotheek'];
+				div.innerHTML = szHTML;
+				
+				lists.appendChild (div);
+			}
+		}), function (tx, error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	});
+}
+
+function showSimpleList (lijst)
+{
+	personsOK ();
+	showListStep3 (db, lijst);
 }
