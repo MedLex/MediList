@@ -154,7 +154,7 @@ function showListStep3 (db, id)
 				div.setAttribute ('onmouseup', 'onShowMed(' + id + ', ' + row['regel'] + ');');
 				szHTML = '<b>' + row['medicijn'] + '</b><br />';
 				szHTML += row['dosering'];
-				szHTML += '<div class="right-black"></div>';
+//				szHTML += '<div class="right-black"></div>';
 				if (row['waarschuwing'] != '')
 					szHTML += '<div class="warning" onmouseup="showWarning(' + id + ', ' + row['regel'] + ');"></div>';
 				div.innerHTML = szHTML;
