@@ -50,10 +50,10 @@
 			</div> -->
 		</div>
 		<!--
-			De lijst met personen
+			De lijst met personen, wordt ook gebruikt voor de lijst met lijsten :)
 		 -->
 		<div id="persons">
-			<div class="itemHeader standardGrey large"><b>Gebruikers</b></div>
+			<div id="personsHeader" class="itemHeader standardGrey large"><b>Gebruikers</b></div>
 			<div id="okButton" class="ok alt500 material large" onmouseup="personsOK();"><b>OK</b></div>
 		</div>
 		<!--
@@ -122,7 +122,7 @@
 		<div id="menuCover" onclick="showMenu (0);"></div>
 		<div id="menuBox" class="standard material">
             <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
-            <div class="divMenu large" onclick="readTag();"><div class="allLists"></div>Toon alle lijsten</div>
+            <div class="divMenu large" onclick="showAllLists();"><div class="allLists"></div>Toon alle lijsten</div>
             <div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
             <div class="divMenu large" onclick="showConfig();"><div class="settings"></div>Instellingen</div>
 		</div>
