@@ -1042,7 +1042,7 @@ function showListsStep2 (db, lists, id)
 		{
 			for (var i = 0; i < results.rows.length; i++)
 			{
-				row = results.rows.item(0);
+				row = results.rows.item(i);
 				div = document.createElement ('div');
 				if (i%2)
 					colorName = 'standard50';
