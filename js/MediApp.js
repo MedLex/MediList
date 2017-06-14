@@ -1073,6 +1073,33 @@ function showListsStep2 (db, lists, id)
 
 function showSimpleList (lijst)
 {
+	var div = overzicht.childNodes;
+	var i = div.length;
+	var apotheek = '';
+	var szHTML   = document.getElementById ('itemHeader').innerHTML;
+
 	personsOK ();
-	showListStep3 (db, lijst);
+	while (i-- > 0)			// verwijder alle regels uit een eventuele huidige lijst, behalve de header
+	{
+		if (div[i].id != 'itemHeader')
+			overzicht.removeChild (div[i]);
+	}
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM lijsten WHERE id = ' + lijst, [], function (tx, results)
+		{
+			if (results.rows.length == 1)
+			{
+				row = results.rows.item(0);
+				szHTML += '<br><span class="standard">lijst van ' + row['apotheek'] + ', ' + row['listDag'] + '-' + row['listMaand'] + '-' + row['listJaar'] + '</span>';
+				document.getElementById ('itemHeader').innerHTML = szHTML;
+				showListStep3 (db, lijst);
+			}
+		}), function (tx, error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	});
 }
