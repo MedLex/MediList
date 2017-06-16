@@ -365,3 +365,18 @@ function getXmlAttribute (xml, tag, attribute)
 	
 	return r;
 }
+
+function formatDate (dag, maand, jaar)
+{
+	var r = dag;
+	if (dag < 10)
+		r = '0' + dag;
+	if (maand < 10)
+		r += '-0' + maand;
+	else
+		r += '-' + maand;
+	r += '-' + jaar;
+	
+	
+	return r;
+}

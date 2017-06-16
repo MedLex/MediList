@@ -1091,10 +1091,13 @@ function showSimpleList (lijst)
 			if (results.rows.length == 1)
 			{
 				row = results.rows.item(0);
-				szHTML += '<br><span class="standard">lijst van ' + row['apotheek'] + ', ' + row['listDag'] + '-' + row['listMaand'] + '-' + row['listJaar'] + '</span>';
+				var d = formatDate (row['listDag'], row['listMaand'], row['listJaar']);
+				szHTML += '<br><span class="standard">lijst van ' + row['apotheek'] + ', ' + d + '</span>';
 				document.getElementById ('itemHeader').innerHTML = szHTML;
 				showListStep3 (db, lijst);
 			}
+			else
+				alert ('Kon de lijst (' + lijst + ') niet meer terugvinden');
 		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
@@ -1103,3 +1106,4 @@ function showSimpleList (lijst)
 		};
 	});
 }
+

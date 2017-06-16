@@ -103,19 +103,20 @@ function showListStep2 (db, id)
 				for (var i=0; i < results.rows.length; i++)
 				{
 					row = results.rows.item(i);
-					deze.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
+					deze.setFullYear (row['listJaar'], (row['listMaand']-1),row['listDag']);
 					if (   deze > recent
 						|| (   deze == recent
 						    && row['id'] > listID))
 					{
-						recent.setFullYear (row['listJaar'], row['listMaand'],row['listDag']);
+						recent.setFullYear (row['listJaar'], (row['listMaand']-1),row['listDag']);
 						listID = row['id'];
 						apotheek = row['apotheek'];
 					}
 				}
 				if (recent.getFullYear () != 1900)
 				{
-					szHTML += '<br><span class="standard">lijst van ' + apotheek + ', ' + recent.getDate() + '-' + recent.getMonth() + '-' + recent.getFullYear() + '</span>';
+					var d = formatDate (recent.getDate(), recent.getMonth()+1, recent.getFullYear());
+					szHTML += '<br><span class="standard">lijst van ' + apotheek + ', ' + d + '</span>';
 					document.getElementById ('itemHeader').innerHTML = szHTML;
 					showListStep3 (db, listID);
 				}
