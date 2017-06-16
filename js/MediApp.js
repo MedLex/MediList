@@ -1073,6 +1073,7 @@ function showListsStep2 (db, lists, id)
 
 function showSimpleList (lijst)
 {
+	var overzicht = document.getElementById ('overzicht');
 	var div = overzicht.childNodes;
 	var i = div.length;
 	var apotheek = '';
@@ -1084,7 +1085,7 @@ function showSimpleList (lijst)
 		if (div[i].id != 'itemHeader')
 			overzicht.removeChild (div[i]);
 	}
-	alert ('tonen lijst ' + lijst);
+
 	db.transaction(function(tx)
 	{
 		tx.executeSql('SELECT * FROM lijsten WHERE id = ' + lijst, [], function (tx, results)
