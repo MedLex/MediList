@@ -1050,7 +1050,7 @@ function showListsStep2 (db, lists, id)
 					colorName = 'standard200';
 				
 				div.className = 'personLine large ' + colorName;
-				div.setAttribute ('onmouseup', 'showSimpleList (' + row['lijst'] + ')');
+				div.setAttribute ('onmouseup', 'showSimpleList (' + row['id'] + ')');
 				var day = row['listDag'];
 				if(day<10){ day="0"+day;}
 				var month = row['listMaand'];
