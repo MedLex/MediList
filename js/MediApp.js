@@ -1079,12 +1079,14 @@ function showSimpleList (lijst)
 	var apotheek = '';
 	var szHTML   = document.getElementById ('itemHeader').innerHTML;
 
+	alert ('showing list ' + lijst);
 	personsOK ();
 	while (i-- > 0)			// verwijder alle regels uit een eventuele huidige lijst, behalve de header
 	{
 		if (div[i].id != 'itemHeader')
 			overzicht.removeChild (div[i]);
 	}
+	alert ('still showing list ' + lijst);
 
 	db.transaction(function(tx)
 	{
