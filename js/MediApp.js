@@ -1078,9 +1078,19 @@ function showSimpleList (lijst)
 	var i = div.length;
 	var apotheek = '';
 	var szHTML   = document.getElementById ('itemHeader').innerHTML;
-
-	alert ('showing list ' + lijst);
-	personsOK ();
+	var persons;
+	
+	persons = document.getElementById ('persons');
+	setVisibility ('menubutton', true);
+	if (persons)
+	{
+		persons.style.opacity = '0';
+		setVisibility ('load', false);
+		setTimeout(function()
+		{
+			setVisibility ('persons', false);
+		}, 500);
+	}
 	while (i-- > 0)			// verwijder alle regels uit een eventuele huidige lijst, behalve de header
 	{
 		if (div[i].id != 'itemHeader')
