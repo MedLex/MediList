@@ -1077,7 +1077,7 @@ function showSimpleList (lijst)
 	var div = overzicht.childNodes;
 	var i = div.length;
 	var apotheek = '';
-	var szHTML   = document.getElementById ('itemHeader').innerHTML;
+	var szHTML = '';
 	var persons;
 	
 	persons = document.getElementById ('persons');
@@ -1096,22 +1096,35 @@ function showSimpleList (lijst)
 		if (div[i].id != 'itemHeader')
 			overzicht.removeChild (div[i]);
 	}
-	alert ('still showing list ' + lijst);
 
 	db.transaction(function(tx)
 	{
-		tx.executeSql('SELECT * FROM lijsten WHERE id = ' + lijst, [], function (tx, results)
+		tx.executeSql('SELECT * FROM person WHERE selected = 1', [], function (tx, results)
 		{
-			if (results.rows.length == 1)
+			var header = document.getElementById ('personsHeader');
+			if (results.rows.length > 0)
 			{
 				row = results.rows.item(0);
-				var d = formatDate (row['listDag'], row['listMaand'], row['listJaar']);
-				szHTML += '<br><span class="standard">lijst van ' + row['apotheek'] + ', ' + d + '</span>';
-				document.getElementById ('itemHeader').innerHTML = szHTML;
-				showListStep3 (db, lijst);
+				szHTML = '<b>lijsten van ' + row['naam'] + '</b>';
+				tx.executeSql('SELECT * FROM lijsten WHERE id = ' + lijst, [], function (tx, results)
+				{
+					if (results.rows.length == 1)
+					{
+						row = results.rows.item(0);
+						var d = formatDate (row['listDag'], row['listMaand'], row['listJaar']);
+						szHTML += '<br><span class="standard">lijst van ' + row['apotheek'] + ', ' + d + '</span>';
+						document.getElementById ('itemHeader').innerHTML = szHTML;
+						showListStep3 (db, lijst);
+					}
+					else
+						alert ('Kon de lijst (' + lijst + ') niet meer terugvinden');
+				}), function (tx, error)
+				{
+					alert ('er is een fout opgetreden\r\n' + error.message);
+				}, function ()
+				{
+				};
 			}
-			else
-				alert ('Kon de lijst (' + lijst + ') niet meer terugvinden');
 		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
@@ -1120,4 +1133,3 @@ function showSimpleList (lijst)
 		};
 	});
 }
-
