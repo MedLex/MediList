@@ -148,10 +148,11 @@ function showListStep3 (db, id)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-				if (i%2)
-					div.className = 'item standard200 standard';
-				else
-					div.className = 'item standard50 standard';
+				div.className = 'item standard standard';
+//				if (i%2)
+//					div.className = 'item standard200 standard';
+//				else
+//					div.className = 'item standard50 standard';
 				div.setAttribute ('onmouseup', 'onShowMed(' + id + ', ' + row['regel'] + ');');
 				szHTML = '<b>' + row['medicijn'] + '</b><br />';
 				szHTML += row['dosering'];

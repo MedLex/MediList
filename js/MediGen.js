@@ -5,6 +5,7 @@ var g_bDeviceIsReady	= false;
 var __divName;
 var db = null;
 var xmlDoc = null;
+var rncryptor;
 
 //---------------------------------------------------------------
 // Cordova is ready
@@ -12,7 +13,32 @@ var xmlDoc = null;
 function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
+	//-------------------------------------------------------------------------
+	// Als we de boel willen gaan encrypten op basis van bijvoorbeeld een pincode
+	// op basis van "https://github.com/VJAI/simple-crypto"
+	//.........................................................................
+	//
+	/*
+	rncryptor = cordova.require("com.disusered.simplecrypto.SimpleCrypto");
+	var key = 'myKey';			// of bijvoorbeeld een opgevraagde pincode!
+
+	function failureCallback(error)
+	{
+		console.log('Error: ' + error);
+	}
 	
+	function successCallback(encryptedData)
+	{
+		console.log('Encrypted data: ' + encryptedData);
+		rncryptor.decrypt(key, encryptedData,
+			function successCallback(decryptedData)
+			{
+				console.log('Decrypted data: ' + decryptedData);
+			}, failureCallback);
+	}
+
+	rncryptor.encrypt(key, 'My data to encode', successCallback, failureCallback);
+	*/
 
     // Read NDEF formatted NFC Tags
 

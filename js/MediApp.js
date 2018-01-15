@@ -612,10 +612,11 @@ function checkPatient (xml, callback1, callback2, callback3)
 					{
 						row = results.rows.item(i);
 						div = document.createElement ('div');
-						if (i%2)
-							div.className = 'item standard200 standard selDiv';
-						else
-							div.className = 'item standard50 standard selDiv';
+						div.className = 'item standard standard selDiv';
+//						if (i%2)
+	//						div.className = 'item standard200 standard selDiv';
+		//				else
+			//				div.className = 'item standard50 standard selDiv';
 						div.setAttribute ('data-selected', 'false');
 						div.setAttribute ('data-patient', '\'' + row['id'] + '\'');
 						div.setAttribute ('onmouseup', 'selectImportPatient(' + (i+2) + ');');
