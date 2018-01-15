@@ -143,10 +143,11 @@ function fillPersons (person)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-				if (i%2)
-					colorName = 'standard50';
-				else
-					colorName = 'standard200';
+//				if (i%2)
+//					colorName = 'standard50';
+//				else
+//					colorName = 'standard200';
+				colorName = 'standardWhite';
 				
 				div.className = 'personLine large ' + colorName;
 				var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
@@ -612,7 +613,7 @@ function checkPatient (xml, callback1, callback2, callback3)
 					{
 						row = results.rows.item(i);
 						div = document.createElement ('div');
-						div.className = 'item standard standard selDiv';
+						div.className = 'item standard selDiv';
 //						if (i%2)
 	//						div.className = 'item standard200 standard selDiv';
 		//				else
@@ -729,7 +730,7 @@ function onClickImportOK (szName)
 																		  importOverzicht);				// en tenslotte "importOverzicht"
 		}
 	}
-	else									// Bestaaande patient gebruiken
+	else									// Bestaande patient gebruiken
 	{
 		checkOverzicht (xmlDoc, selected, addList, importOverzicht);
 	}
