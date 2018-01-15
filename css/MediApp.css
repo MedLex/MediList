@@ -92,6 +92,8 @@
 .altA400 { background-color:#FF9100; color:black; }
 .altA700 { background-color:#FF6D00; color:black; }
 
+.altGrey { background-color:#f0f0f0; color:black; }
+
 .standardGrey   { background-color:#dadada; color:black; }
 
 .standardWhite { background-color:#ffffff; color:black; }
@@ -177,7 +179,7 @@ body
 
 #load:hover
 {
-	background-color:#FFD180;			/* alt A 100 */
+	background-color:#e0e0e0;			/* alt A 100 */
 }
 
 #IOSbar
@@ -652,7 +654,7 @@ body
 	position:relative;
 	left:0px;
 	right:0px;
-	border-bottom:solid 1px #909090;
+	border-bottom:solid 1px #e0e0e0;
 	vertical-align:center;
 	padding-left:8px;
 	height:40px;
