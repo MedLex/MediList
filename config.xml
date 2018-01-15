@@ -1,10 +1,10 @@
 <widget xmlns="http://www.w3.org/ns/widgets"
 	xmlns:gap="http://phonegap.com/ns/1.0"
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	id="nl.alexanderengberts.MediList"
+	id="nl.alexanderengberts.Medin"
 	versionCode="100"
 	version="1.0.0">
-    <name>MediList</name>
+    <name>Medin</name>
     <description>Medicatieoverzicht</description>
     <author href="http://alexanderengberts.nl" email="info@alexanderengberts.nl">MedLex</author>
     <gap:platform name="ios" />
@@ -34,6 +34,7 @@
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
 	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" />
+	<plugin spec="https://github.com/VJAI/simple-crypto" source="git" />
 
 	<config-file platform="android" parent="/manifest/application/activity" mode="add">
 		<intent-filter>
