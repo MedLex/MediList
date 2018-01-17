@@ -35,7 +35,7 @@
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
 	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" />
 	<plugin spec="https://github.com/VJAI/simple-crypto" source="git" />
-	<plugin spec="https://github.com/bitpay/cordova-plugin-qrscanner" source="git"/>
+	<plugin spec="https://github.com/phonegap/phonegap-plugin-barcodescanner" source="git"/>
 
 	<config-file platform="android" parent="/manifest/application/activity" mode="add">
 		<intent-filter>
@@ -118,7 +118,11 @@
         <splash src="res/screen/ios/iPhone6PlusLandscape.png"     platform="ios" width="2208" height="1242" />
         <preference name="SplashScreenDelay" value="5000" />
         <preference name="SplashMaintainAspectRatio" value="false" />
-        <preference name="SplashShowOnlyFirstTime" value="false" />  
+        <preference name="SplashShowOnlyFirstTime" value="false" />
+		
+		<edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">	<!-- Verplicht om op te geven waarvoor de camera nodig is -->
+			<string>Om de QR code bij de apotheek te kunnen lezen</string>
+		</edit-config>
     </platform>
 
     <access origin="*"/>
