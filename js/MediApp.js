@@ -263,16 +263,16 @@ function plus ()
 	if (screenID == 0)						// medicatielijst
 	{
 		alert ('we beginnen.....');
-		if (!phonegap)
-			alert ('maar phonegap is er niet!!!');
-		else if (!phonegap.plugins)
-			alert ('maar phonegap heeft geen plugins!!!');
-		else if (!phonegap.plugins.barcodeScanner)
-			alert ('maar phonegap heeft geen barcodeScanner plugin!!!');
+		if (!cordova)
+			alert ('maar cordova is er niet!!!');
+		else if (!cordova.plugins)
+			alert ('maar cordova heeft geen plugins!!!');
+		else if (!cordova.plugins.barcodeScanner)
+			alert ('maar cordova heeft geen barcodeScanner plugin!!!');
 		else
 			alert ('Let\'s get roling!!');
 
-		phonegap.plugins.barcodeScanner.scan(
+		cordova.plugins.barcodeScanner.scan(
 			function (result)
 			{
 				myAlert("We got a barcode<br />" +
