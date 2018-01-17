@@ -2,6 +2,7 @@ var globalNaam;
 var globalDate;
 var globalID;
 var screenID = 0;
+var QRScanner;
 
 function showMenu (vShow)
 {
@@ -261,14 +262,32 @@ function plus ()
 	
 	if (screenID == 0)						// medicatielijst
 	{
-		// Make the webview transparent so the video preview is visible behind it.
-		QRScanner.show();
-		// Be sure to make any opaque HTML elements transparent here to avoid
-		// covering the video.
-		
-		// Start a scan. Scanning will continue until something is detected or
-		// 'QRScanner.cancelScan()' is called.
-		QRScanner.scan(displayContents);
+		cordova.plugins.barcodeScanner.scan(
+			function (result)
+			{
+				myAlert("We got a barcode<br />" +
+						"Result: " + result.text + "<br />" +
+						"Format: " + result.format + "<br />" +
+						"Cancelled: " + result.cancelled);
+			},
+			function (error)
+			{
+				alert("Scanning failed: " + error);
+			},
+			{
+				preferFrontCamera : true,		// iOS and Android
+				showFlipCameraButton : true,	// iOS and Android
+				showTorchButton : true,			// iOS and Android
+				torchOn: false,					// Android, launch with the torch switched off
+				saveHistory: true,				// Android, save scan history (default false)
+				prompt : "Place a barcode inside the scan area", // Android
+				resultDisplayDuration: 500,		// Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+				formats : "QR_CODE,PDF_417",	// default: all but PDF_417 and RSS_EXPANDED
+				orientation : "unset",			// Android only (portrait|landscape), default unset so it rotates with the device
+				disableAnimations : true,		// iOS
+				disableSuccessBeep: false		// iOS and Android
+			}
+		);
 	}
 	else if (screenID == 1)					// gebruikers
 	{
