@@ -35,6 +35,7 @@
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
 	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" />
 	<plugin spec="https://github.com/VJAI/simple-crypto" source="git" />
+	<plugin spec="https://githob.com/bitpay/cordova-plugin-qrscanner" source="git"/>
 
 	<config-file platform="android" parent="/manifest/application/activity" mode="add">
 		<intent-filter>
