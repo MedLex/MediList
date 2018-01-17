@@ -262,7 +262,7 @@ function plus ()
 	
 	if (screenID == 0)						// medicatielijst
 	{
-		cordova.plugins.barcodeScanner.scan(
+		cordova.plugin.barcodeScanner.scan(
 			function (result)
 			{
 				myAlert("We got a barcode<br />" +
