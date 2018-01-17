@@ -271,8 +271,9 @@ function plus ()
 			alert ('maar Cordova kent geen barcodeScanner plugin');
 		else
 			alert ('En we gaan nu scannen');
-		
-		cordova.plugins.barcodeScanner.scan(
+
+//		cordova.plugins.barcodeScanner.scan(
+		scanner.scan(
 			function (result)
 			{
 				myAlert("We got a barcode<br />" +

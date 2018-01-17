@@ -6,6 +6,7 @@ var __divName;
 var db = null;
 var xmlDoc = null;
 var rncryptor;
+var scanner;
 
 //---------------------------------------------------------------
 // Cordova is ready
@@ -70,6 +71,8 @@ function onDeviceReady()
 	{
         alert ('Error getting the intent');
     });
+	
+	scanner = cordova.require("cordova/plugin/BarcodeScanner");
 }
 
 //--------------------------------------------------------------
