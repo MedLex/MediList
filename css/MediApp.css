@@ -142,9 +142,14 @@ label
 .button, .header
 {
     font-family:cronus, arial, helvetica, sans-serif;
-    font-size:xx-large;
+    font-size:x-large;
 }
 
+.cronusLarge
+{
+    font-family:cronus, arial, helvetica, sans-serif;
+    font-size:large;
+}
 .popHeader
 {
     font-family:cronus, arial, helvetica, sans-serif;
@@ -169,7 +174,7 @@ body
 
 #load
 {
-	display:none;
+	display:block;
 	position:absolute;
 	top:20px;
 	border-radius: 20px;
@@ -356,7 +361,8 @@ body
 	bottom:0px;
 	left:-70%;
 	width:65%;
-	background-color:#2c3338;
+/*	background-color:#2c3338; */
+	background-color: #ffffff;
 	color:#0152a1;
 	padding-left:5px;
 	padding-top:15px;
@@ -386,7 +392,7 @@ body
     
     display:block;
     text-decoration:none;
-    color:white;
+    color:#0152a1;
     background:transparent;
     height:35px;
     line-height:35px;
@@ -439,7 +445,7 @@ body
 	top:13px;
 	height:30px;
 	width:30px;
-	background:transparent url('../img/left-white.png') center no-repeat;
+	background:transparent url('../img/left-blue.png') center no-repeat;
     background-size:30px;
 }
 
