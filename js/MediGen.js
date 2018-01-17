@@ -71,8 +71,6 @@ function onDeviceReady()
 	{
         alert ('Error getting the intent');
     });
-	
-	scanner = cordova.require("cordova/plugin/BarcodeScanner");
 }
 
 //--------------------------------------------------------------
