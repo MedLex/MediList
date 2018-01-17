@@ -1,6 +1,7 @@
 var globalNaam;
 var globalDate;
 var globalID;
+var screenID = 0;
 
 function showMenu (vShow)
 {
@@ -37,6 +38,7 @@ function showPersons ()
 	
 	showMenu (false);
 	persons = document.getElementById ('persons');
+	screenID = 1;
 	
 	if (persons)
 	{
@@ -57,11 +59,12 @@ function personsOK ()
 	
 	persons = document.getElementById ('persons');
 	setVisibility ('menubutton', true);
+	screenID = 0;							// weer het medicatielijst scherm
+	setVisibility ('load', true);
 	if (persons)
 	{
 		persons.style.opacity = '0';
 		showList (db);
-		setVisibility ('load', false);
 		setTimeout(function()
 		{
 			setVisibility ('persons', false);
@@ -84,6 +87,7 @@ function showAllLists ()
 		lists.style.opacity = '1';
 		fillLists (lists);
 	}
+	screenID = 2;
 }
 
 function showConfig ()
@@ -99,6 +103,7 @@ function showConfig ()
 		config.style.display = 'block';
 		config.style.opacity = '1';
 	}
+	screenID = 3;
 }
 
 function configOK ()
@@ -110,6 +115,7 @@ function configOK ()
 
 	config = document.getElementById ('config');
 	setVisibility ('menubutton', true);
+	setVisibility ('load', false);
 	if (config)
 	{
 		config.style.opacity = '0';
@@ -118,6 +124,7 @@ function configOK ()
 			setVisibility ('config', false);
 		}, 500);
 	}
+	screenID = 0;
 }
 
 function fillPersons (person)
@@ -236,22 +243,48 @@ function editPerson (id)
 	});
 }
 
+function displayContents(err, text){
+	if (err)
+	{
+		myAlert ('Er is een fout opgetreden bij het scannen');
+	}
+	else
+	{
+		// The scan completed, display the contents of the QR code:
+		myAlert(text);
+	}
+}
+
 function plus ()
 {
 	var individual;
 	
-	individual = document.getElementById ('individual');
-	setVisibility ('individualCover', true);
-	setVisibility ('individual', true);
-	document.getElementById ('individualText').innerHTML = 'nieuwe gebruiker';
-	document.getElementById ('indiNaam').value = '';
-	document.getElementById ('indiGeboren').value = '';
-	document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1);');
-	document.getElementById ('indiNaam').focus();
-	document.getElementById ('individualCover').style.opacity = '0.4';
-	if (individual)
+	if (screenID == 0)						// medicatielijst
 	{
-		individual.style.opacity = '1';
+		// Make the webview transparent so the video preview is visible behind it.
+		QRScanner.show();
+		// Be sure to make any opaque HTML elements transparent here to avoid
+		// covering the video.
+		
+		// Start a scan. Scanning will continue until something is detected or
+		// 'QRScanner.cancelScan()' is called.
+		QRScanner.scan(displayContents);
+	}
+	else if (screenID == 1)					// gebruikers
+	{
+		individual = document.getElementById ('individual');
+		setVisibility ('individualCover', true);
+		setVisibility ('individual', true);
+		document.getElementById ('individualText').innerHTML = 'Nieuwe gebruiker';
+		document.getElementById ('indiNaam').value = '';
+		document.getElementById ('indiGeboren').value = '';
+		document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1);');
+		document.getElementById ('indiNaam').focus();
+		document.getElementById ('individualCover').style.opacity = '0.4';
+		if (individual)
+		{
+			individual.style.opacity = '1';
+		}
 	}
 }
 
@@ -1087,7 +1120,6 @@ function showSimpleList (lijst)
 	if (persons)
 	{
 		persons.style.opacity = '0';
-		setVisibility ('load', false);
 		setTimeout(function()
 		{
 			setVisibility ('persons', false);
