@@ -31,6 +31,7 @@
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <preference name="iosPersistentFileLocation" value="Compatibility" />
+	<preference name="android-build-tool" value="gradle" />
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
 	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" />
