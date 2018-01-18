@@ -262,35 +262,22 @@ function plus ()
 	
 	if (screenID == 0)						// medicatielijst
 	{
-		alert ('we beginnen.....');
-		if (!cordova)
-			alert ('maar cordova is er niet!!!');
-		else if (!cordova.plugins)
-			alert ('maar cordova heeft geen plugins!!!');
-		else if (!cordova.plugins.barcodeScanner)
-			alert ('maar cordova heeft geen barcodeScanner plugin!!!');
-		else
-			alert ('Let\'s get roling!!');
-
 		cordova.plugins.barcodeScanner.scan(
 			function (result)
 			{
-				myAlert("We got a barcode<br />" +
-						"Result: " + result.text + "<br />" +
-						"Format: " + result.format + "<br />" +
-						"Cancelled: " + result.cancelled);
+				handleQRCode (result);
 			},
 			function (error)
 			{
 				alert("Scanning failed: " + error);
 			},
 			{
-				preferFrontCamera : true,		// iOS and Android
+				preferFrontCamera : false,		// iOS and Android
 				showFlipCameraButton : true,	// iOS and Android
 				showTorchButton : true,			// iOS and Android
 				torchOn: false,					// Android, launch with the torch switched off
 				saveHistory: true,				// Android, save scan history (default false)
-				prompt : "Place a barcode inside the scan area", // Android
+				prompt : "Plaats de QR code binnen het scangebied", // Android
 				resultDisplayDuration: 500,		// Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
 				formats : "QR_CODE,PDF_417",	// default: all but PDF_417 and RSS_EXPANDED
 				orientation : "unset",			// Android only (portrait|landscape), default unset so it rotates with the device
@@ -314,6 +301,42 @@ function plus ()
 		{
 			individual.style.opacity = '1';
 		}
+	}
+}
+
+function handleQRCode (result)
+{
+	var parts = result.split (';');
+	var actionCode = '?';
+	var birthDate  = '?';
+	var url = '';
+	
+	if (result.cancelled)
+		myAlert ('Het lezen van de QR code is afgebroken');
+	else
+	{
+		var months = [
+			'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus',
+			'september', 'oktober', 'november', 'december' ];
+		parts = result.text.split (';');
+		if (parts.length > 0)
+			actionCode = parseInt (parts[0]);
+		if (parts.length > 1)
+			birthDate = parts[1];
+		if (parts.length > 2)
+			url = parts[2];
+		
+		var year  = birthDate.substring (0, 4);
+		var month = parseInt (birthDate.substring (4, 6));
+		var day   = parseInt (birthDate.substring (6, 8));
+
+		var bd = day + ' ' + months[month] + ' ' + year;
+		
+		var ac = '(onbekend)';
+		if (actionCode == 1)
+			ac = '(ophalen medicatielijst)';
+		
+		myAlert ('action code = ' + actionCode + ' ' + ac + '<br />Geboortedatum = ' + bd + '<br />URL = ' + url);
 	}
 }
 
