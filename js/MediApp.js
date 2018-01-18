@@ -265,7 +265,10 @@ function plus ()
 		cordova.plugins.barcodeScanner.scan(
 			function (result)
 			{
-				handleQRCode (result);
+				if (result.cancelled)
+					myAlert ('Het lezen van de QR code is afgebroken');
+				else
+					handleQRCode (result.text);
 			},
 			function (error)
 			{
@@ -304,40 +307,36 @@ function plus ()
 	}
 }
 
-function handleQRCode (result)
+function handleQRCode (QRCode)
 {
-	var parts = result.split (';');
 	var actionCode = '?';
 	var birthDate  = '?';
 	var url = '';
+	var months = [
+		'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus',
+		'september', 'oktober', 'november', 'december' ];
+	var parts = QRCode.split (';');
 	
-	if (result.cancelled)
-		myAlert ('Het lezen van de QR code is afgebroken');
-	else
-	{
-		var months = [
-			'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus',
-			'september', 'oktober', 'november', 'december' ];
-		parts = result.text.split (';');
-		if (parts.length > 0)
-			actionCode = parseInt (parts[0]);
-		if (parts.length > 1)
-			birthDate = parts[1];
-		if (parts.length > 2)
-			url = parts[2];
-		
-		var year  = birthDate.substring (0, 4);
-		var month = parseInt (birthDate.substring (4, 6));
-		var day   = parseInt (birthDate.substring (6, 8));
+	if (parts.length > 0)
+		actionCode = parseInt (parts[0]);
+	if (parts.length > 1)
+		birthDate = parts[1];
+	if (parts.length > 2)
+		url = parts[2];
+	
+	var year  = birthDate.substring (0, 4);
+	var month = parseInt (birthDate.substring (4, 6));
+	var day   = parseInt (birthDate.substring (6, 8));
 
-		var bd = day + ' ' + months[month] + ' ' + year;
-		
-		var ac = '(onbekend)';
-		if (actionCode == 1)
-			ac = '(ophalen medicatielijst)';
-		
-		myAlert ('action code = ' + actionCode + ' ' + ac + '<br />Geboortedatum = ' + bd + '<br />URL = ' + url);
-	}
+	var bd = 'NaD';
+	if (month >= 0 && month <= 12)
+		bd = day + ' ' + months[month-1] + ' ' + year;
+	
+	var ac = '(onbekend)';
+	if (actionCode == 1)
+		ac = '(ophalen medicatielijst)';
+	
+	myAlert ('action code = ' + actionCode + ' ' + ac + '<br />Geboortedatum = ' + bd + '<br />URL = ' + url);
 }
 
 function indiOK (id)
