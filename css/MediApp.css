@@ -107,6 +107,11 @@
 	box-shadow: 0px 4px 4px grey;
 }
 
+.myHeader
+{
+	border-bottom:1px solid #afafaf;
+}
+
 #__myPrescription td
 {
 	padding-right:5px;
