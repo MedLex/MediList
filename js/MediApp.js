@@ -3,6 +3,7 @@ var globalDate;
 var globalID;
 var screenID = 0;
 var QRScanner;
+var globalBirthDate;
 
 function showMenu (vShow)
 {
@@ -331,6 +332,7 @@ function handleQRCode (QRCode)
 	var bd = 'NaD';
 	if (month >= 0 && month <= 12)
 		bd = day + ' ' + months[month-1] + ' ' + year;
+	globalBirthDate = year + '-' + month + '-' + day;
 	
 	var ac = '(onbekend)';
 	if (actionCode == 1)
@@ -345,12 +347,12 @@ function handleQRCode (QRCode)
 		    && this.status == 200)
 		{
 			var myObj = JSON.parse(this.responseText);
-			document.getElementById("demo").innerHTML = myObj.name;
+			myAlert ('response = ' + myObj);
 		}
 		else
 			myAlert ('this.readyState = ' + this.readyState + <br />this.status = ' + this.status);
 	};
-	xmlhttp.open("GET", url, true);
+	xmlhttp.open("GET", url, false);					// synchroon verwerken graag
 	xmlhttp.send();
 }
 
