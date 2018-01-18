@@ -335,8 +335,23 @@ function handleQRCode (QRCode)
 	var ac = '(onbekend)';
 	if (actionCode == 1)
 		ac = '(ophalen medicatielijst)';
-	
-	myAlert ('action code = ' + actionCode + ' ' + ac + '<br />Geboortedatum = ' + bd + '<br />URL = ' + url);
+
+//	myAlert ('action code = ' + actionCode + ' ' + ac + '<br />Geboortedatum = ' + bd + '<br />URL = ' + url);
+
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function()
+	{
+		if (   this.readyState == 4
+		    && this.status == 200)
+		{
+			var myObj = JSON.parse(this.responseText);
+			document.getElementById("demo").innerHTML = myObj.name;
+		}
+		else
+			myAlert ('this.readyState = ' + this.readyState + <br />this.status = ' + this.status);
+	};
+	xmlhttp.open("GET", url, true);
+	xmlhttp.send();
 }
 
 function indiOK (id)
@@ -596,9 +611,9 @@ function importXML(data)
 	if (data == undefined)
 		return ;
 	
-	xmlDoc = loadXMLDoc (data);					// Lees het opgegeven document in
+	xmlDoc = loadXMLDoc (data);						// Lees het opgegeven document in
 	
-	if (!xmlDoc)										// Dat ging dus niet
+	if (!xmlDoc)									// Dat ging dus niet
 		myAlert ('Het bestand \'' + data + '\' is geen MediApp bestand en kan niet worden geladen');
 	else
 		checkPatient (xmlDoc,						// Zoek eerst de patient op
@@ -648,7 +663,7 @@ function checkPatient (xml, callback1, callback2, callback3)
 				{
 					row = results.rows.item (0);
 					r = row['id'];											// Die heeft dus deze id
-					callback1 (xml, r, callback2, callback3);				// en daar kunnen we mee verder
+//					callback1 (xml, r, callback2, callback3);				// en daar kunnen we mee verder
 				}
 
 				else														// Oeps, meerdere gebruikers met dezelfde geboortedatum (tweeling of zo?)
@@ -698,10 +713,6 @@ function checkPatient (xml, callback1, callback2, callback3)
 						row = results.rows.item(i);
 						div = document.createElement ('div');
 						div.className = 'item standard selDiv';
-//						if (i%2)
-	//						div.className = 'item standard200 standard selDiv';
-		//				else
-			//				div.className = 'item standard50 standard selDiv';
 						div.setAttribute ('data-selected', 'false');
 						div.setAttribute ('data-patient', '\'' + row['id'] + '\'');
 						div.setAttribute ('onmouseup', 'selectImportPatient(' + (i+2) + ');');
