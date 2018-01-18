@@ -350,7 +350,7 @@ function handleQRCode (QRCode)
 			myAlert ('response = ' + myObj);
 		}
 		else
-			myAlert ('this.readyState = ' + this.readyState + <br />this.status = ' + this.status);
+			myAlert ('this.readyState = ' + this.readyState + '<br />this.status = ' + this.status);
 	};
 	xmlhttp.open("GET", url, false);					// synchroon verwerken graag
 	xmlhttp.send();
