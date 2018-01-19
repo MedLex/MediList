@@ -37,6 +37,8 @@ function nfcTagDetected (reading)
 function showPersons ()
 {
 	var persons;
+	var back;
+	var height;
 	
 	showMenu (false);
 	persons = document.getElementById ('persons');
@@ -46,10 +48,15 @@ function showPersons ()
 	{
 		setVisibility ('menubutton', false);
 		header = document.getElementById ('personsHeader');
-		if (header)
-			header.innerHTML = '<b>Gebruikers</b>';
+		back   = document.getElementById ('personsBack');
+//		if (header)
+//			header.innerHTML = '<b>Gebruikers</b>';
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
+		height = header.offsetHeight;
+		back.style.width  = height + 'px';
+		back.style.height = height + 'px';
+		back.style.backgroundSize = height + 'px';
 		setVisibility ('load', true);
 		fillPersons (persons);
 	}
