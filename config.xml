@@ -35,7 +35,7 @@
 	<plugin spec="https://github.com/phonegap/phonegap-plugin-barcodescanner" source="git" />
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
 	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" />
-	<plugin spec="https://github.com/VJAI/simple-crypto" source="git" />
+<!--	<plugin spec="https://github.com/VJAI/simple-crypto" source="git" /> -->
 	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" />
 
 	<icon   src="res/icon/android/drawable-mdpi-icon.png"     platform="android" density="mdpi"    qualifier="mdpi"   />
@@ -108,11 +108,4 @@
 	</platform>
 
 	<access origin="*"/>
-<!--    <platform name="android">
-        <allow-intent href="market:*"/>
-    </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*"/>
-        <allow-intent href="itms-apps:*"/>
-    </platform> -->
 </widget>
