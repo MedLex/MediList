@@ -3,6 +3,7 @@ var globalDate;
 var globalID;
 var screenID = 0;
 var globalBirthDate;
+var globalShowDate;
 var globalURL;
 
 function showMenu (vShow)
@@ -351,6 +352,7 @@ function handleQRCode (QRCode)
 		else
 			bd = day + ' ' + months[month-1] + ' ' + year;
 		globalBirthDate = year + '-' + month + '-' + day;
+		globalShowDate  = bd;
 	
 		if (actionCode != 1)
 			errorCode = 3;
@@ -372,7 +374,7 @@ function handleQRCode (QRCode)
 			{
 				if (this.status == 404)
 					myAlert (  'De opgegeven medicatielijst voor de gebruiker met geboortedatum '
-							 + globalBirthDate
+							 + globalShowDate
 							 + ' kon niet worden gevonden of is verlopen');
 				else
 					myAlert ('Er is een fout opgetreden! (status = ' + this.statusText + ')');
