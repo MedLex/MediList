@@ -2,8 +2,8 @@ var globalNaam;
 var globalDate;
 var globalID;
 var screenID = 0;
-var QRScanner;
 var globalBirthDate;
+var globalURL;
 
 function showMenu (vShow)
 {
@@ -313,47 +313,70 @@ function handleQRCode (QRCode)
 	var actionCode = '?';
 	var birthDate  = '?';
 	var url = '';
+	var errorCode = 0;
 	var months = [
 		'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus',
 		'september', 'oktober', 'november', 'december' ];
 	var parts = QRCode.split (';');
-	
-	if (parts.length > 0)
+
+	if (   parts.length < 3
+		|| parts.length > 4)
+		errorCode = 1;
+	else
+	{
 		actionCode = parseInt (parts[0]);
-	if (parts.length > 1)
 		birthDate = parts[1];
-	if (parts.length > 2)
 		url = parts[2];
 	
-	var year  = birthDate.substring (0, 4);
-	var month = parseInt (birthDate.substring (4, 6));
-	var day   = parseInt (birthDate.substring (6, 8));
+		var year  = parseInt (birthDate.substring (0, 4));
+		var month = parseInt (birthDate.substring (4, 6));
+		var day   = parseInt (birthDate.substring (6, 8));
+		var current = new date ();
 
-	var bd = 'NaD';
-	if (month >= 0 && month <= 12)
-		bd = day + ' ' + months[month-1] + ' ' + year;
-	globalBirthDate = year + '-' + month + '-' + day;
-	
-	var ac = '(onbekend)';
-	if (actionCode == 1)
-		ac = '(ophalen medicatielijst)';
-
-//	myAlert ('action code = ' + actionCode + ' ' + ac + '<br />Geboortedatum = ' + bd + '<br />URL = ' + url);
-
-	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.onreadystatechange = function()
-	{
-		if (   this.readyState == 4
-		    && this.status == 200)
-		{
-			var myObj = JSON.parse(this.responseText);
-			myAlert ('response = ' + myObj);
-		}
+		var bd = 'NaD';
+		if (   year  < 1900							// Dat geloven we niet!
+		    || year  > current.getFullYear ();
+			|| month < 1
+			|| month > 12
+			|| day   < 1
+			|| day   > 31)							// OK, dit kan nauwkeuriger, maar voorlopig is dit wel voldoende
+			errorCode = 2;
 		else
-			myAlert ('this.readyState = ' + this.readyState + '<br />this.status = ' + this.status);
-	};
-	xmlhttp.open("GET", url, false);					// synchroon verwerken graag
-	xmlhttp.send();
+			bd = day + ' ' + months[month-1] + ' ' + year;
+		globalBirthDate = year + '-' + month + '-' + day;
+	
+		if (actionCode != 1)
+			errorCode = 3;
+		if (errorCode != 0)
+			myAlert ('Er is een onjuiste QR code gelezen.<br />Foutcode = 10' + errorCode);
+		else
+		{
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function()
+			{
+				if (   this.readyState == 4
+					&& this.status == 200)
+				{
+					var myObj = JSON.parse(this.responseText);
+					myAlert ('response = ' + myObj);
+				}
+				else if (this.readyState == 4)
+				{
+					if (this.status == 404)
+						myAlert (  'De opgegeven medicatielijst op<br />'
+								 + globalURL
+								 + '<br />kon niet worden gevonden of is verlopen');
+					else
+						myAlert ('Er is een fout opgetreden! (status = ' + this.statusText + ')');
+				}
+				else
+					myAlert ('De bewerking kon niet worden uitgevoerd! (status = ' + this.readyState + ')');
+			};
+			globalURL = url;
+			xmlhttp.open("GET", url, false);					// synchroon verwerken graag
+			xmlhttp.send();
+		}
+	}
 }
 
 function indiOK (id)
@@ -677,8 +700,8 @@ function checkPatient (xml, callback1, callback2, callback3)
 					elemWrapper.style.transition = 'opacity 0.5s ease';
 					elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
 					var elemDiv = document.createElement ('div');
-					elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
-										  + 'font-size:large;text-align:left;color:#000000;background-color:#FF9800;padding-left:15px;';
+					elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
+										  + 'font-size:large;text-align:left;color:#000000;background-color:#FF9800;padding-left:15px;border-radius: 20px;overlow:hidden';
 					elemDiv.innerHTML = 'Kies de juiste gebruiker';
 					elemWrapper.appendChild (elemDiv);
 					

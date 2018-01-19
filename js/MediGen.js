@@ -106,7 +106,7 @@ function myAlert (szText)
     Cover ();    						// onderliggende tekst even bedekken
     elemWrapper = document.createElement ('div');		// wrapper voor alles
     elemWrapper.id = '__myAlert';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
-    elemWrapper.style.cssText = 'position:absolute;width:80%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;border-radius: 20px;overlow:hidden';
+    elemWrapper.style.cssText = 'position:absolute;width:80%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;border-radius: 20px;overlow:hidden';
     elemWrapper.style.transition = 'opacity 0.5s ease';
     elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
     elemDiv = document.createElement ('div');
