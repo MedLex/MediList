@@ -5,7 +5,6 @@ var g_bDeviceIsReady	= false;
 var __divName;
 var db = null;
 var xmlDoc = null;
-var rncryptor;
 var scanner;
 
 //---------------------------------------------------------------
@@ -14,33 +13,6 @@ var scanner;
 function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
-	//-------------------------------------------------------------------------
-	// Als we de boel willen gaan encrypten op basis van bijvoorbeeld een pincode
-	// op basis van "https://github.com/VJAI/simple-crypto"
-	//.........................................................................
-	//
-	/*
-	rncryptor = cordova.require("com.disusered.simplecrypto.SimpleCrypto");
-	var key = 'myKey';			// of bijvoorbeeld een opgevraagde pincode!
-
-	function failureCallback(error)
-	{
-		console.log('Error: ' + error);
-	}
-	
-	function successCallback(encryptedData)
-	{
-		console.log('Encrypted data: ' + encryptedData);
-		rncryptor.decrypt(key, encryptedData,
-			function successCallback(decryptedData)
-			{
-				console.log('Decrypted data: ' + decryptedData);
-			}, failureCallback);
-	}
-
-	rncryptor.encrypt(key, 'My data to encode', successCallback, failureCallback);
-	*/
-
 
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
@@ -162,17 +134,17 @@ function showPrescription (szHeader, szText)
     Cover ();    						// onderliggende tekst even bedekken
     elemWrapper = document.createElement ('div');		// wrapper voor alles
     elemWrapper.id = '__myPrescription';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
-    elemWrapper.style.cssText = 'position:absolute;width:92%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;box-shadow: 6px 6px 4px grey;';
+    elemWrapper.style.cssText = 'position:absolute;width:92%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;border-radius: 20px;';
     elemWrapper.style.transition = 'opacity 0.5s ease';
     elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
     elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:cronus, helvetica, sans-serif;'
                           + 'font-size:large;text-align:left;color:#000000;background-color:#FF9800;padding-left:15px;';
     elemDiv.innerHTML = szHeader;
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
     elemDiv.id = '__brAlertText';
-    elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+    elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
     szHTML  = '<table>';
     szHTML += szText;
@@ -180,11 +152,11 @@ function showPrescription (szHeader, szText)
     elemDiv.innerHTML = szHTML;
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:cronus, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
     elemDiv.setAttribute('onclick', 'onClickOK(\'__myPrescription\');');
     elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myPrescription\');');
-    elemDiv.innerHTML = 'OK';
+    elemDiv.innerHTML = '<b>OK</b>';
     elemDiv.onmouseover = function ()
     {
     	this.style.backgroundColor = '#afafaf';
