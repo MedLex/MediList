@@ -335,7 +335,7 @@ function handleQRCode (QRCode)
 
 		var bd = 'NaD';
 		if (   year  < 1900							// Dat geloven we niet!
-		    || year  > current.getFullYear ();
+		    || year  > current.getFullYear ()
 			|| month < 1
 			|| month > 12
 			|| day   < 1
