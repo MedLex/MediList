@@ -338,7 +338,7 @@ function handleQRCode (QRCode)
 		var year  = parseInt (birthDate.substring (0, 4));
 		var month = parseInt (birthDate.substring (4, 6));
 		var day   = parseInt (birthDate.substring (6, 8));
-		var current = new date ();
+		var current = new Date ();
 
 		var bd = 'NaD';
 		if (   year  < 1900							// Dat geloven we niet!
@@ -354,35 +354,35 @@ function handleQRCode (QRCode)
 	
 		if (actionCode != 1)
 			errorCode = 3;
-		if (errorCode != 0)
-			myAlert ('Er is een onjuiste QR code gelezen.<br />Foutcode = 10' + errorCode);
-		else
+	}
+	if (errorCode != 0)
+		myAlert ('Er is een onjuiste QR code gelezen.<br />Foutcode = 10' + errorCode);
+	else
+	{
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function()
 		{
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.onreadystatechange = function()
+			if (   this.readyState == 4
+				&& this.status == 200)
 			{
-				if (   this.readyState == 4
-					&& this.status == 200)
-				{
-					var myObj = JSON.parse(this.responseText);
-					myAlert ('response = ' + myObj);
-				}
-				else if (this.readyState == 4)
-				{
-					if (this.status == 404)
-						myAlert (  'De opgegeven medicatielijst op<br />'
-								 + globalURL
-								 + '<br />kon niet worden gevonden of is verlopen');
-					else
-						myAlert ('Er is een fout opgetreden! (status = ' + this.statusText + ')');
-				}
+				var myObj = JSON.parse(this.responseText);
+				myAlert ('response = ' + myObj);
+			}
+			else if (this.readyState == 4)
+			{
+				if (this.status == 404)
+					myAlert (  'De opgegeven medicatielijst op<br />'
+							 + globalURL
+							 + '<br />kon niet worden gevonden of is verlopen');
 				else
-					myAlert ('De bewerking kon niet worden uitgevoerd! (status = ' + this.readyState + ')');
-			};
-			globalURL = url;
-			xmlhttp.open("GET", url, false);					// synchroon verwerken graag
-			xmlhttp.send();
-		}
+					myAlert ('Er is een fout opgetreden! (status = ' + this.statusText + ')');
+			}
+			else
+				myAlert ('De bewerking kon niet worden uitgevoerd! (status = ' + this.readyState + ')');
+		};
+		globalURL = url;
+		xmlhttp.open("GET", url, false);					// synchroon verwerken graag
+		xmlhttp.send();
 	}
 }
 
