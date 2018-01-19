@@ -144,10 +144,16 @@ label
     font-family:calibri, arial, helvetica, sans-serif;
     font-size:medium;
 }
-.button, .header
+.button
 {
     font-family:cronus, arial, helvetica, sans-serif;
     font-size:large;
+}
+
+.header
+{
+    font-family:cronus, arial, helvetica, sans-serif;
+    font-size:xx-large;
 }
 
 .cronusLarge
@@ -234,21 +240,22 @@ body
 {
 	position:absolute;
 	top:0px;
-	left:5px;
+	left:15px;
 	height:50px;
 	width:50px;
     display:block;
     background: transparent url('../img/Mortar.png') center no-repeat;
-    background-size:46px;
+    background-size:40px;
 }
 
 #headertext
 {
 	position:absolute;
-	top:0px;
+	bottom:0px;
 	left:70px;
-	height:50px;
-	line-height:50px;
+	height:42px;
+	line-height:42px;
+	vertical-align: bottom;
 	display:block;
 	padding-left:5px;
 	font-weight:normal;
@@ -312,10 +319,21 @@ body
 	left:0px;
 	right:0px;
 	border-bottom:solid 1px #a0a0a0;
-	padding-left:30px;
+	padding-left:35px;
 	padding-top:12px;
 	padding-bottom:6px;
 	vertical-align:center;
+}
+
+#personsBack
+{
+	position:absolute;
+	left:3px;
+	top:0px;
+	height:21px;
+	width:21px;
+	background:transparent url('../img/left-blue.png') center no-repeat;
+	background-size:21px;
 }
 
 .item:hover
