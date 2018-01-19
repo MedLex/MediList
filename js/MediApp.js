@@ -371,9 +371,9 @@ function handleQRCode (QRCode)
 			else if (this.readyState == 4)
 			{
 				if (this.status == 404)
-					myAlert (  'De opgegeven medicatielijst op<br />'
-							 + globalURL
-							 + '<br />kon niet worden gevonden of is verlopen');
+					myAlert (  'De opgegeven medicatielijst voor de gebruiker met geboortedatum '
+							 + globalBirthDate
+							 + ' kon niet worden gevonden of is verlopen');
 				else
 					myAlert ('Er is een fout opgetreden! (status = ' + this.statusText + ')');
 			}
