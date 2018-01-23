@@ -165,6 +165,44 @@ label
 {
     font-family:cronus, arial, helvetica, sans-serif;
     font-size:large;
+	border-bottom:solid 1px #a0a0a0;
+}
+
+.ok
+{
+	border-top:solid 1px #a0a0a0;
+	position:absolute;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	height:50px;
+	line-height:50px;
+	text-align: center;
+}
+
+.ok2
+{
+	border-top:solid 1px #a0a0a0;
+	border-right:solid 1px #a0a0a0;
+	position:absolute;
+	left:0px;
+	right:50%;
+	bottom:0px;
+	height:50px;
+	line-height:50px;
+	text-align: center;
+}
+
+.ok3
+{
+	border-top:solid 1px #a0a0a0;
+	position:absolute;
+	left:50%;
+	right:0px;
+	bottom:0px;
+	height:50px;
+	line-height:50px;
+	text-align: center;
 }
 
 body
@@ -252,12 +290,12 @@ body
 {
 	position:absolute;
 	bottom:0px;
-	left:70px;
+	left:50px;
 	height:42px;
 	line-height:42px;
 	vertical-align: bottom;
 	display:block;
-	padding-left:5px;
+/*	padding-left:5px; */
 	font-weight:normal;
 }
 
@@ -325,15 +363,16 @@ body
 	vertical-align:center;
 }
 
-#personsBack
+#back
 {
 	position:absolute;
-	left:3px;
+	left:0px;
 	top:0px;
-	height:21px;
-	width:21px;
+	height:50px;
+	width:50px;
 	background:transparent url('../img/left-blue.png') center no-repeat;
-	background-size:21px;
+	background-size:50px;
+	display:none;
 }
 
 .item:hover
@@ -500,7 +539,7 @@ body
 	left:0px;
 	right:0px;
 	background-color:black;
-	opacity:0.5;
+	opacity:0.3;
     transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
 	display:none;
@@ -516,13 +555,15 @@ body
 	padding:0px;
     transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
-	display:none;
+	background-color:white;
 	background-color:white;
 	color:black;
 	opacity:0;
+	border-radius:20px;
+	overflow:hidden;
 }
 
-#individualHeader
+.individualHeaderindividualHeader
 {
 	position:absolute;
 	top:0px;
@@ -591,6 +632,8 @@ body
 	background-color:white;
 	color:black;
 	opacity:0;
+	border-radius:20px;
+	overflow:hidden;
 }
 
 #deleteBody
