@@ -203,13 +203,7 @@ function fillPersons (person)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-//				if (i%2)
-//					colorName = 'standard50';
-//				else
-//					colorName = 'standard200';
-				colorName = 'standardWhite';
-				
-				div.className = 'personLine large ' + colorName;
+				div.className = 'personLine large standardWhite';
 				var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
 				var day = date.getDate();
 				if(day<10){ day="0"+day;}
@@ -221,18 +215,18 @@ function fillPersons (person)
 				div.innerHTML = szHTML;
 				
 				action = document.createElement ('div');
-				action.className = 'personDelete ' + colorName;
+				action.className = 'personDelete standardWhite';
 				action.setAttribute('onmouseup', 'deletePerson(' + row['id'] + ');');
 				div.appendChild (action);
 
 				action = document.createElement ('div');
-				action.className = 'personEdit ' + colorName;
+				action.className = 'personEdit standardWhite';
 				action.setAttribute('onmouseup', 'editPerson(' + row['id'] + ');');
 				div.appendChild (action);
 
 				action = document.createElement ('div');
 				if (row['selected'])
-					action.className = 'personSelected ' + colorName;
+					action.className = 'personSelected standardWhite';
 				else
 					action.className = 'personUnselected ' + colorName;
 				action.setAttribute('onmouseup', 'selectPerson(' + row['id'] + ');');
@@ -296,7 +290,8 @@ function editPerson (id)
 	});
 }
 
-function displayContents(err, text){
+function displayContents(err, text)
+{
 	if (err)
 	{
 		myAlert ('Er is een fout opgetreden bij het scannen');
@@ -345,6 +340,7 @@ function plus ()
 	{
 		individual = document.getElementById ('individual');
 		setVisibility ('individualCover', true);
+		document.getElementById ('individualCover').style.opacity = '0.4';
 		setVisibility ('individual', true);
 		document.getElementById ('individualText').innerHTML = '<b>Nieuwe gebruiker</b>';
 		document.getElementById ('indiNaam').value = '';
@@ -621,8 +617,9 @@ function deletePerson (id)
 				setVisibility ('individualCover', true);
 				setVisibility ('individualDelete', true);
 				setVisibility ('load', false);
-				var individual = document.getElementById ('individualDelete');
+				setVisibility ('back', false);
 				document.getElementById ('individualCover').style.opacity = '0.4';
+				var individual = document.getElementById ('individualDelete');
 				if (individual)
 				{
 					individual.style.opacity = '1';
