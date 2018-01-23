@@ -180,7 +180,7 @@ function configOK ()
 	screenID = 0;
 }
 
-function fillPersonsfillPersons (person)
+function fillPersons (person)
 {
 	var id;
 	var naam;
