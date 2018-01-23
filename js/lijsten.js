@@ -74,6 +74,7 @@ function showList (db)
 				row = results.rows.item(0);
 				document.getElementById ('itemHeader').innerHTML = '<b>Medicatielijst van ' + row['naam'] + '</b>';
 				showListStep2 (db, row['id']);
+				currentUser = row['naam'];
 			}
 			else
 				document.getElementById ('itemHeader').innerHTML = '<b>Er is nog niemand geselecteerd</b>';
@@ -104,7 +105,7 @@ function showListStep2 (db, id)
 		{
 			if (results.rows.length == 0)
 			{
-				szHTML += '<br><span class="standard">er is nog geen lijst geregistreerd</span>';
+				szHTML += '<br><span class="standard">Er is nog geen lijst geregistreerd</span>';
 				document.getElementById ('itemHeader').innerHTML = szHTML;
 			}
 			else
@@ -125,7 +126,7 @@ function showListStep2 (db, id)
 				if (recent.getFullYear () != 1900)
 				{
 					var d = formatDate (recent.getDate(), recent.getMonth()+1, recent.getFullYear());
-					szHTML += '<br><span class="standard">lijst van ' + apotheek + ', ' + d + '</span>';
+					szHTML += '<br><span class="standard">Lijst van ' + apotheek + ', ' + d + '</span>';
 					document.getElementById ('itemHeader').innerHTML = szHTML;
 					showListStep3 (db, listID);
 				}
