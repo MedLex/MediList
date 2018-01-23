@@ -64,21 +64,21 @@
 					</table>
 				</form>
 			</div>
-			<div class="ok button" onmouseup="indiOK(-1);"><b>OK</b></div>
+			<div id="individualButton" class="ok button" onmouseup="indiOK(-1);"><b>OK</b></div>
 		</div>
 		<!--
 			Verwijderen van een persoon en/of de medicatielijst(en) van een persoon
 		 -->
 		<div id="individualDelete">
-			<div class="individualHeader popHeader"><b>Verwijderen</b>
+			<div class="individualHeader popHeader"><div id="deleteText"><b>Verwijderen</b></div>
 				<div class="individualClose" onmouseup="deleteCancel();"></div>
 			</div>
 			<div id="deleteBody">
-				<div id="deleteQuestion" class="large"></div>
+				<div id="deleteQuestion" class="standard"></div>
 				<div id="deleteAll" class="large" onmouseup="toggle('iconDeleteAll');"><div id="iconDeleteAll" class="unchecked"></div>Gebruiker en medicatielijsten</div>
 				<div id="deleteLists" onmouseup="toggle('iconDeleteLists');"><div id="iconDeleteLists" class="unchecked"></div><div id="deleteListsText" class="large">Medicatielijsten</div></div>
 			</div>
-			<div class="ok2 button" onmouseup="deleteOK(-1);"><b>Verwijder</b></div>
+			<div id="deleteIndividual" class="ok2 button" onmouseup="deleteOK(-1);"><b>Verwijder</b></div>
 			<div class="ok3 button" onmouseup="deleteCancel();"><b>Annuleer</b></div>
 		</div>
 
