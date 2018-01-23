@@ -248,8 +248,7 @@ function editPerson (id)
 {
 	var individual;
 	var row;
-	
-	alert ('editing person with id = ' + id);
+
 	db.transaction(function(tx)
 	{
 		tx.executeSql('SELECT * FROM person WHERE id = ' + id, [], function (tx, results)
