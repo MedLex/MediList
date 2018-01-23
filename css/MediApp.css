@@ -146,7 +146,7 @@ label
 }
 .button
 {
-    font-family:cronus, arial, helvetica, sans-serif;
+    font-family:calibri, arial, helvetica, sans-serif;
     font-size:large;
 }
 
@@ -163,7 +163,7 @@ label
 }
 .popHeader
 {
-    font-family:cronus, arial, helvetica, sans-serif;
+    font-family:calibri, arial, helvetica, sans-serif;
     font-size:large;
 	border-bottom:solid 1px #a0a0a0;
 }
@@ -178,31 +178,35 @@ label
 	height:50px;
 	line-height:50px;
 	text-align: center;
+	padding:0;
+	margin:0;
 }
 
 .ok2
 {
-	border-top:solid 1px #a0a0a0;
 	border-right:solid 1px #a0a0a0;
 	position:absolute;
 	left:0px;
-	right:50%;
+	width:50%;
 	bottom:0px;
 	height:50px;
 	line-height:50px;
 	text-align: center;
+	padding:0;
+	margin:0;
 }
 
 .ok3
 {
-	border-top:solid 1px #a0a0a0;
 	position:absolute;
-	left:50%;
+	width:50%;
 	right:0px;
 	bottom:0px;
 	height:50px;
 	line-height:50px;
 	text-align: center;
+	padding:0;
+	margin:0;
 }
 
 body
