@@ -346,7 +346,7 @@ function plus ()
 		individual = document.getElementById ('individual');
 		setVisibility ('individualCover', true);
 		setVisibility ('individual', true);
-		document.getElementById ('individualTextindividualText').innerHTML = '<b>Nieuwe gebruiker</b>';
+		document.getElementById ('individualText').innerHTML = '<b>Nieuwe gebruiker</b>';
 		document.getElementById ('indiNaam').value = '';
 		document.getElementById ('indiGeboren').value = '';
 		document.getElementById ('indiNaam').focus();
