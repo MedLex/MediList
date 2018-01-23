@@ -180,7 +180,7 @@ function configOK ()
 	screenID = 0;
 }
 
-function fillPersons (person)
+function fillPersonsfillPersons (person)
 {
 	var id;
 	var naam;
@@ -249,6 +249,7 @@ function editPerson (id)
 	var individual;
 	var row;
 	
+	alert ('editing person with id = ' + id);
 	db.transaction(function(tx)
 	{
 		tx.executeSql('SELECT * FROM person WHERE id = ' + id, [], function (tx, results)
