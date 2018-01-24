@@ -275,6 +275,7 @@ function editPerson (id)
 					document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (' + row['id'] + ');');
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
+					setVisibility ('back', false);
 					document.getElementById ('individualCover').style.opacity = '0.4';
 					setVisibility ('load', false);
 					individual.style.opacity = '1';
