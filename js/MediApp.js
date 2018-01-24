@@ -23,7 +23,7 @@ function showMenu (vShow)
     }
 }
 
-function onNfc(nfcEvent)
+/*function onNfc(nfcEvent)
 {
     // display the tag as JSON
     myAlert(JSON.stringify(nfcEvent.tag));
@@ -32,7 +32,7 @@ function onNfc(nfcEvent)
 function nfcTagDetected (reading)
 {
 	myAlert (reading.tag.id); // alert the id of the NFC reading
-}
+}*/
 
 // See more at: http://www.dogu.io/blog/technology/adding-rfid-capabilities-to-your-android-phonegap-application/#sthash.JQ1T8QKW.dpuf
 
@@ -645,6 +645,7 @@ function deleteCancel ()
 	document.getElementById ('individualDelete').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
 	setVisibility ('load', true);
+	setVisibility ('back', true);
 	setTimeout(function()
 	{
 		setVisibility ('individualDelete', false);
