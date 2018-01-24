@@ -710,28 +710,6 @@ body
 	padding-left:48px;
 }
 
-#deleteIndividual
-{
-	position:absolute;
-	bottom:10px;
-	left:4%;
-	width:44%;
-	height:40px;
-	line-height:40px;
-	text-align:center;
-}
-
-#deleteCancel
-{
-	position:absolute;
-	bottom:10px;
-	right:4%;
-	width:44%;
-	height:40px;
-	line-height:40px;
-	text-align:center;
-}
-
 .personLine
 {
 	position:relative;
