@@ -3,7 +3,9 @@ var globalDate;
 var globalID;
 var screenID = 0;
 var globalBirthDate;
+var globalShowDate;
 var globalURL;
+var currentUser = '';
 
 function showMenu (vShow)
 {
@@ -21,7 +23,7 @@ function showMenu (vShow)
     }
 }
 
-function onNfc(nfcEvent)
+/*function onNfc(nfcEvent)
 {
     // display the tag as JSON
     myAlert(JSON.stringify(nfcEvent.tag));
@@ -30,15 +32,13 @@ function onNfc(nfcEvent)
 function nfcTagDetected (reading)
 {
 	myAlert (reading.tag.id); // alert the id of the NFC reading
-}
+}*/
 
 // See more at: http://www.dogu.io/blog/technology/adding-rfid-capabilities-to-your-android-phonegap-application/#sthash.JQ1T8QKW.dpuf
 
 function showPersons ()
 {
 	var persons;
-	var back;
-	var height;
 	
 	showMenu (false);
 	persons = document.getElementById ('persons');
@@ -46,19 +46,31 @@ function showPersons ()
 	
 	if (persons)
 	{
-		setVisibility ('menubutton', false);
 		header = document.getElementById ('personsHeader');
-		back   = document.getElementById ('personsBack');
-//		if (header)
-//			header.innerHTML = '<b>Gebruikers</b>';
+		header.innerHTML = '<b>Gebruikers</b>';
+		setVisibility ('menubutton', false);
+		setVisibility ('back', true);
+		header = document.getElementById ('personsHeader');
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
-		height = header.offsetHeight;
-		back.style.width  = height + 'px';
-		back.style.height = height + 'px';
-		back.style.backgroundSize = height + 'px';
 		setVisibility ('load', true);
 		fillPersons (persons);
+	}
+}
+
+function back ()
+{
+	switch (screenID)
+	{
+	case 1:
+		personsOK ();
+		break;
+	case 2:
+		listsOK ();
+		break;
+	case 3:
+		configOK ();
+		break;
 	}
 }
 
@@ -68,6 +80,27 @@ function personsOK ()
 	
 	persons = document.getElementById ('persons');
 	setVisibility ('menubutton', true);
+	setVisibility ('back', false);
+	screenID = 0;							// weer het medicatielijst scherm
+	setVisibility ('load', true);
+	if (persons)
+	{
+		persons.style.opacity = '0';
+		showList (db);
+		setTimeout(function()
+		{
+			setVisibility ('persons', false);
+		}, 500);
+	}
+}
+
+function listsOK ()
+{
+	var persons;
+	
+	persons = document.getElementById ('persons');
+	setVisibility ('menubutton', true);
+	setVisibility ('back', false);
 	screenID = 0;							// weer het medicatielijst scherm
 	setVisibility ('load', true);
 	if (persons)
@@ -85,18 +118,26 @@ function showAllLists ()
 {
 	var lists;
 	var header;
-	
+
+	screenID = 2;
 	showMenu (false);
 	lists = document.getElementById ('persons');
 	
 	if (lists)
 	{
+		header = document.getElementById ('personsHeader');
+		if (currentUser == '')
+			header.innerHTML = '<b>Er is nog geen gebruiker geselecteerd</b>';
+		else
+			header.innerHTML = '<b>Lijsten van ' + currentUser + '</b>';
+		persons.style.display = 'block';
+		persons.style.opacity = '1';
 		setVisibility ('menubutton', false);
+		setVisibility ('back', true);
 		lists.style.display = 'block';
 		lists.style.opacity = '1';
 		fillLists (lists);
 	}
-	screenID = 2;
 }
 
 function showConfig ()
@@ -111,6 +152,8 @@ function showConfig ()
 	{
 		config.style.display = 'block';
 		config.style.opacity = '1';
+		setVisibility ('back', true);
+		setVisibility ('load', false);
 	}
 	screenID = 3;
 }
@@ -124,7 +167,8 @@ function configOK ()
 
 	config = document.getElementById ('config');
 	setVisibility ('menubutton', true);
-	setVisibility ('load', false);
+	setVisibility ('back', false);
+	setVisibility ('load', true);
 	if (config)
 	{
 		config.style.opacity = '0';
@@ -159,13 +203,7 @@ function fillPersons (person)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-//				if (i%2)
-//					colorName = 'standard50';
-//				else
-//					colorName = 'standard200';
-				colorName = 'standardWhite';
-				
-				div.className = 'personLine large ' + colorName;
+				div.className = 'personLine large standardWhite';
 				var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
 				var day = date.getDate();
 				if(day<10){ day="0"+day;}
@@ -177,18 +215,18 @@ function fillPersons (person)
 				div.innerHTML = szHTML;
 				
 				action = document.createElement ('div');
-				action.className = 'personDelete ' + colorName;
+				action.className = 'personDelete standardWhite';
 				action.setAttribute('onmouseup', 'deletePerson(' + row['id'] + ');');
 				div.appendChild (action);
 
 				action = document.createElement ('div');
-				action.className = 'personEdit ' + colorName;
+				action.className = 'personEdit standardWhite';
 				action.setAttribute('onmouseup', 'editPerson(' + row['id'] + ');');
 				div.appendChild (action);
 
 				action = document.createElement ('div');
 				if (row['selected'])
-					action.className = 'personSelected ' + colorName;
+					action.className = 'personSelected standardWhite';
 				else
 					action.className = 'personUnselected ' + colorName;
 				action.setAttribute('onmouseup', 'selectPerson(' + row['id'] + ');');
@@ -210,7 +248,7 @@ function editPerson (id)
 {
 	var individual;
 	var row;
-	
+
 	db.transaction(function(tx)
 	{
 		tx.executeSql('SELECT * FROM person WHERE id = ' + id, [], function (tx, results)
@@ -233,10 +271,11 @@ function editPerson (id)
 					
 					document.getElementById ('indiNaam').value = row['naam'];
 					document.getElementById ('indiGeboren').value = dateString;
-					document.getElementById ('individualText').innerHTML = 'wijzigen gegevens';
+					document.getElementById ('individualText').innerHTML = '<b>wijzigen gegevens</b>';
 					document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (' + row['id'] + ');');
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
+					setVisibility ('back', false);
 					document.getElementById ('individualCover').style.opacity = '0.4';
 					setVisibility ('load', false);
 					individual.style.opacity = '1';
@@ -252,7 +291,8 @@ function editPerson (id)
 	});
 }
 
-function displayContents(err, text){
+function displayContents(err, text)
+{
 	if (err)
 	{
 		myAlert ('Er is een fout opgetreden bij het scannen');
@@ -301,13 +341,13 @@ function plus ()
 	{
 		individual = document.getElementById ('individual');
 		setVisibility ('individualCover', true);
+		document.getElementById ('individualCover').style.opacity = '0.4';
 		setVisibility ('individual', true);
-		document.getElementById ('individualText').innerHTML = 'Nieuwe gebruiker';
+		document.getElementById ('individualText').innerHTML = '<b>Nieuwe gebruiker</b>';
 		document.getElementById ('indiNaam').value = '';
 		document.getElementById ('indiGeboren').value = '';
-		document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1);');
 		document.getElementById ('indiNaam').focus();
-		document.getElementById ('individualCover').style.opacity = '0.4';
+		setVisibility ('back', false);
 		if (individual)
 		{
 			individual.style.opacity = '1';
@@ -319,26 +359,29 @@ function handleQRCode (QRCode)
 {
 	var actionCode = '?';
 	var birthDate  = '?';
+	var docType = 0;
 	var url = '';
 	var errorCode = 0;
+	var listID = '';
 	var months = [
 		'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus',
 		'september', 'oktober', 'november', 'december' ];
 	var parts = QRCode.split (';');
 
-	if (   parts.length < 3
-		|| parts.length > 4)
+	if (   parts.length < 4
+		|| parts.length > 5)
 		errorCode = 1;
 	else
 	{
 		actionCode = parseInt (parts[0]);
-		birthDate = parts[1];
-		url = parts[2];
+		docType    = parseInt (parts[1]);
+		birthDate = parts[2];
+		url = parts[3];
 	
 		var year  = parseInt (birthDate.substring (0, 4));
 		var month = parseInt (birthDate.substring (4, 6));
 		var day   = parseInt (birthDate.substring (6, 8));
-		var current = new date ();
+		var current = new Date ();
 
 		var bd = 'NaD';
 		if (   year  < 1900							// Dat geloven we niet!
@@ -351,9 +394,18 @@ function handleQRCode (QRCode)
 		else
 			bd = day + ' ' + months[month-1] + ' ' + year;
 		globalBirthDate = year + '-' + month + '-' + day;
+		globalShowDate  = bd;
+		
+		if (parts.length == 5)
+		{
+			listID = parts[4];
+			url += '?listID=' + listID;
+		}
 	
 		if (actionCode != 1)
 			errorCode = 3;
+		else if (docType != 1)
+			errorCode = 4;
 	}
 	if (errorCode != 0)
 		myAlert ('Er is een onjuiste QR code gelezen.<br />Foutcode = 10' + errorCode);
@@ -371,9 +423,9 @@ function handleQRCode (QRCode)
 			else if (this.readyState == 4)
 			{
 				if (this.status == 404)
-					myAlert (  'De opgegeven medicatielijst op<br />'
-							 + globalURL
-							 + '<br />kon niet worden gevonden of is verlopen');
+					myAlert (  'De opgegeven medicatielijst voor de gebruiker met geboortedatum '
+							 + globalShowDate
+							 + ' kon niet worden gevonden of is verlopen');
 				else
 					myAlert ('Er is een fout opgetreden! (status = ' + this.statusText + ')');
 			}
@@ -438,6 +490,7 @@ function indiCancel ()
 	document.getElementById ('individual').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
 	setVisibility ('load', true);
+	setVisibility ('back', true);
 	setTimeout(function()
 	{
 		setVisibility ('individual', false);
@@ -565,8 +618,9 @@ function deletePerson (id)
 				setVisibility ('individualCover', true);
 				setVisibility ('individualDelete', true);
 				setVisibility ('load', false);
-				var individual = document.getElementById ('individualDelete');
+				setVisibility ('back', false);
 				document.getElementById ('individualCover').style.opacity = '0.4';
+				var individual = document.getElementById ('individualDelete');
 				if (individual)
 				{
 					individual.style.opacity = '1';
