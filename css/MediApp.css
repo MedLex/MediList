@@ -8,12 +8,6 @@
 
 @font-face
 {
-	font-family: cronus; 
-	src: url('../fonts/cronus.round.otf') format('truetype');
-}
- 
-@font-face
-{
 	font-family: calibri; 
 	src: url('../fonts/calibri.ttf') format('truetype');
 }
@@ -146,15 +140,10 @@ label
 
 .header
 {
-    font-family:cronus, arial, helvetica, sans-serif;
+    font-family:calibri, arial, helvetica, sans-serif;
     font-size:xx-large;
 }
 
-.cronusLarge
-{
-    font-family:cronus, arial, helvetica, sans-serif;
-    font-size:large;
-}
 .popHeader
 {
     font-family:calibri, arial, helvetica, sans-serif;
