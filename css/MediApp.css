@@ -182,6 +182,11 @@ label
 	margin:0;
 }
 
+.ok:hover
+{
+	background-color:#e0e0e0;
+}
+
 .ok2
 {
 	border-right:solid 1px #a0a0a0;
@@ -196,6 +201,11 @@ label
 	margin:0;
 }
 
+.ok2:hover
+{
+	background-color:#e0e0e0;
+}
+
 .ok3
 {
 	position:absolute;
@@ -207,6 +217,11 @@ label
 	text-align: center;
 	padding:0;
 	margin:0;
+}
+
+.ok3:hover
+{
+	background-color:#e0e0e0;
 }
 
 body
@@ -384,30 +399,6 @@ body
 	background-color:#FFE0B2;
 }
 
-.right-white
-{
-	position:absolute;
-	right:5px;
-	width: 36px;
-	height:36px;
-	top:50%;
-	margin-top:-18px;
-	background:transparent url('../img/right-white.png') center no-repeat;
-    background-size:36px;
-}
-
-.right-black
-{
-	position:absolute;
-	right:5px;
-	width: 36px;
-	height:36px;
-	top:50%;
-	margin-top:-18px;
-	background:transparent url('../img/right-black.png') center no-repeat;
-    background-size:36px;
-}
-
 .warning
 {
 	position:absolute;
@@ -430,7 +421,7 @@ body
 /*	background-color:#2c3338; */
 	background-color: #ffffff;
 	color:#0152a1;
-	padding-left:5px;
+	padding-left:0px;
 	padding-top:15px;
     transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
@@ -465,9 +456,9 @@ body
     label:pointer;
     padding-left:50px;
     padding-right:5px;
-	padding-top:10px;
-	padding-bottom:10px;
-	border-bottom:solid 1px #61666a;
+	padding-top:6px;
+	padding-bottom:6px;
+	border-bottom:solid 1px #a0a0a0;
 	vertical-align: center;
 }
 
@@ -475,7 +466,7 @@ body
 {
 	position:absolute;
 	left:10px;
-	top:13px;
+	top:9px;
 	height:30px;
 	width:30px;
 	background:transparent url('../img/documents.png') center no-repeat;
@@ -486,7 +477,7 @@ body
 {
 	position:absolute;
 	left:10px;
-	top:13px;
+	top:9px;
 	height:30px;
 	width:30px;
 	background:transparent url('../img/Persons.png') center no-repeat;
@@ -497,7 +488,7 @@ body
 {
 	position:absolute;
 	left:10px;
-	top:13px;
+	top:9px;
 	height:30px;
 	width:30px;
 	background:transparent url('../img/settings.png') center no-repeat;
@@ -508,7 +499,7 @@ body
 {
 	position:absolute;
 	left:10px;
-	top:13px;
+	top:9px;
 	height:30px;
 	width:30px;
 	background:transparent url('../img/left-blue.png') center no-repeat;
@@ -710,6 +701,7 @@ body
 	padding-left:48px;
 }
 
+.personLine
 .personLine
 {
 	position:relative;
