@@ -14,12 +14,6 @@
  
 @font-face
 {
-	font-family: cronusitalic; 
-	src: url('../fonts/cronus.italic.otf') format('truetype');
-}
- 
-@font-face
-{
 	font-family: calibri; 
 	src: url('../fonts/calibri.ttf') format('truetype');
 }
