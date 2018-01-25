@@ -83,7 +83,7 @@ function myAlert (szText)
     elemWrapper.style.transition = 'opacity 0.5s ease';
     elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
     elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:cronus, helvetica, sans-serif;'
+    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;';
     elemDiv.innerHTML = '<b>Let op!</b>';
     elemWrapper.appendChild (elemDiv);
@@ -94,7 +94,7 @@ function myAlert (szText)
     elemDiv.innerHTML = szText;
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:cronus, helvetica, sans-serif;'
+    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
     elemDiv.setAttribute('onclick', 'onClickOK(\'__myAlert\');');
     elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myAlert\');');
@@ -139,7 +139,7 @@ function showPrescription (szHeader, szText)
     elemWrapper.style.transition = 'opacity 0.5s ease';
     elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
     elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:cronus, helvetica, sans-serif;'
+    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:large;text-align:left;color:#000000;background-color:#FF9800;padding-left:15px;';
     elemDiv.innerHTML = szHeader;
     elemWrapper.appendChild (elemDiv);
@@ -153,7 +153,7 @@ function showPrescription (szHeader, szText)
     elemDiv.innerHTML = szHTML;
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:cronus, helvetica, sans-serif;'
+    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
     elemDiv.setAttribute('onclick', 'onClickOK(\'__myPrescription\');');
     elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myPrescription\');');
