@@ -14,11 +14,13 @@ function showMenu (vShow)
     if (vShow == 0)
     {
     	setVisibility ('menuCover', false);
+		setVisibility ('load', true);
     	menuBox.style.left  = '-70%';
     }
     else
     {
     	setVisibility ('menuCover', true);
+		setVisibility ('load', false);
     	menuBox.style.left  = '0px';
     }
 }
@@ -133,6 +135,7 @@ function showAllLists ()
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
 		setVisibility ('menubutton', false);
+		setVisibility ('load', false);
 		setVisibility ('back', true);
 		lists.style.display = 'block';
 		lists.style.opacity = '1';
