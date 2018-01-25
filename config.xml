@@ -27,8 +27,8 @@
     <preference name="disable-cursor" value="false"/>
     <preference name="android-installLocation" value="auto"/>
     <preference name="StatusBarOverlaysWebView" value="false"/>
-    <preference name="StatusBarBackgroundColor" value="#000000"/>
-    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="StatusBarBackgroundColor" value="#ffffff"/>
+    <preference name="StatusBarStyle" value="blacktranslucent" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <preference name="iosPersistentFileLocation" value="Compatibility" />
 
