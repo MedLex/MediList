@@ -287,18 +287,6 @@ body
 	height:50px;
 }
 
-#vijzel
-{
-	position:absolute;
-	top:0px;
-	left:15px;
-	height:50px;
-	width:50px;
-    display:block;
-    background: transparent url('../img/Mortar.png') center no-repeat;
-    background-size:40px;
-}
-
 #headertext
 {
 	position:absolute;
@@ -344,25 +332,12 @@ body
 	position:relative;
 	left:0px;
 	right:0px;
-//	border-bottom:solid 1px #909090;
 	border-bottom:solid 1px #a6a6a6;
 	padding-left:30px;
 	padding-top:16px;
 	padding-bottom:16px;
 	vertical-align:center;
 }
-
-/* #itemHeader
-{
-	position:relative;
-	left:0px;
-	right:0px;
-	border-bottom:solid 1px #909090;
-	padding-left:30px;
-	padding-top:12px;
-	padding-bottom:6px;
-	vertical-align:center;
-} */
 
 .itemHeader
 {
@@ -585,19 +560,6 @@ body
 	padding-top:30px;
 }
 
-/*
-#individualButton
-{
-	position:absolute;
-	bottom:8px;
-	right:30px;
-	left:30px;
-	height:40px;
-	line-height:40px;
-	text-align:center;
-}
-*/
-
 #okButton
 {
 	position:absolute;
@@ -695,7 +657,6 @@ body
 	padding-left:48px;
 }
 
-.personLine
 .personLine
 {
 	position:relative;
