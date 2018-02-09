@@ -1025,13 +1025,13 @@ function ProcessReceivedData ()
 	g_year  = dateTemp[0];							// Namelijk het geboortejaar,
 	g_month = dateTemp[1];							// de maand
 	g_day   = dateTemp[2];							// en de dag
-	
+
 	db.transaction(function(tx)
 	{
 		// ---------------------------------------------------------------------------------------
 		// Zoek de gebruiker
 		//
-		tx.executeSql('SELECT * FROM person WHERE gebDag = ' + day + ' AND gebMaand = ' + month + ' AND gebJaar = ' + year, [], function (tx, results)
+		tx.executeSql('SELECT * FROM person WHERE gebDag = ' + g_day + ' AND gebMaand = ' + g_month + ' AND gebJaar = ' + g_year, [], function (tx, results)
 		{
 			if (results.rows.length == 0)								// Geen patient gevonden
 				r = nieuwePatient (g_year, g_month, g_day)				// vraag of we er een moeten aanmaken
