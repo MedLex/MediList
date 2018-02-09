@@ -474,6 +474,8 @@ function indiOK (id, qr)
 			sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + globalNaam + '\', ' + globalDate.getFullYear() + ', ' + globalDate.getMonth() + ', ' + globalDate.getDate () + ')';
 		else
 			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + ' WHERE id = ' + globalID;
+		
+		alert (sqlStatement);
 		tx.executeSql(sqlStatement, [], function (tx, result)
 		{
 			indiCancel ();						// Sluit de vensters
@@ -481,7 +483,7 @@ function indiOK (id, qr)
 			{
 				globalID = result.insertId;
 				selectPerson (globalID);
-				addMedicationList (globalId);	// en voeg nu de lijst toe voor deze nieuwe gebruikert
+				addMedicationList (globalID);	// en voeg nu de lijst toe voor deze nieuwe gebruikert
 			}
 			else								// Handmatig een nieuwe persoon toegevoegd
 			{
