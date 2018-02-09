@@ -6,6 +6,7 @@ var globalBirthDate;
 var globalShowDate;
 var globalURL;
 var currentUser = '';
+var receivedList = null;
 
 function showMenu (vShow)
 {
@@ -24,19 +25,6 @@ function showMenu (vShow)
     	menuBox.style.left  = '0px';
     }
 }
-
-/*function onNfc(nfcEvent)
-{
-    // display the tag as JSON
-    myAlert(JSON.stringify(nfcEvent.tag));
-}
-
-function nfcTagDetected (reading)
-{
-	myAlert (reading.tag.id); // alert the id of the NFC reading
-}*/
-
-// See more at: http://www.dogu.io/blog/technology/adding-rfid-capabilities-to-your-android-phonegap-application/#sthash.JQ1T8QKW.dpuf
 
 function showPersons ()
 {
@@ -275,7 +263,7 @@ function editPerson (id)
 					document.getElementById ('indiNaam').value = row['naam'];
 					document.getElementById ('indiGeboren').value = dateString;
 					document.getElementById ('individualText').innerHTML = '<b>wijzigen gegevens</b>';
-					document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (' + row['id'] + ');');
+					document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (' + row['id'] + ',0);');
 					setVisibility ('individualCover', true);
 					setVisibility ('individual', true);
 					setVisibility ('back', false);
@@ -349,6 +337,8 @@ function plus ()
 		document.getElementById ('individualText').innerHTML = '<b>Nieuwe gebruiker</b>';
 		document.getElementById ('indiNaam').value = '';
 		document.getElementById ('indiGeboren').value = '';
+		document.getElementById ('indiGeboren').disabled = false;
+		document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1,0);');
 		document.getElementById ('indiNaam').focus();
 		setVisibility ('back', false);
 		if (individual)
@@ -356,6 +346,19 @@ function plus ()
 			individual.style.opacity = '1';
 		}
 	}
+}
+
+function getReadableDate (year, month, day)
+{
+	var months = [
+		'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus',
+		'september', 'oktober', 'november', 'december' ];
+	var r = 'NaD';
+
+	if (month > 0 && month < 13)
+		r = day + ' ' + months[month-1] + ' ' + year;
+
+	return r;
 }
 
 function handleQRCode (QRCode)
@@ -366,9 +369,6 @@ function handleQRCode (QRCode)
 	var url = '';
 	var errorCode = 0;
 	var listID = '';
-	var months = [
-		'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus',
-		'september', 'oktober', 'november', 'december' ];
 	var parts = QRCode.split (';');
 
 	if (   parts.length < 4
@@ -395,7 +395,7 @@ function handleQRCode (QRCode)
 			|| day   > 31)							// OK, dit kan nauwkeuriger, maar voorlopig is dit wel voldoende
 			errorCode = 2;
 		else
-			bd = day + ' ' + months[month-1] + ' ' + year;
+			bd = getReadableDate (year, month, day);
 		globalBirthDate = year + '-' + month + '-' + day;
 		globalShowDate  = bd;
 		
@@ -420,8 +420,8 @@ function handleQRCode (QRCode)
 			if (   this.readyState == 4
 				&& this.status == 200)
 			{
-				var myObj = JSON.parse(this.responseText);
-				myAlert ('response = ' + myObj);
+				var receivedList = JSON.parse(this.responseText);
+				ProcessReceivedData ();
 			}
 			else if (this.readyState == 4)
 			{
@@ -441,7 +441,7 @@ function handleQRCode (QRCode)
 	}
 }
 
-function indiOK (id)
+function indiOK (id, qr)
 {
 	var individual;
 	var geboren;
@@ -470,21 +470,29 @@ function indiOK (id)
 			sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + globalNaam + '\', ' + globalDate.getFullYear() + ', ' + globalDate.getMonth() + ', ' + globalDate.getDate () + ')';
 		else
 			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + ' WHERE id = ' + globalID;
-		tx.executeSql(sqlStatement, [], function ()
+		tx.executeSql(sqlStatement, [], function (tx, result)
 		{
+			indiCancel ();						// Sluit de vensters
+			if (qr)								// Er is iemand toegevoegd op basis van een gelezen QR code
+			{
+				globalID = result.insertId;
+				indiCancel ();					// Sluit de vensters
+				addMedicationList (globalId);	// en voeg nu de lijst toe voor deze nieuwe gebruikert
+			}
+			else								// Handmatig een nieuwe persoon toegevoegd
+			{
+				var persons = document.getElementById ('persons');
+				fillPersons (persons);			// Dan zitten we nu in de gebruikerlijst, dus opnieuw opbouwen
+			}
 		}, function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
+			indiCancel ();
 		}, function ()
 		{
+			indiCancel ();
 		});
 	});
-	
-	var persons = document.getElementById ('persons');
-
-	fillPersons (persons);
-
-	indiCancel ();							// Sluit de vensters
 }
 
 function indiCancel ()
@@ -693,399 +701,74 @@ function selectPerson (id)
 	fillPersons (persons);
 }
 
-//------------------------------------------------------------------------------------------------
-// We importeren nu het aangeboden XML bestand
-//
-function importXML(data)
-{
-	if (data == undefined)
-		return ;
-	
-	xmlDoc = loadXMLDoc (data);						// Lees het opgegeven document in
-	
-	if (!xmlDoc)									// Dat ging dus niet
-		myAlert ('Het bestand \'' + data + '\' is geen MediApp bestand en kan niet worden geladen');
-	else
-		checkPatient (xmlDoc,						// Zoek eerst de patient op
-					  checkOverzicht,				// voer daarna de routine "checkOverzicht" uit.
-					  addList,						// dan de routine "addList"
-					  importOverzicht);				// en tenslotte "importOverzicht"
-}
-
-//------------------------------------------------------------------------------------------------
-// Kijk of we deze patient al kennen of dat er een nieuwe moet worden aangemaakt (of helemaal niet)
-// return 1 als we deze patienbt kennen of als er een nieuwe is aangemaakt waar we mee vderder mogen
-// return 0 als  we de patient niet kennen en er wordt geen nieuwe aangemaakt.
-//
-function checkPatient (xml, callback1, callback2, callback3)
-{
-	var r        = -1;
-	var gebDag   = 0;
-	var gebMaand = 0;
-	var gebJaar  = 0;
-	var geboren  = null;
-	var patient  = xml.getElementsByTagName ('Patient');
-	
-	if (patient)
-	{
-		geboren = patient[0].getElementsByTagName ('Geboortedatum');
-		if (!geboren)
-			myAlert ('Geen geldig medApp bestand ontvangen (2)');
-	}
-	else
-		myAlert ('Geen geldig medApp bestand ontvangen (1)');
-	if (geboren)
-	{
-		var datum = geboren[0].childNodes[0].textContent;
-		var date = new Date (datum);
-		gebDag   = date.getDate  ();
-		gebMaand = date.getMonth ();
-		gebJaar  = date.getFullYear  ();
-		
-		db.transaction(function(tx)
-		{
-			tx.executeSql('SELECT * FROM person WHERE gebDag = ' + gebDag + ' AND gebMaand = ' + gebMaand + ' AND gebJaar = ' + gebJaar, [], function (tx, results)
-			{
-				if (results.rows.length == 0)								// Geen patient gevonden
-					r = nieuwePatient (xml, patient[0], gebDag, gebMaand, gebJaar, callback1, callback2, callback3)	// vraag of we er een moeten aanmaken
-					
-				else if (results.rows.length == 1)							// Precies één gebruiker gevonden
-				{
-					row = results.rows.item (0);
-					r = row['id'];											// Die heeft dus deze id
-//					callback1 (xml, r, callback2, callback3);				// en daar kunnen we mee verder
-				}
-
-				else														// Oeps, meerdere gebruikers met dezelfde geboortedatum (tweeling of zo?)
-				{															// Dan moeten we dus vragen wie het gaat worden
-					Cover ();    											// onderliggende tekst even bedekken
-					var elemWrapper = document.createElement ('div');		// wrapper voor alles
-					elemWrapper.id = '__selectImportPatient';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
-					elemWrapper.style.cssText = 'position:absolute;width:80%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;box-shadow: 12px 12px 8px grey;';
-					elemWrapper.style.transition = 'opacity 0.5s ease';
-					elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
-					var elemDiv = document.createElement ('div');
-					elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-										  + 'font-size:large;text-align:left;color:#000000;background-color:#FF9800;padding-left:15px;border-radius: 20px;overlow:hidden';
-					elemDiv.innerHTML = 'Kies de juiste gebruiker';
-					elemWrapper.appendChild (elemDiv);
-					
-					elemDiv = document.createElement ('div');
-					elemDiv.id = '__brAlertText';
-					elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding:0px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
-										+ 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;';
-					var szHTML  = '';
-
-					var div = document.createElement ('div');
-					div.className = 'item standard50 standard selDiv';
-					div.setAttribute ('onmouseup', 'selectImportPatient(0);');
-					div.innerHTML = 'Maak een nieuwe gebruiker';
-					var action = document.createElement ('div');
-					action.className = 'importUnselected';
-					div.setAttribute ('data-selected', 'false');
-					div.setAttribute ('data-patient', '-1');
-					div.appendChild (action);
-					elemDiv.appendChild (div);
-					
-					div = document.createElement ('div');
-					div.className = 'item standard200 standard selDiv';
-					div.setAttribute ('onmouseup', 'selectImportPatient(1);');
-					div.innerHTML = 'Deze lijst niet importeren';
-					div.setAttribute ('data-selected', 'true');
-					div.setAttribute ('data-patient', '-2');
-					action = document.createElement ('div');
-					action.className = 'importSelected';
-					div.appendChild (action);
-					elemDiv.appendChild (div);
-
-					for (var i = 0; i < results.rows.length; i++)
-					{
-						row = results.rows.item(i);
-						div = document.createElement ('div');
-						div.className = 'item standard selDiv';
-						div.setAttribute ('data-selected', 'false');
-						div.setAttribute ('data-patient', '\'' + row['id'] + '\'');
-						div.setAttribute ('onmouseup', 'selectImportPatient(' + (i+2) + ');');
-						var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
-						var day = date.getDate();
-						if(day<10){ day="0"+day;}
-						var month = date.getMonth()+1;
-						if(month<10){ month="0"+month;}
-						var szHTML = day + '-' + month + '-' + date.getFullYear();
-						szHTML += ', ';
-						szHTML += row['naam'];
-						div.innerHTML = szHTML;
-						action = document.createElement ('div');
-						action.className = 'importUnselected';
-						div.appendChild (action);
-						elemDiv.appendChild (div);
-					}
-					elemWrapper.appendChild (elemDiv);
-
-					elemDiv = document.createElement ('div');
-					elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
-										+ 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
-					elemDiv.setAttribute('onclick', 'onClickOK(\'__selectImportPatient\');');
-					elemDiv.setAttribute('onmouseup', 'onClickOK(\'__selectImportPatient\');');
-					elemDiv.innerHTML = 'OK';
-					elemDiv.onmouseover = function ()
-					{
-						this.style.backgroundColor = '#afafaf';
-					};
-					elemDiv.onmouseout = function ()
-					{
-						this.style.backgroundColor = '#ffffff';
-					};
-					elemWrapper.appendChild (elemDiv);
-					document.body.appendChild (elemWrapper);
-					
-					var vWidth  = elemWrapper.offsetWidth;
-					var vHeight = elemWrapper.offsetHeight;
-					vWidth = parseInt (vWidth/2, 10);
-					vHeight = parseInt (vHeight/2, 10);
-					elemWrapper.style.marginLeft = '-' + vWidth + 'px';
-					elemWrapper.style.marginTop = '-' + vHeight + 'px';
-					
-					elemWrapper.style.opacity = '1';
-					elemWrapper.style.mozOpacity = '1';
-					elemWrapper.style.khtmlOpacity = '1';
-				}
-			}), function (tx, error)
-			{
-				alert ('er is een fout opgetreden\r\n' + error.message);
-			}, function ()
-			{
-			};
-		});
-	}
-}
-
-function onClickImportOK (szName)
-{
-	
-    var elemCover = document.getElementById ('__brCover');
-    var elemWrapper = document.getElementById (szName);
-	
-	var selected = getSelectedImport ();
-	if (elemWrapper)
-	{
-		elemWrapper.style.opacity = '0';
-		elemWrapper.style.mozOpacity = '0';
-		if (elemCover)
-		{
-			elemCover.style.opacity = '0';
-			elemCover.style.mozOpacity = '0';
-		}
-		__divName = szName;
-		setTimeout(function()
-		{
-			var divCover = document.getElementById ('__brCover');
-			var divWrapper = document.getElementById (__divName);
-			
-			if (divWrapper)
-				divWrapper.parentNode.removeChild (divWrapper);
-			if (divCover)
-				divCover.parentNode.removeChild (divCover);
-		}, 500);
-	}
-	if (selected == -2)				// Deze lijst niet importeren. We stoppen dus
-		return ;
-	else if (selected == -1)		// Nieuwe patient aanmaken
-	{
-		var patient  = xmlDoc.getElementsByTagName ('Patient');
-		var geboren  = null;
-		
-		if (patient)
-		{
-			geboren = patient[0].getElementsByTagName ('Geboortedatum');
-			if (!geboren)
-				myAlert ('Geen geldig medApp bestand ontvangen (2)');
-		}
-		else
-			myAlert ('Geen geldig medApp bestand ontvangen (1)');
-		if (geboren)
-		{
-			var datum = geboren[0].childNodes[0].textContent;
-			var date = new Date (datum);
-			gebDag   = date.getDate  ();
-			gebMaand = date.getMonth ();
-			gebJaar  = date.getFullYear  ();
-			nieuwePatient (xmlDoc, patient[0], gebDag, gebMaand, gebJaar, checkOverzicht,				// voer daarna de routine "checkOverzicht" uit.
-																		  addList,						// dan de routine "addList"
-																		  importOverzicht);				// en tenslotte "importOverzicht"
-		}
-	}
-	else									// Bestaande patient gebruiken
-	{
-		checkOverzicht (xmlDoc, selected, addList, importOverzicht);
-	}
-}
-
-function selectImportPatient (row)
-{
-	var selDiv = document.getElementsByClassName ('selDiv');
-	var action;
-	var icon;
-	
-	if (row < selDiv.length)
-	{
-		for (var i = 0; i < selDiv.length; i++)
-		{
-			if (i == row)
-			{
-				icon = 'importSelected';
-				selDiv[i].setAttribute ('data-selected', 'false');
-			}
-			else
-			{
-				icon = 'importUnselected';
-				selDiv[i].setAttribute ('data-selected', 'true');
-			}
-			action = selDiv[i].getElementsByTagName ('div');
-			for (var j = 0; j < action.length; j++)
-				action[j].className = icon;
-		}
-	}
-}
-
-function getSelectedImport()
-{
-	var r = -1;
-	var selDiv = document.getElementsByClassName ('selDiv');
-	for (var i = 0; i < selDiv.length; i++)
-	{
-		var selected = selDiv[i].getAttribute ('data-selected');
-		if (selected == 'true')
-		{
-			var patient = selDiv[i].getAttribute ('data-patient');
-			r = parseInt (patient);
-		}
-	}
-	
-	return r;
-}
-
 //--------------------------------------------------------------------------------------------------------------------------------
-// We hebben een xml ontvangen voor een patient met een geboortedatum die we nog niet kennen.
+// We hebben een QR code gelezen voor een patient met een geboortedatum die we nog niet kennen.
 // Die moeten we nu dus toevoegen of we moeten stoppen
 //
-function nieuwePatient (xml, patient, gebDag, gebMaand, gebJaar, callback1, callback2, callback3)
+function nieuwePatient (year, month, day)
 {
 	var r = -1;
-	var geboren = patient.getElementsByTagName ('Geboortedatum');
-	var naam = patient.getElementsByTagName ('Naam');
 	var question;
-	
-	question = 'Er is nog geen gebruiker geregistreerd met de volgende gegevens:\r\n-----------------\r\nnaam = \'' + naam[0].childNodes[0].textContent
-	           + '\r\ngeboortedatum ' + geboren[0].childNodes[0].textContent + '\r\n-----------------\r\n'
-			   + 'Wilt u deze gebruiker nu aanmaken?';
+	var d = getReadableDate (year, month, day);
+
+	question = 'Er is nog geen gebruiker geregistreerd met geboortedatum ' + d + '\r\n'
+			 + 'Wilt u deze gebruiker nu aanmaken?';
 	var q = confirm (question);						// Wat denk u ervan?
-
-	if (q)											// Toevoegen dus
-	{
-		var sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + naam[0].childNodes[0].textContent + '\', ' + gebJaar + ', ' + gebMaand + ', ' + gebDag + ')';
-		db.transaction(function(tx)
-		{
-			tx.executeSql(sqlStatement, [], function (tx, results)	// Voeg nieuwe patient toe
-			{
-				r = results.insertId;								// Dit is de id geworden
-				callback1 (xml, r, callback2, callback3);			// en daarmee kunnen we nu verder
-			}, function (tx, error)
-			{
-				alert ('er is een fout opgetreden\r\n' + error.message);
-			}, function ()
-			{
-			});
-		});
-	}
-}
-
-//------------------------------------------------------------------------------------------------
-// Kijk of we dit overzicht al kennen
-//
-function checkOverzicht (xml, id, callback2, callback3)
-{
-	var r        = 1;
-	var algemeen  = xml.getElementsByTagName ('Algemeen');
-	var apotheek;
-	var apotheekID = null;
-	var datum;
-	var date = null;
-	var sqlStatement;
 	
-	if (algemeen)
+	if (q)											// Yep, dus nu even het betreffende scherm opbouwen
 	{
-		apotheek = algemeen[0].getElementsByTagName ('Apotheek');
-		if (apotheek)
-			apotheekID = apotheek[0].getAttribute ('ID');
-		datum = algemeen[0].getElementsByTagName ('DatumOverzicht');
-		if (datum)
-			date = new Date (datum[0].childNodes[0].textContent);
-	}
-	if (   !apotheekID
-		|| !date)
-		myAlert ('Geen geldig medApp bestand ontvangen (3)');
-	else
-	{
-		db.transaction(function(tx)
+		var preset = year + '-';					// de datum wordt vooraf ingevuld als yyyy-mm-dd
+		if (month < 10)
+			preset += '0';
+		preset += month + '-';
+		if (day < 10)
+			preset += '0';
+		preset += day;
+		var individual = document.getElementById ('individual');
+		setVisibility ('individualCover', true);
+		document.getElementById ('individualCover').style.opacity = '0.4';
+		setVisibility ('individual', true);
+		document.getElementById ('individualText').innerHTML = '<b>Nieuwe gebruiker</b>';
+		document.getElementById ('indiNaam').value = '';
+		document.getElementById ('indiGeboren').value = preset;
+		document.getElementById ('indiGeboren').disabled = true;		// Geboortedatum  mag u niet meer aanpassen!
+		document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1,1);');
+		document.getElementById ('indiNaam').focus();
+		setVisibility ('back', false);
+		if (individual)
 		{
-			sqlStatement = 'SELECT id FROM lijsten WHERE '
-			              + 'apotheekID = \'' + apotheekID + '\' AND '
-						  + 'listDag = ' + date.getDate () + ' AND '
-						  + 'listMaand = ' + date.getMonth () + ' AND '
-						  + 'listJaar = ' + date.getFullYear () + ' AND '
-						  + 'patient = ' + id;
-			tx.executeSql(sqlStatement, [], function (tx, results)
-			{
-				var bDoen = true;
-				if (results.rows.length > 0)
-				{
-					var question = 'Er is al een lijst bekend voor deze gebruiker op deze datum\r\n';
-					question += 'wilt u deze lijst toch toevoegen?';
-					bDoen = confirm (question);
-				}
-				if (bDoen)
-					callback2 (xml, id, callback3);
-			}, function (tx, error)
-			{
-				alert ('er is een fout opgetreden\r\n' + error.message);
-			}, function ()
-			{
-			});
-		});
-			
+			individual.style.opacity = '1';
+		}
 	}
-	return r;
 }
 
 //------------------------------------------------------------------------------------------------
 // Voeg een nieuwe medicatielijst toe
 //
-function addList (xml, id, callback3)
+function addMedicationList (patient)
 {
 	var sqlStatement;
-	var algemeen  = xml.getElementsByTagName ('Algemeen');
 	var apotheek;
 	var apotheekID = null;
 	var datum;
 	var date = null;
 	var lijst;
-	
-	if (algemeen)
-	{
-		apotheek = algemeen[0].getElementsByTagName ('Apotheek');
-		if (apotheek)
-			apotheekID = apotheek[0].getAttribute ('ID');
-		datum = algemeen[0].getElementsByTagName ('DatumOverzicht');
-		if (datum)
-			date = new Date (datum[0].childNodes[0].textContent);
-	}
+
+	if (receivedList == null)
+		return ;
+	apotheek = receivedList.pharmacyName;
+	apotheekID = receivedList.agbCode;
+	if (receivedList.timestamp)
+		date = new Date (receivedList.timestamp);
 	if (   !apotheekID
 		|| !date)
 	{
 		myAlert ('Geen geldig medApp bestand ontvangen (3)');
 		return ;
 	}
+	var listDag   = date.getDay ();
+	var listMaand = date.getMonth ();
+	var listJaar  = date.getFullYear ();
 
 	db.transaction (function (tx)
 	{
@@ -1094,7 +777,7 @@ function addList (xml, id, callback3)
 		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
 			lijst = results.insertId;
-			callback3 (xml, id, lijst);
+			importOverzicht (patient, lijst);
 		}, function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
@@ -1107,16 +790,17 @@ function addList (xml, id, callback3)
 //------------------------------------------------------------------------------------------------
 // Voeg nu de regels van de nieuwe lijst toe
 //
-function importOverzicht (xml, id, lijst)
+function importOverzicht (id, lijst)
 {
 	var sqlStatement;
-	var medicatie = xml.getElementsByTagName ('Medicatie');
+	var medicatie = receivedList.medicationDispenseEvents;
 	
 	db.transaction (function (tx)
 	{
 		for (var i = 0; i < medicatie.length; i++)
 		{
-			var medicijn = getXmlValue (medicatie[i], 'NaamMedicijn');
+			var medicijn = medicatie.dispensedMedicationName;
+			var prescriber = medicatie.prescriber;
 			var datum = '';
 			var voorschrijver = '';
 			var dosering = '';
@@ -1310,6 +994,148 @@ function showSimpleList (lijst)
 				}, function ()
 				{
 				};
+			}
+		}), function (tx, error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	});
+}
+
+// --------------------------------------------------------------------------------------
+// Verwerk een ontvangen JSON medicatieoverzicht.
+//
+function ProcessReceivedData ()
+{
+	// --------------------------------------------------------------------------------------
+	// Stap 1: Eerst eens zien of we een gebruiker kennen met de opgegeven geboortedatum.
+	// Zo niet, dan vragen we of we iemand moeten aankamen.
+	// Als er meer dan één is (tweeling) dan vragen we welke we moeten hebben.
+	//
+	var dateTemp = globalBirthDate.split ('-');		// haal even uit elkaar
+	if (dateTemp.length != 3)						// daaruit moeten we drie componenten overhouden
+	{
+		myAlert ('Er is iets misgegaan in het interpreteren van de geboortedatum');
+		return ;
+	}
+	var year  = dateTemp[0];							// Namelijk het geboortejaar,
+	var month = dateTemp[1];							// de maand
+	var day   = dateTemp[2];							// en de dag
+	
+	db.transaction(function(tx)
+	{
+		// ---------------------------------------------------------------------------------------
+		// Zoek de gebruiker
+		//
+		tx.executeSql('SELECT * FROM person WHERE gebDag = ' + day + ' AND gebMaand = ' + month + ' AND gebJaar = ' + year, [], function (tx, results)
+		{
+			if (results.rows.length == 0)								// Geen patient gevonden
+				r = nieuwePatient (year, month, day)					// vraag of we er een moeten aanmaken
+				
+			else if (results.rows.length == 1)							// Precies één gebruiker gevonden
+			{
+				row = results.rows.item (0);
+				var id = row['id'];										// Die heeft dus deze id
+				addMedicationList (id);									// En daarvoor moeten we een lijst gaan toevoegen
+			}
+
+			else														// Oeps, meerdere gebruikers met dezelfde geboortedatum (tweeling of zo?)
+			{															// Dan moeten we dus vragen wie het gaat worden
+				Cover ();    											// onderliggende tekst even bedekken
+				var elemWrapper = document.createElement ('div');		// wrapper voor alles
+				elemWrapper.id = '__selectImportPatient';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
+				elemWrapper.style.cssText = 'position:absolute;width:80%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;'
+				                          + '-khtml-opacity:0;overflow:hidden;border-radius:20px;';
+				elemWrapper.style.transition = 'opacity 0.5s ease';
+				elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
+				var elemDiv = document.createElement ('div');
+				elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;'
+									  + 'font-family:calibri, helvetica, sans-serif;'
+									  + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;';
+				elemDiv.innerHTML = '<b>Kies de juiste gebruiker</b>';
+				elemWrapper.appendChild (elemDiv);
+				
+				elemDiv = document.createElement ('div');
+				elemDiv.id = '__brAlertText';
+				elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding:0px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+									  + 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;';
+				var szHTML  = '';
+
+				var div = document.createElement ('div');
+				div.className = 'item standard50 standard selDiv';
+				div.setAttribute ('onmouseup', 'selectImportPatient(0);');
+				div.innerHTML = 'Maak een nieuwe gebruiker';
+				var action = document.createElement ('div');
+				action.className = 'importUnselected';
+				div.setAttribute ('data-selected', 'false');
+				div.setAttribute ('data-patient', '-1');
+				div.appendChild (action);
+				elemDiv.appendChild (div);
+				
+				div = document.createElement ('div');
+				div.className = 'item standard200 standard selDiv';
+				div.setAttribute ('onmouseup', 'selectImportPatient(1);');
+				div.innerHTML = 'Deze lijst niet importeren';
+				div.setAttribute ('data-selected', 'true');
+				div.setAttribute ('data-patient', '-2');
+				action = document.createElement ('div');
+				action.className = 'importSelected';
+				div.appendChild (action);
+				elemDiv.appendChild (div);
+
+				for (var i = 0; i < results.rows.length; i++)
+				{
+					row = results.rows.item(i);
+					div = document.createElement ('div');
+					div.className = 'item standard selDiv';
+					div.setAttribute ('data-selected', 'false');
+					div.setAttribute ('data-patient', '\'' + row['id'] + '\'');
+					div.setAttribute ('onmouseup', 'selectImportPatient(' + (i+2) + ');');
+					var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
+					var day = date.getDate();
+					if(day<10){ day="0"+day;}
+					var month = date.getMonth()+1;
+					if(month<10){ month="0"+month;}
+					var szHTML = day + '-' + month + '-' + date.getFullYear();
+					szHTML += ', ';
+					szHTML += row['naam'];
+					div.innerHTML = szHTML;
+					action = document.createElement ('div');
+					action.className = 'importUnselected';
+					div.appendChild (action);
+					elemDiv.appendChild (div);
+				}
+				elemWrapper.appendChild (elemDiv);
+
+				elemDiv = document.createElement ('div');
+				elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
+									+ 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
+				elemDiv.setAttribute('onclick', 'onClickOK(\'__selectImportPatient\');');
+				elemDiv.setAttribute('onmouseup', 'onClickOK(\'__selectImportPatient\');');
+				elemDiv.innerHTML = 'OK';
+				elemDiv.onmouseover = function ()
+				{
+					this.style.backgroundColor = '#ffffff';
+				};
+				elemDiv.onmouseout = function ()
+				{
+					this.style.backgroundColor = '#efefef';
+				};
+				elemWrapper.appendChild (elemDiv);
+				document.body.appendChild (elemWrapper);
+				
+				var vWidth  = elemWrapper.offsetWidth;
+				var vHeight = elemWrapper.offsetHeight;
+				vWidth = parseInt (vWidth/2, 10);
+				vHeight = parseInt (vHeight/2, 10);
+				elemWrapper.style.marginLeft = '-' + vWidth + 'px';
+				elemWrapper.style.marginTop = '-' + vHeight + 'px';
+				
+				elemWrapper.style.opacity = '1';
+				elemWrapper.style.mozOpacity = '1';
+				elemWrapper.style.khtmlOpacity = '1';
 			}
 		}), function (tx, error)
 		{
