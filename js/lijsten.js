@@ -204,14 +204,14 @@ function onShowMed (lijst, regel)
 				if (row['text1'] != '')
 				{
 					szHTML += '<tr><td>Melding</td><td>:</td><td>'			+ row['text1'];
-					if (row[text2] != '')
-						szHTML += '<br />' + row[text2];
-					if (row[text3] != '')
-						szHTML += '<br />' + row[text3];
-					if (row[text4] != '')
-						szHTML += '<br />' + row[text4];
-					if (row[text5] != '')
-						szHTML += '<br />' + row[text5];
+					if (row['text2'] != '')
+						szHTML += '<br />' + row['text2'];
+					if (row['text3'] != '')
+						szHTML += '<br />' + row['text3'];
+					if (row['text4'] != '')
+						szHTML += '<br />' + row['text4'];
+					if (row['text5'] != '')
+						szHTML += '<br />' + row['text5'];
 					szHTML += '</td></tr>';
 				}
 				showPrescription (row['dispensedMedicationName'],szHTML);
