@@ -448,10 +448,10 @@ function indiOK (id, qr)
 	var individual;
 	var geboren;
 
-	globalNaam    = document.getElementById ('indiNaam').value;
-	geboren = document.getElementById ('indiGeboren').value;
+	globalNaam = document.getElementById ('indiNaam').value;
+	geboren    = document.getElementById ('indiGeboren').value;
 	globalDate = new Date (geboren);
-	globalID = id;
+	globalID   = id;
 	
 	if (geboren == '')
 	{
@@ -463,6 +463,8 @@ function indiOK (id, qr)
 		myAlert ('Er is nog geen naam ingevuld');
 		return ;
 	}
+	
+	alert ('aanmaken. Id = ' + id + '\r\nqr = ' + qr);
 	
 	db.transaction(function(tx)
 	{
@@ -478,7 +480,7 @@ function indiOK (id, qr)
 			if (qr)								// Er is iemand toegevoegd op basis van een gelezen QR code
 			{
 				globalID = result.insertId;
-				indiCancel ();					// Sluit de vensters
+				selectPerson (globalID);
 				addMedicationList (globalId);	// en voeg nu de lijst toe voor deze nieuwe gebruikert
 			}
 			else								// Handmatig een nieuwe persoon toegevoegd
@@ -713,7 +715,7 @@ function nieuwePatient (year, month, day)
 	var question;
 	var d = getReadableDate (year, month, day);
 
-	question = 'Er is nog geen gebruiker geregistreerd met geboortedatum ' + d + '\r\n'
+	question = 'Er is nog geen gebruiker geregistreerd met geboortedatum\r\n     ' + d + '\r\n'
 			 + 'Wilt u deze gebruiker nu aanmaken?';
 	var q = confirm (question);						// Wat denk u ervan?
 	
