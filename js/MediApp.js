@@ -430,12 +430,12 @@ function handleQRCode (QRCode)
 							 + globalShowDate
 							 + ' kon niet worden gevonden of is verlopen');
 				else
-					myAlert ('Er is een fout opgetreden! (status = ' + this.status + ', ' + this.statusText + ')');
+					myAlert ('Er is een fout opgetreden! (url = \'' + globalURL + '\'\r\nstatus = ' + this.status + ', ' + this.statusText + ')');
 			}
 		};
 
 		globalURL = url;
-		xhttp.open("GET", url, false);					// synchroon verwerken graag
+		xhttp.open("GET", url, true);
 		xhttp.send();
 	}
 }
