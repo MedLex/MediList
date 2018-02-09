@@ -414,9 +414,8 @@ function handleQRCode (QRCode)
 		myAlert ('Er is een onjuiste QR code gelezen.<br />Foutcode = 10' + errorCode);
 	else
 	{
-		var xmlhttp = new XMLHttpRequest();
-		/*
-		xmlhttp.onreadystatechange = function()
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function()
 		{
 			if (   this.readyState == 4
 				&& this.status == 200)
@@ -431,18 +430,15 @@ function handleQRCode (QRCode)
 							 + globalShowDate
 							 + ' kon niet worden gevonden of is verlopen');
 				else
-					myAlert ('Er is een fout opgetreden! (status = ' + this.statusText + ')');
+					myAlert ('Er is een fout opgetreden! (status = ' + this.status + ', ' + this.statusText + ')');
 			}
 			else
 				myAlert ('De bewerking kon niet worden uitgevoerd! (status = ' + this.readyState + ')');
 		};
-		*/
+
 		globalURL = url;
-		xmlhttp.open("GET", url, false);					// synchroon verwerken graag
-		xmlhttp.send();
-		alert ('response = ' + xmlhttp.responseText);
-		receivedList = JSON.parse (xmlhttp.responseText);
-		ProcessReceiveddata ();
+		xhttp.open("GET", url, false);					// synchroon verwerken graag
+		xhttp.send();
 	}
 }
 
@@ -1019,6 +1015,7 @@ function ProcessReceivedData ()
 	// Zo niet, dan vragen we of we iemand moeten aankamen.
 	// Als er meer dan één is (tweeling) dan vragen we welke we moeten hebben.
 	//
+	alert ('start processing received data');
 	var dateTemp = globalBirthDate.split ('-');		// haal even uit elkaar
 	if (dateTemp.length != 3)						// daaruit moeten we drie componenten overhouden
 	{
