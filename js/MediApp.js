@@ -415,12 +415,13 @@ function handleQRCode (QRCode)
 	else
 	{
 		var xmlhttp = new XMLHttpRequest();
+		/*
 		xmlhttp.onreadystatechange = function()
 		{
 			if (   this.readyState == 4
 				&& this.status == 200)
 			{
-				var receivedList = JSON.parse(this.responseText);
+				receivedList = JSON.parse(this.responseText);
 				ProcessReceivedData ();
 			}
 			else if (this.readyState == 4)
@@ -435,9 +436,13 @@ function handleQRCode (QRCode)
 			else
 				myAlert ('De bewerking kon niet worden uitgevoerd! (status = ' + this.readyState + ')');
 		};
+		*/
 		globalURL = url;
 		xmlhttp.open("GET", url, false);					// synchroon verwerken graag
 		xmlhttp.send();
+		alert ('response = ' + xmlhttp.responseText);
+		receivedList = JSON.parse (xmlhttp.responseText);
+		ProcessReceiveddata ();
 	}
 }
 
