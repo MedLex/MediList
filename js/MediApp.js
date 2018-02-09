@@ -7,6 +7,9 @@ var globalShowDate;
 var globalURL;
 var currentUser = '';
 var receivedList = null;
+var g_year;
+var g_month;
+var g_day;
 
 function showMenu (vShow)
 {
@@ -353,7 +356,7 @@ function getReadableDate (year, month, day)
 	var months = [
 		'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus',
 		'september', 'oktober', 'november', 'december' ];
-	var r = 'NaD';
+	var r = 'NaD2';
 
 	if (month > 0 && month < 13)
 		r = day + ' ' + months[month-1] + ' ' + year;
@@ -386,7 +389,7 @@ function handleQRCode (QRCode)
 		var day   = parseInt (birthDate.substring (6, 8));
 		var current = new Date ();
 
-		var bd = 'NaD';
+		var bd = 'NaD1';
 		if (   year  < 1900							// Dat geloven we niet!
 		    || year  > current.getFullYear ()
 			|| month < 1
@@ -1010,19 +1013,18 @@ function ProcessReceivedData ()
 {
 	// --------------------------------------------------------------------------------------
 	// Stap 1: Eerst eens zien of we een gebruiker kennen met de opgegeven geboortedatum.
-	// Zo niet, dan vragen we of we iemand moeten aankamen.
+	// Zo niet, dan vragen we of we iemand moeten aanmaken.
 	// Als er meer dan één is (tweeling) dan vragen we welke we moeten hebben.
 	//
-	alert ('start processing received data:\r\n' + receivedList);
 	var dateTemp = globalBirthDate.split ('-');		// haal even uit elkaar
 	if (dateTemp.length != 3)						// daaruit moeten we drie componenten overhouden
 	{
 		myAlert ('Er is iets misgegaan in het interpreteren van de geboortedatum');
 		return ;
 	}
-	var year  = dateTemp[0];							// Namelijk het geboortejaar,
-	var month = dateTemp[1];							// de maand
-	var day   = dateTemp[2];							// en de dag
+	g_year  = dateTemp[0];							// Namelijk het geboortejaar,
+	g_month = dateTemp[1];							// de maand
+	g_day   = dateTemp[2];							// en de dag
 	
 	db.transaction(function(tx)
 	{
@@ -1032,7 +1034,7 @@ function ProcessReceivedData ()
 		tx.executeSql('SELECT * FROM person WHERE gebDag = ' + day + ' AND gebMaand = ' + month + ' AND gebJaar = ' + year, [], function (tx, results)
 		{
 			if (results.rows.length == 0)								// Geen patient gevonden
-				r = nieuwePatient (year, month, day)					// vraag of we er een moeten aanmaken
+				r = nieuwePatient (g_year, g_month, g_day)				// vraag of we er een moeten aanmaken
 				
 			else if (results.rows.length == 1)							// Precies één gebruiker gevonden
 			{
