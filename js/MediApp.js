@@ -198,7 +198,7 @@ function fillPersons (person)
 				row = results.rows.item(i);
 				div = document.createElement ('div');
 				div.className = 'personLine large standardWhite';
-				var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
+				var date = new Date (row['gebJaar'], (row['gebMaand']-1), row['gebDag'], 5, 5, 5, 5)
 				var day = date.getDate();
 				if(day<10){ day="0"+day;}
 				var month = date.getMonth()+1;
@@ -256,7 +256,7 @@ function editPerson (id)
 				individual = document.getElementById ('individual');
 				if (individual)
 				{
-					var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
+					var date = new Date (row['gebJaar'], (row['gebMaand']-1), row['gebDag'], 5, 5, 5, 5)
 					var day = date.getDate();
 					if(day<10){ day="0"+day;}
 					var month = date.getMonth()+1;
@@ -452,7 +452,7 @@ function indiOK (id, qr)
 	geboren    = document.getElementById ('indiGeboren').value;
 	globalDate = new Date (geboren);
 	globalID   = id;
-	
+
 	if (geboren == '')
 	{
 		myAlert ('Er is nog geen geboortedatum ingevuld');
@@ -463,19 +463,16 @@ function indiOK (id, qr)
 		myAlert ('Er is nog geen naam ingevuld');
 		return ;
 	}
-	
-	alert ('aanmaken. Id = ' + id + '\r\nqr = ' + qr);
-	
+
 	db.transaction(function(tx)
 	{
 		var sqlStatement;
-		
+
 		if (globalID == -1)
-			sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + globalNaam + '\', ' + globalDate.getFullYear() + ', ' + globalDate.getMonth() + ', ' + globalDate.getDate () + ')';
+			sqlStatement = 'INSERT INTO person (naam, gebJaar, gebMaand, gebDag) VALUES (\'' + globalNaam + '\', ' + globalDate.getFullYear() + ', ' + (globalDate.getMonth()+1) + ', ' + globalDate.getDate () + ')';
 		else
-			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + globalDate.getMonth() + ', gebDag = ' + globalDate.getDate() + ' WHERE id = ' + globalID;
-		
-		alert (sqlStatement);
+			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + (globalDate.getMonth()+1) + ', gebDag = ' + globalDate.getDate() + ' WHERE id = ' + globalID;
+
 		tx.executeSql(sqlStatement, [], function (tx, result)
 		{
 			indiCancel ();						// Sluit de vensters
@@ -773,13 +770,13 @@ function addMedicationList (patient)
 		return ;
 	}
 	var listDag   = date.getDay ();
-	var listMaand = date.getMonth ();
+	var listMaand = date.getMonth ()+1;
 	var listJaar  = date.getFullYear ();
 
 	db.transaction (function (tx)
 	{
 		sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
-		             + apotheekID + '\', \'' + apotheek[0].childNodes[0].textContent + '\', ' + date.getDate() + ', ' + date.getMonth() + ', ' + date.getFullYear() + ', ' + id + ')';
+		             + apotheekID + '\', \'' + apotheek + '\', ' + listDag + ', ' + listMaand + ', ' + listJaar + ', ' + patient + ')';
 		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
 			lijst = results.insertId;
@@ -805,52 +802,104 @@ function importOverzicht (id, lijst)
 	{
 		for (var i = 0; i < medicatie.length; i++)
 		{
-			var medicijn = medicatie.dispensedMedicationName;
-			var prescriber = medicatie.prescriber;
-			var datum = '';
-			var voorschrijver = '';
-			var dosering = '';
-			var startDate = '';
-			var stopDate = '';
-			var duur = '';
-			var toediening = '';
-			var toelichting = '';
-			var herhaling = medicatie[i].getElementsByTagName ('Herhaling');
-			var magHerhaald = 0;
-			var magHerhaaldText;
-			var herhaalCode = '';
-			var voorschrift = medicatie[i].getElementsByTagName ('Voorschrift');
-			var waarschuwing = getXmlValue (medicatie[i], 'Waarschuwing');
-			if (voorschrift && voorschrift.length > 0)
+			var medicijn                = medicatie[i];
+			var uuid                    = '';
+			var transcriptTimestamp     = '';
+			var dispenseTimestamp       = '';
+			var voorschrijverNaam       = '';
+			var voorschrijverAGB        = '';
+			var voorschrijverSpec       = '';
+			var startGebruik            = '';
+			var eindGebruik             = '';
+			var hoeveelheid             = 0;
+			var codeUnit                = '';
+			var zi                      = '';
+			var hpk                     = '';
+			var prk                     = '';
+			var dispensedMedicationName = '';
+			var iterationCredit         = 0 ;
+			var iterationDate           = '';
+			var text1                   = '';
+			var text2                   = '';
+			var text3                   = '';
+			var text4                   = '';
+			var text5                   = '';
+
+			if (medicijn.id)
+				uuid = medicijn.id;
+			if (medicijn.transcriptionTimestamp)
+				transcriptionTimestamp = medicijn.transcriptionTimestamp;
+			if (medicijn.dispenseTimestamp)
+				dispenseTimestamp = medicijn.dispenseTimestamp;
+			if (medicijn.prescriber)
 			{
-				datum = getXmlValue (voorschrift[0], 'DatumVoorschrijven');
-				voorschrijver = getXmlValue (voorschrift[0], 'Voorschrijver');
+				if (medicijn.prescriber.agbCode)
+					voorschrijverAGB = medicijn.prescriber.agbCode;
+				if (medicijn.prescriber.name)
+					voorschrijverNaam = medicijn.prescriber.name;
+				if (medicijn.prescriber.speciality)
+					voorschrijverSpec = medicijn.prescriber.speciality;
 			}
-			if (herhaling && herhaling.length > 0)
+			if (medicijn.usageStartDate)
+				startGebruik = medicijn.usageStartDate;
+			if (medicijn.usageEndDate)
+				eindGebruik = medicijn.usageEndDate;
+			if (medicijn.amount)
+				hoeveelheid = medicijn.amount;
+			if (medicijn.codedUnit)
+				codeUnit = medicijn.codedUnit;
+			if (medicijn.zi)
+				zi = medicijn.zi;
+			if (medicijn.hpk)
+				zi = medicijn.hpk;
+			if (medicijn.prk)
+				zi = medicijn.prk;
+			if (medicijn.dispensedMedicationName)
+				dispensedMedicationName = medicijn.dispensedMedicationName;
+			if (medicijn.guidanceText)
 			{
-				magHerhaaldText = getXmlValue (herhaling[0], 'MagHerhaald');
-				if (magHerhaaldText == 'true')
-					magHerhaald = 1;
-				herhaalCode = getXmlValue (herhaling[0], 'HerhaalCode');
+				for (var j=0; j < medicijn.guidanceText.length; j++)
+				{
+					if (j == 0)
+						text1 = medicijn.guidanceText[j];
+					else if (j == 1)
+						text2 = medicijn.guidanceText[j];
+					else if (j == 2)
+						text3 = medicijn.guidanceText[j];
+					else if (j == 3)
+						text4 = medicijn.guidanceText[j];
+					else if (j == 4)
+						text5 = medicijn.guidanceText[j];
+				}
 			}
-			dosering = getXmlValue (medicatie[i], 'Dosering');
-			startDate = getXmlValue (medicatie[i], 'StartDatum');
-			stopDate = getXmlValue (medicatie[i], 'StopDatum');
-			toediening = getXmlValue (medicatie[i], 'ToedieningsWijze');
-			toelichting = getXmlValue (medicatie[i], 'Toelichting');
-			sqlStatement = 'INSERT INTO medicatie (lijst, regel, datum, voorschrijver, medicijn, dosering, start, end, duur, toediening, toelichting, herhaling, code, waarschuwing) VALUES ('
-			             + lijst + ', ' + (i+1) + ', \''
-						 + datum + '\', \''
-						 + voorschrijver + '\', \''
-						 + medicijn + '\', \''
-						 + dosering + '\', \''
-						 + startDate + '\', \''
-						 + stopDate + '\', 0, \''
-						 + toediening + '\', \''
-						 + toelichting + '\', '
-						 + magHerhaald + ', \''
-						 + herhaalCode + '\', \''
-						 + waarschuwing + '\')';
+
+			sqlStatement = 'INSERT INTO medicatie (lijst, regel, uuid, transcriptTimestamp, dispenseTimestamp,'
+						 + 'voorschrijverNaam, voorschrijverAGB, voorschrijverSpec, startGebruik, eindGebruik,'
+						 + 'hoeveelheid, codeUnit, zi, hpk, prk, dispensedMedicationName, iterationCredit,'
+						 + 'iterationDate, text1, text2, text3, text4, text5) VALUES ('
+			             +        lijst                   + ','
+						 +        (i+1)                   + ','
+						 + '\'' + uuid                    + '\','
+						 + '\'' + transcriptTimestamp     + '\','
+						 + '\'' + dispenseTimestamp       + '\','
+						 + '\'' + voorschrijverNaam       + '\','
+						 + '\'' + voorschrijverAGB        + '\','
+						 + '\'' + voorschrijverSpec       + '\','
+						 + '\'' + startGebruik            + '\','
+						 + '\'' + eindGebruik             + '\','
+						 +        hoeveelheid             + ','
+						 + '\'' + codeUnit                + '\','
+						 + '\'' + zi                      + '\','
+						 + '\'' + hpk                     + '\','
+						 + '\'' + prk                     + '\','
+						 + '\'' + dispensedMedicationName + '\','
+						 +        iterationCredit         + ','
+						 + '\'' + iterationDate           + '\','
+						 + '\'' + text1                   + '\','
+						 + '\'' + text2                   + '\','
+						 + '\'' + text3                   + '\','
+						 + '\'' + text4                   + '\','
+						 + '\'' + text5                   + '\')';
 
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{

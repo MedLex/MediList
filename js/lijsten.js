@@ -21,7 +21,7 @@ function initTables (db)
 														    + 'patient INTEGER)');
 		tx.executeSql ('CREATE TABLE IF NOT EXISTS medicatie  (lijst INTEGER,'						// interne lijst ID
 														    + 'regel INTEGER,'						// intern regelnummer
-															+ 'uuid INTEGER,'						// medicatie ID van het apotheeksysteem
+															+ 'uuid TEXT,'							// medicatie ID van het apotheeksysteem
 		                                                    + 'transcriptTimestamp TEXT,'			// datum/tijd van registratie
 		                                                    + 'dispenseTimestamp TEXT,'				// datum/tijd van uitlevering
 														    + 'voorschrijverNaam TEXT,'				// wie heeft dit medicijn voorgeschreven
@@ -29,7 +29,7 @@ function initTables (db)
 														    + 'voorschrijverSpec TEXT,'				// en specialisme
 															+ 'startGebruik TEXT,'					// datum start gebruik
 															+ 'eindGebruik TEXT,'					// datum eind gebruik
-															+ 'hoeveelheid TEXT,'					// double dosering
+															+ 'hoeveelheid INTEGER,'				// double dosering
 															+ 'codeUnit TEXT,'						// bijvoorbeeld ST, ML, etc
 															+ 'zi TEXT,'							// medicatiecodering z-Index
 															+ 'hpk TEXT,'							// handelsproductcode in de G-Standaard
@@ -196,7 +196,7 @@ function onShowMed (lijst, regel)
 				szHTML += addDate (row['dispenseTimestamp']  , 'Datum laatste levering');
 				szHTML += addDate (row['startGebruik']       , 'Startdatum');
 				szHTML += addDate (row['eindGebruik']        , 'Stopdatum');
-				szHTML += '<tr><td>Dosering</td><td>:</td><td>'				+ row['hoeveelheid'] + ' ' + row[codeUnit]	+ '</td></tr>'
+				szHTML += '<tr><td>Dosering</td><td>:</td><td>'				+ row['hoeveelheid'] + ' ' + row['codeUnit']	+ '</td></tr>'
 	                   +  '<tr><td>Voorschrijver</td><td>:</td><td>'		+ row['voorschrijverNaam']					+ '</td></tr>';
 				if (row['iterationCredit'] > 0)
 					szHTML += '<tr><td>Herhalingen</td><td>:</td><td>'		+ row['iterationCredit'] + '</td></tr>';
@@ -239,7 +239,7 @@ function addDate (dateString, label)
 		var date = new date (dateString);
 		var show = date.getDay ();
 		show += ' ';
-		show += months[date.getMonth ()-1];
+		show += months[date.getMonth ()];
 		show += ' ';
 		show += date.getFullYear ();
 		szHTML += show;
@@ -248,32 +248,6 @@ function addDate (dateString, label)
 	
 	return szHTML;
 }
-
-/*
-lijst INTEGER,'							// interne lijst ID
-'regel INTEGER,'						// intern regelnummer
-'uuid INTEGER,'							// medicatie ID van het apotheeksysteem
-'transcriptTimestamp TEXT,'				// datum/tijd van registratie
-'dispenseTimestamp TEXT,'				// datum/tijd van uitlevering
-'voorschrijverNaam TEXT,'				// wie heeft dit medicijn voorgeschreven
-'voorschrijverAGB TEXT,'				// met zijn/haar AGB code
-'voorschrijverSpec TEXT,'				// en specialisme
-'startGebruik TEXT,'					// datum start gebruik
-'eindGebruik TEXT,'						// datum eind gebruik
-'hoeveelheid TEXT,'						// double dosering
-'codeUnit TEXT,'						// bijvoorbeeld ST, ML, etc
-'zi TEXT,'								// medicatiecodering z-Index
-'hpk TEXT,'								// handelsproductcode in de G-Standaard
-'prk TEXT,'								// Prescriptiecode
-'dispensedMedicationName TEXT,'			// naam op het doosje
-'iterationCredit INTEGER,'				// hoeveelheid nog te herhalen
-'iterationDate TEXT,'					// herhaaldatum
-'text1 TEXT,'							// teksten
-'text2 TEXT,'							// let op: kunnen html opmaak als bijvoorbeeld <br /> bevatten
-'text3 TEXT,'							// bijvoorbeeld
-'text4 TEXT,'							// 1 maal per dag 2 tabletten Kuur afmaken<br/>Eerst uiteen laten vallen in water
-'text5 TEXT)');
-*/
 
 function showWarning (lijst, regel)
 {
