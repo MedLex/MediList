@@ -432,8 +432,6 @@ function handleQRCode (QRCode)
 				else
 					myAlert ('Er is een fout opgetreden! (status = ' + this.status + ', ' + this.statusText + ')');
 			}
-			else
-				myAlert ('De bewerking kon niet worden uitgevoerd! (status = ' + this.readyState + ')');
 		};
 
 		globalURL = url;
@@ -1015,7 +1013,7 @@ function ProcessReceivedData ()
 	// Zo niet, dan vragen we of we iemand moeten aankamen.
 	// Als er meer dan één is (tweeling) dan vragen we welke we moeten hebben.
 	//
-	alert ('start processing received data');
+	alert ('start processing received data:\r\n' + receivedList);
 	var dateTemp = globalBirthDate.split ('-');		// haal even uit elkaar
 	if (dateTemp.length != 3)						// daaruit moeten we drie componenten overhouden
 	{
