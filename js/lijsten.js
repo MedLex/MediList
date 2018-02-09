@@ -236,7 +236,7 @@ function addDate (dateString, label)
 	szHTML += '</td><td>:</td><td>';
 	if (dateString != '')
 	{
-		var date = new date (dateString);
+		var date = new Date (dateString);
 		var show = date.getDay ();
 		show += ' ';
 		show += months[date.getMonth ()];
