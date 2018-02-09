@@ -15,7 +15,7 @@
       "usageStartDate": "2018-01-19",
       "usageEndDate": "2018-01-26",
       "amount": 30,
-      "codedUnit": "string",
+      "codedUnit": "stuks",
       "zi": "16044940",
       "hpk": "1633090",
       "prk": "17809",
@@ -23,7 +23,7 @@
       "guidanceText": [
         "3 maal per dag 3 tabletten<br/>Heel doorslikken, niet kauwen<br/>TIJDENS het eten innemen<br/>Pas op met alcohol i.v.m. maagklachten"
       ]
-    }
+    },
     {
       "id": "114FEB04-FA07-4F39-9360-2E8CFCFB2AE5",
       "transcriptionTimestamp": "2017-10-19T14:45:57.652Z",
@@ -34,13 +34,13 @@
         "speciality": "Huisarts"
       },
       "usageStartDate": "2017-10-19",
-      "amount": 30,
-      "codedUnit": "string",
+      "amount": 40,
+      "codedUnit": "stuks",
       "zi": "16044941",
       "hpk": "1633091",
       "prk": "17810",
       "dispensedMedicationName": "Ascal 100mg",
-    }
+    },
     {
       "id": "114FEB04-FA07-4F39-9360-2E8CFCFB2AE5",
       "transcriptionTimestamp": "2017-01-01T14:45:57.652Z",
@@ -51,12 +51,16 @@
         "speciality": "Huisarts"
       },
       "usageStartDate": "2017-01-01",
-      "amount": 30,
-      "codedUnit": "string",
+      "amount": 2,
+      "codedUnit": "doosjes",
       "zi": "16044942",
       "hpk": "1633092",
       "prk": "17811",
       "dispensedMedicationName": "Atorvastatine",
+      "guidanceText": [
+        "Zie maar wanneer je dr zin inh hebt!",
+		"En anders laat dan maar zitten"
+      ]
     }
   ]
 }
