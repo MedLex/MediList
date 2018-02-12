@@ -2,7 +2,6 @@
 // (c) 2017, MedLex
 //
 var g_bDeviceIsReady	= false;
-var __divName;
 var db = null;
 var xmlDoc = null;
 var scanner;
@@ -50,15 +49,15 @@ function isDeviceReady ()
 
 //------------------------------------------------------------------------------------------------------
 // Bedek alle onderliggende zaken met een semi-transparante waas
-// Deze krijgt standaard als id '__brCover'. Die wordt later weggegooid bij de OK knop.
+// Deze krijgt standaard als id '__brCover' plus de opgegeven naam. Die wordt later weggegooid bij de OK knop.
 //
-function Cover (bRespond)
+function Cover (szName, bRespond)
 {
     
     elemCover = document.createElement ('div');
         
     elemCover.style.cssText = 'position:absolute;left:0px;right:0px;top:0px;bottom:0px;opacity:0.2;background:#000;';
-    elemCover.id = '__brCover';
+    elemCover.id = '__brCover'+szName;
     elemCover.style.transition = 'opacity 0.5s ease';
     elemCover.style.webkitTransition = 'opacity 0.5s ease';
 	if (bRespond)
@@ -75,7 +74,7 @@ function myAlert (szText)
     var elemWrapper;
     var elemDiv;
 
-    Cover ();    						// onderliggende tekst even bedekken
+    Cover ('__myAlert', false);    						// onderliggende tekst even bedekken
     elemWrapper = document.createElement ('div');		// wrapper voor alles
     elemWrapper.id = '__myAlert';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
     elemWrapper.style.cssText = 'position:absolute;width:80%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;border-radius:20px;overlow:hidden;';
@@ -84,7 +83,7 @@ function myAlert (szText)
     elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;';
+                          + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;border-radius:20px 20px 0 0;';
     elemDiv.innerHTML = '<b>Let op!</b>';
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
@@ -109,22 +108,22 @@ function myAlert (szText)
 		this.style.backgroundColor = '#ffffff';
 	};
     elemWrapper.appendChild (elemDiv);
-    document.body.appendChild (elemWrapper);
     
+    elemWrapper.style.opacity = '1';
+    elemWrapper.style.mozOpacity = '1';
+    elemWrapper.style.khtmlOpacity = '1';
+
+    document.body.appendChild (elemWrapper);
     var vWidth  = elemWrapper.offsetWidth;
     var vHeight = elemWrapper.offsetHeight;
     vWidth = parseInt (vWidth/2, 10);
     vHeight = parseInt (vHeight/2, 10);
     elemWrapper.style.marginLeft = '-' + vWidth + 'px';
     elemWrapper.style.marginTop = '-' + vHeight + 'px';
-    
-    elemWrapper.style.opacity = '1';
-    elemWrapper.style.mozOpacity = '1';
-    elemWrapper.style.khtmlOpacity = '1';
 }
 
 //------------------------------------------------------------------------------------------------------
-// GToon de details van een enkele medicatieregel
+// Toon de details van een enkele medicatieregel
 //
 function showPrescription (szHeader, szText)
 {
@@ -133,7 +132,7 @@ function showPrescription (szHeader, szText)
     var elemDiv;
 	var szHTML;
 
-    Cover ();    						// onderliggende tekst even bedekken
+    Cover ('__myPrescription', false);					// onderliggende tekst even bedekken
     elemWrapper = document.createElement ('div');		// wrapper voor alles
     elemWrapper.id = '__myPrescription';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
     elemWrapper.style.cssText = 'position:absolute;width:92%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;border-radius: 20px;';
@@ -141,7 +140,7 @@ function showPrescription (szHeader, szText)
     elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;';
+                          + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;border-radius:20px 20px 0 0;';
     elemDiv.innerHTML = szHeader;
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
@@ -169,6 +168,11 @@ function showPrescription (szHeader, szText)
 		this.style.backgroundColor = '#ffffff';
 	};
 	elemWrapper.appendChild (elemDiv);
+
+	elemWrapper.style.opacity = '1';
+	elemWrapper.style.mozOpacity = '1';
+	elemWrapper.style.khtmlOpacity = '1';
+
 	document.body.appendChild (elemWrapper);
 
 	var vWidth  = elemWrapper.offsetWidth;
@@ -177,16 +181,12 @@ function showPrescription (szHeader, szText)
 	vHeight = parseInt (vHeight/2, 10);
 	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
 	elemWrapper.style.marginTop = '-' + vHeight + 'px';
-
-	elemWrapper.style.opacity = '1';
-	elemWrapper.style.mozOpacity = '1';
-	elemWrapper.style.khtmlOpacity = '1';
 }
 
 function onClickOK (szName)
 {
 	
-    var elemCover = document.getElementById ('__brCover');
+    var elemCover = document.getElementById ('__brCover'+szName);
     var elemWrapper = document.getElementById (szName);
 	
 	if (elemWrapper)
@@ -198,18 +198,19 @@ function onClickOK (szName)
 			elemCover.style.opacity = '0';
 			elemCover.style.mozOpacity = '0';
 		}
-		__divName = szName;
-		setTimeout(function()
-		{
-			var divCover = document.getElementById ('__brCover');
-			var divWrapper = document.getElementById (__divName);
-			
-			if (divWrapper)
-				divWrapper.parentNode.removeChild (divWrapper);
-			if (divCover)
-				divCover.parentNode.removeChild (divCover);
-		}, 500);
+		setTimeout(function() { closeAll (szName); }, 500);
 	}
+}
+
+function closeAll (szName)
+{
+	var divCover	= document.getElementById ('__brCover'+szName);
+	var divWrapper	= document.getElementById (szName);
+	
+	if (divWrapper)
+		document.body.removeChild (divWrapper);
+	if (divCover)
+		document.body.removeChild (divCover);
 }
 
 //---------------------------------------------------------------------------

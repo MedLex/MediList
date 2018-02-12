@@ -1098,7 +1098,7 @@ function ProcessReceivedData ()
 
 			else														// Oeps, meerdere gebruikers met dezelfde geboortedatum (tweeling of zo?)
 			{															// Dan moeten we dus vragen wie het gaat worden
-				Cover ();    											// onderliggende tekst even bedekken
+				Cover ('__selectImportPatient', false); 				// onderliggende tekst even bedekken
 				var elemWrapper = document.createElement ('div');		// wrapper voor alles
 				elemWrapper.id = '__selectImportPatient';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
 				elemWrapper.style.cssText = 'position:absolute;width:80%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;'
@@ -1167,8 +1167,9 @@ function ProcessReceivedData ()
 				elemDiv = document.createElement ('div');
 				elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
 									+ 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
-				elemDiv.setAttribute('onclick', 'onClickOK(\'__selectImportPatient\');');
-				elemDiv.setAttribute('onmouseup', 'onClickOK(\'__selectImportPatient\');');
+				elemDiv.onclick = function () { onClickOK ('__selectImportPatient'); };
+//				elemDiv.setAttribute('onclick', 'onClickOK(\'__selectImportPatient\');');
+//				elemDiv.setAttribute('onmouseup', 'onClickOK(\'__selectImportPatient\');');
 				elemDiv.innerHTML = 'OK';
 				elemDiv.onmouseover = function ()
 				{
