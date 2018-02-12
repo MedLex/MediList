@@ -160,8 +160,6 @@ function showListStep3 (db, id)
 				div = document.createElement ('div');
 				div.className = 'item standard';
 				div.onclick = function () { onShowMed (id, row['regel']) };
-//				div.setAttribute ('onmouseup', 'onShowMed(' + id + ', ' + row['regel'] + ');');
-//				div.setAttribute ('onclick'  , 'onShowMed(' + id + ', ' + row['regel'] + ');');
 				szHTML = '<b>' + row['dispensedMedicationName'] + '</b><br />';
 				szHTML += row['hoeveelheid'];
 				szHTML += ' ';
@@ -192,7 +190,7 @@ function onShowMed (lijst, regel)
 			else
 			{
 				var szHTML = '';
-				row = results.rows.item(0);
+				var row = results.rows.item(0);
 
 				szHTML  = addDate (row['transcriptTimestamp'], 'Datum voorschrift');
 				szHTML += addDate (row['dispenseTimestamp']  , 'Datum laatste levering');
