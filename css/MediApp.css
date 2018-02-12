@@ -320,11 +320,11 @@ body
 {
 	position:relative;
 	left:0px;
-	right:0px;
+	width:100%;
 	border-bottom:solid 1px #a6a6a6;
 	padding-left:30px;
-	padding-top:16px;
-	padding-bottom:16px;
+	padding-top:12px;
+	padding-bottom:12px;
 	vertical-align:center;
 }
 
@@ -361,12 +361,12 @@ body
 {
 	position:absolute;
 	right:0px;
-	width: 36px;
-	height:36px;
+	width: 30px;
+	height:30px;
 	top:50%;
-	margin-top:-18px;
+	margin-top:-15px;
 	background:transparent url('../img/exclamation.png') center no-repeat;
-    background-size:36px;
+    background-size:30px;
 }
 
 #menuBox
