@@ -304,7 +304,6 @@ function plus ()
 	
 	if (screenID == 0)						// medicatielijst
 	{
-		/*
 		cordova.plugins.barcodeScanner.scan(
 			function (result)
 			{
@@ -331,8 +330,7 @@ function plus ()
 				disableSuccessBeep: false		// iOS and Android
 			}
 		);
-		*/
-		handleQRCode ('1;1;19520925;data/voorbeeld2.json');
+//		handleQRCode ('1;1;19520925;data/voorbeeld2.json');
 	}
 	else if (screenID == 1)					// gebruikers
 	{

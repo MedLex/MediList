@@ -38,8 +38,8 @@ function init()
 	if (   setting
         && setting != '')
 		document.getElementById ('askOK').className = setting;
-	onDeviceReady ();
-//	document.addEventListener("deviceready", onDeviceReady, false);
+//	onDeviceReady ();
+	document.addEventListener("deviceready", onDeviceReady, false);
 }
 
 function isDeviceReady ()
