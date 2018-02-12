@@ -337,10 +337,11 @@ body
 	left:0px;
 	right:0px;
 	border-bottom:solid 1px #a0a0a0;
-	padding-left:35px;
+	padding-left:20px;
 	padding-top:12px;
 	padding-bottom:6px;
 	vertical-align:center;
+	background-color:#fafafa;
 }
 
 #back
