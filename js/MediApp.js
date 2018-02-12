@@ -973,10 +973,6 @@ function showListsStep2 (db, lists, id)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-/*				if (i%2)
-					colorName = 'standard50';
-				else
-					colorName = 'standard200'; */
 				div.className = 'personLine standard';
 				div.setAttribute ('onmouseup', 'showSimpleList (' + row['id'] + ')');
 				var day = row['listDag'];
@@ -1010,6 +1006,7 @@ function showSimpleList (lijst)
 	
 	persons = document.getElementById ('persons');
 	setVisibility ('menubutton', true);
+	setVisibility ('back', false);
 	if (persons)
 	{
 		persons.style.opacity = '0';
