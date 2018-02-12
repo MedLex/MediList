@@ -863,19 +863,18 @@ function importOverzicht (id, lijst)
 				dispensedMedicationName = medicijn.dispensedMedicationName;
 			if (medicijn.guidanceText)
 			{
-				for (var j=0; j < medicijn.guidanceText.length; j++)
-				{
-					if (j == 0)
-						text1 = medicijn.guidanceText[j];
-					else if (j == 1)
-						text2 = medicijn.guidanceText[j];
-					else if (j == 2)
-						text3 = medicijn.guidanceText[j];
-					else if (j == 3)
-						text4 = medicijn.guidanceText[j];
-					else if (j == 4)
-						text5 = medicijn.guidanceText[j];
-				}
+				var length = medicijn.guidanceText.length;
+
+				if (length > 0)
+					text1 = medicijn.guidanceText[0];
+				if (length > 1)
+					text2 = medicijn.guidanceText[1];
+				if (length > 2)
+					text3 = medicijn.guidanceText[2];
+				if (length > 3)
+					text4 = medicijn.guidanceText[3];
+				if (length > 4)
+					text5 = medicijn.guidanceText[4];
 			}
 
 			sqlStatement = 'INSERT INTO medicatie (lijst, regel, uuid, transcriptTimestamp, dispenseTimestamp,'
@@ -908,7 +907,6 @@ function importOverzicht (id, lijst)
 
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
-//				alert ('regel toegevoegd met id ' + results.insertId);
 			}, function (tx, error)
 			{
 				alert ('er is een fout opgetreden bij invoeren van de lijst\r\n' + error.message);
@@ -975,12 +973,11 @@ function showListsStep2 (db, lists, id)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-				if (i%2)
+/*				if (i%2)
 					colorName = 'standard50';
 				else
-					colorName = 'standard200';
-				
-				div.className = 'personLine large ' + colorName;
+					colorName = 'standard200'; */
+				div.className = 'personLine standard';
 				div.setAttribute ('onmouseup', 'showSimpleList (' + row['id'] + ')');
 				var day = row['listDag'];
 				if(day<10){ day="0"+day;}

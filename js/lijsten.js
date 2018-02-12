@@ -152,15 +152,13 @@ function showListStep3 (db, id)
 	{
 		tx.executeSql('SELECT * FROM medicatie WHERE lijst = ' + id, [], function (tx, results)
 		{
-//			alert ('lijst met id = ' + id + ', heeft ' + results.rows.length + ' entries');
 			for (var i=0; i < results.rows.length; i++)
 			{
 				row = results.rows.item(i);
 				var div = document.createElement ('div');
 				div.className = 'item standard';
 				div.setAttribute ('onclick', 'onShowMed (' + id + ', ' + row['regel'] + ');');
-//				div.onclick = function () { onShowMed (id, row['regel']); };
-				szHTML = row['regel']  + ' <b>' + row['dispensedMedicationName'] + '</b><br />';
+				szHTML = '<b>' + row['dispensedMedicationName'] + '</b><br />';
 				szHTML += row['hoeveelheid'];
 				szHTML += ' ';
 				szHTML += row['codeUnit'];
