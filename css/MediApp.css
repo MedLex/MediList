@@ -324,24 +324,11 @@ body
 	display:block;
 	border-bottom:solid 1px #a6a6a6;
 	padding-right:34px;
-	padding-left:25px;
+	padding-left:20px;
 	padding-top:12px;
 	padding-bottom:12px;
 	vertical-align:center;
 	background:#ffffff;
-}
-
-.itemtext
-{
-	background:transparent;
-	position:absolute;
-	left:0px;
-	right:0px;
-	top:0px;
-	bottom:0px;
-	padding-top:12px;
-	padding-bottom:12px;
-	padding-left:30px;
 }
 
 .itemHeader
@@ -664,6 +651,7 @@ body
 
 .personLine
 {
+	display:block;
 	position:relative;
 	left:0px;
 	right:0px;
@@ -672,6 +660,12 @@ body
 	padding-left:8px;
 	height:40px;
 	line-height:40px;
+	background-color:#ffffff;
+}
+
+.personLine:hover
+{
+	background-color:#afafaf;
 }
 
 .personDelete
