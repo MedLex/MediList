@@ -323,10 +323,25 @@ body
 	right:0px;
 	display:block;
 	border-bottom:solid 1px #a6a6a6;
+	padding:0;
 	padding-left:30px;
 	padding-top:12px;
 	padding-bottom:12px;
 	vertical-align:center;
+	background:#ffffff;
+}
+
+.itemtext
+{
+	background:transparent;
+	position:absolute;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	padding-top:12px;
+	padding-bottom:12px;
+	padding-left:30px;
 }
 
 .itemHeader
