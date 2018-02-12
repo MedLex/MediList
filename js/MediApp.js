@@ -304,6 +304,7 @@ function plus ()
 	
 	if (screenID == 0)						// medicatielijst
 	{
+		/*
 		cordova.plugins.barcodeScanner.scan(
 			function (result)
 			{
@@ -330,6 +331,8 @@ function plus ()
 				disableSuccessBeep: false		// iOS and Android
 			}
 		);
+		*/
+		handleQRCode ('1;1;19520925;data/voorbeeld2.json');
 	}
 	else if (screenID == 1)					// gebruikers
 	{
@@ -433,7 +436,11 @@ function handleQRCode (QRCode)
 							 + globalShowDate
 							 + ' kon niet worden gevonden of is verlopen');
 				else
-					myAlert ('Er is een fout opgetreden! (url = \'' + globalURL + '\'\r\nstatus = ' + this.status + ', ' + this.statusText + ')');
+				{
+//					myAlert ('Er is een fout opgetreden! (url = \'' + globalURL + '\'\r\nstatus = ' + this.status + ', ' + this.statusText + ')');
+					receivedList = JSON.parse(this.responseText);
+					ProcessReceivedData ();
+				}
 			}
 		};
 
@@ -828,7 +835,7 @@ function importOverzicht (id, lijst)
 			if (medicijn.id)
 				uuid = medicijn.id;
 			if (medicijn.transcriptionTimestamp)
-				transcriptionTimestamp = medicijn.transcriptionTimestamp;
+				transcriptTimestamp = medicijn.transcriptionTimestamp;
 			if (medicijn.dispenseTimestamp)
 				dispenseTimestamp = medicijn.dispenseTimestamp;
 			if (medicijn.prescriber)

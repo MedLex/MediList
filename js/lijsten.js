@@ -146,7 +146,6 @@ function showListStep2 (db, id)
 function showListStep3 (db, id)
 {
 	var overzicht = document.getElementById ('overzicht');
-	var div;
 	var szHTML;
 	
 	db.transaction(function(tx)
@@ -157,15 +156,16 @@ function showListStep3 (db, id)
 			for (var i=0; i < results.rows.length; i++)
 			{
 				row = results.rows.item(i);
-				div = document.createElement ('div');
+				var div = document.createElement ('div');
 				div.className = 'item standard';
-				div.onclick = function () { onShowMed (id, row['regel']) };
-				szHTML = '<b>' + row['dispensedMedicationName'] + '</b><br />';
+				div.setAttribute ('onclick', 'onShowMed (' + id + ', ' + row['regel'] + ');');
+//				div.onclick = function () { onShowMed (id, row['regel']); };
+				szHTML = row['regel']  + ' <b>' + row['dispensedMedicationName'] + '</b><br />';
 				szHTML += row['hoeveelheid'];
 				szHTML += ' ';
 				szHTML += row['codeUnit'];
 				if (row['text1'] != '')
-					szHTML += '<div class="warning" onmouseup="showWarning(' + id + ', ' + row['regel'] + ');"></div>';
+					szHTML += '<div class="warning"></div>';
 				div.innerHTML = szHTML;
 				overzicht.appendChild (div);
 			}

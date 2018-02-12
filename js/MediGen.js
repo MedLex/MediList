@@ -38,8 +38,8 @@ function init()
 	if (   setting
         && setting != '')
 		document.getElementById ('askOK').className = setting;
-//	onDeviceReady ();
-    document.addEventListener("deviceready", onDeviceReady, false);
+	onDeviceReady ();
+//	document.addEventListener("deviceready", onDeviceReady, false);
 }
 
 function isDeviceReady ()
@@ -95,7 +95,7 @@ function myAlert (szText)
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
-	elemDiv.onclick = function () { onClickOK ('__myAlert') };
+	elemDiv.onclick = function () { onClickOK ('__myAlert'); };
 //	elemDiv.setAttribute('onclick', 'onClickOK(\'__myAlert\');');
 //	elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myAlert\');');
 	elemDiv.innerHTML = '<b>OK</b>';
@@ -155,7 +155,7 @@ function showPrescription (szHeader, szText)
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
-	elemDiv.onclick = function () { onClickOK ('__myPrescription') };
+	elemDiv.onclick = function () { onClickOK ('__myPrescription'); };
 //	elemDiv.setAttribute('onclick', 'onClickOK(\'__myPrescription\');');
 //	elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myPrescription\');');
 	elemDiv.innerHTML = '<b>OK</b>';
