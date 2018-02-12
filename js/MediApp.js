@@ -769,7 +769,7 @@ function addMedicationList (patient)
 		myAlert ('Geen geldig medApp bestand ontvangen (3)');
 		return ;
 	}
-	var listDag   = date.getDay ();
+	var listDag   = date.getDate ();
 	var listMaand = date.getMonth ()+1;
 	var listJaar  = date.getFullYear ();
 

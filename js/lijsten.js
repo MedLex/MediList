@@ -159,8 +159,9 @@ function showListStep3 (db, id)
 				row = results.rows.item(i);
 				div = document.createElement ('div');
 				div.className = 'item standard';
-				div.setAttribute ('onmouseup', 'onShowMed(' + id + ', ' + row['regel'] + ');');
-				div.setAttribute ('onclick'  , 'onShowMed(' + id + ', ' + row['regel'] + ');');
+				div.onclick = function () { onShowMed (id, row['regel']) };
+//				div.setAttribute ('onmouseup', 'onShowMed(' + id + ', ' + row['regel'] + ');');
+//				div.setAttribute ('onclick'  , 'onShowMed(' + id + ', ' + row['regel'] + ');');
 				szHTML = '<b>' + row['dispensedMedicationName'] + '</b><br />';
 				szHTML += row['hoeveelheid'];
 				szHTML += ' ';
@@ -238,7 +239,7 @@ function addDate (dateString, label)
 	if (dateString != '')
 	{
 		var date = new Date (dateString);
-		var show = date.getDay ();
+		var show = date.getDate ();
 		show += ' ';
 		show += months[date.getMonth ()];
 		show += ' ';

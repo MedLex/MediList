@@ -95,18 +95,19 @@ function myAlert (szText)
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
-    elemDiv.setAttribute('onclick', 'onClickOK(\'__myAlert\');');
-    elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myAlert\');');
-    elemDiv.innerHTML = '<b>OK</b>';
-    elemDiv.onmouseover = function ()
-    {
-    	this.style.backgroundColor = '#afafaf';
-    };
-    elemDiv.onmouseout = function ()
-    {
-    	this.style.backgroundColor = '#ffffff';
-    };
+                          + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
+	elemDiv.onclick = function () { onClickOK ('__myAlert') };
+//	elemDiv.setAttribute('onclick', 'onClickOK(\'__myAlert\');');
+//	elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myAlert\');');
+	elemDiv.innerHTML = '<b>OK</b>';
+	elemDiv.onmouseover = function ()
+	{
+		this.style.backgroundColor = '#afafaf';
+	};
+	elemDiv.onmouseout = function ()
+	{
+		this.style.backgroundColor = '#ffffff';
+	};
     elemWrapper.appendChild (elemDiv);
     document.body.appendChild (elemWrapper);
     
@@ -154,31 +155,32 @@ function showPrescription (szHeader, szText)
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
-    elemDiv.setAttribute('onclick', 'onClickOK(\'__myPrescription\');');
-    elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myPrescription\');');
-    elemDiv.innerHTML = '<b>OK</b>';
-    elemDiv.onmouseover = function ()
-    {
-    	this.style.backgroundColor = '#afafaf';
-    };
-    elemDiv.onmouseout = function ()
-    {
-    	this.style.backgroundColor = '#ffffff';
-    };
-    elemWrapper.appendChild (elemDiv);
-    document.body.appendChild (elemWrapper);
-    
-    var vWidth  = elemWrapper.offsetWidth;
-    var vHeight = elemWrapper.offsetHeight;
-    vWidth = parseInt (vWidth/2, 10);
-    vHeight = parseInt (vHeight/2, 10);
-    elemWrapper.style.marginLeft = '-' + vWidth + 'px';
-    elemWrapper.style.marginTop = '-' + vHeight + 'px';
-    
-    elemWrapper.style.opacity = '1';
-    elemWrapper.style.mozOpacity = '1';
-    elemWrapper.style.khtmlOpacity = '1';
+                          + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
+	elemDiv.onclick = function () { onClickOK ('__myPrescription') };
+//	elemDiv.setAttribute('onclick', 'onClickOK(\'__myPrescription\');');
+//	elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myPrescription\');');
+	elemDiv.innerHTML = '<b>OK</b>';
+	elemDiv.onmouseover = function ()
+	{
+		this.style.backgroundColor = '#afafaf';
+	};
+	elemDiv.onmouseout = function ()
+	{
+		this.style.backgroundColor = '#ffffff';
+	};
+	elemWrapper.appendChild (elemDiv);
+	document.body.appendChild (elemWrapper);
+
+	var vWidth  = elemWrapper.offsetWidth;
+	var vHeight = elemWrapper.offsetHeight;
+	vWidth = parseInt (vWidth/2, 10);
+	vHeight = parseInt (vHeight/2, 10);
+	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
+	elemWrapper.style.marginTop = '-' + vHeight + 'px';
+
+	elemWrapper.style.opacity = '1';
+	elemWrapper.style.mozOpacity = '1';
+	elemWrapper.style.khtmlOpacity = '1';
 }
 
 function onClickOK (szName)
