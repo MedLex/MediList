@@ -21,6 +21,7 @@ function onDeviceReady()
 	}
 	else
 		alert ('no database available!');
+	setFontSizes ();
 }
 
 //--------------------------------------------------------------
@@ -42,7 +43,7 @@ function init()
 	if (   setting
         && setting != '')
 		document.getElementById ('largeFont').className = setting;
-	setFontSizes ();
+//	setFontSizes ();
 
 //	onDeviceReady ();
 	document.addEventListener("deviceready", onDeviceReady, false);

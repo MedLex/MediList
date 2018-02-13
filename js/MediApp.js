@@ -1206,17 +1206,23 @@ function ProcessReceivedData ()
 function largeFont ()
 {
 	var largeFont = toggle ('largeFont');
-	
+
 	setFontSizes ();
 }
 
 function setFontSizes ()
 {
-	var className = document.getElementById ('largeFont').className;
+	var vFont = document.getElementById ('largeFont');
+	if (!vFont)
+		return ;
+
+	var className = vFont.className;
 	var largeFont = false;
 	if (className == 'checked')
 		largeFont = true;
 	var div = document.getElementsByClassName ('standard');
+	if (!div)
+		return;
 	var fontSize = 'small';
 
 	if (largeFont)
@@ -1224,6 +1230,8 @@ function setFontSizes ()
 	for (var i = 0; i < div.length; i++)
 		div[i].style.fontSize = fontSize;
 	div = document.getElementsByClassName ('large');
+	if (!div)
+		return;
 	fontSize = 'medium';
 	if (largeFont)
 		fontSize = 'large';
