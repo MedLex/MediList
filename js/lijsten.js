@@ -192,7 +192,7 @@ function onShowMed (lijst, regel)
 				var row = results.rows.item(0);
 
 				szHTML  = addDate (row['transcriptTimestamp'], 'Datum voorschrift');
-				szHTML += addDate (row['dispenseTimestamp']  , 'Datum laatste levering');
+				szHTML += addDate (row['dispenseTimestamp']  , 'Laatste geleverd');
 				szHTML += addDate (row['startGebruik']       , 'Startdatum');
 				szHTML += addDate (row['eindGebruik']        , 'Stopdatum');
 				szHTML += '<tr><td>Dosering</td><td>:</td><td>'				+ row['hoeveelheid'] + ' ' + row['codeUnit']	+ '</td></tr>'
