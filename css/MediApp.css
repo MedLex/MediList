@@ -341,7 +341,7 @@ body
 	padding-top:12px;
 	padding-bottom:6px;
 	vertical-align:center;
-	background-color:#fafafa;
+	background-color:#c7e0ff;
 }
 
 #back
@@ -369,7 +369,7 @@ body
 	height:30px;
 	top:50%;
 	margin-top:-15px;
-	background:transparent url('../img/exclamation.png') center no-repeat;
+	background:transparent url('../img/i.png') center no-repeat;
     background-size:30px;
 }
 
