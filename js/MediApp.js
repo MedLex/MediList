@@ -158,6 +158,7 @@ function configOK ()
 	
 	saveSetting ('monthsSave', document.getElementById ('termijn').value);
 	saveSetting ('sendPermission', document.getElementById ('askOK').className);
+	saveSetting ('largeFont', document.getElementById ('largeFont').className);
 
 	config = document.getElementById ('config');
 	setVisibility ('menubutton', true);
@@ -228,6 +229,7 @@ function fillPersons (person)
 
 				person.appendChild (div);
 			}
+			setFontSizes ();
 		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
@@ -1199,4 +1201,32 @@ function ProcessReceivedData ()
 		{
 		};
 	});
+}
+
+function largeFont ()
+{
+	var largeFont = toggle ('largeFont');
+	
+	setFontSizes ();
+}
+
+function setFontSizes ()
+{
+	var className = document.getElementById ('largeFont').className;
+	var largeFont = false;
+	if (className == 'checked')
+		largeFont = true;
+	var div = document.getElementsByClassName ('standard');
+	var fontSize = 'small';
+
+	if (largeFont)
+		fontSize = 'medium';
+	for (var i = 0; i < div.length; i++)
+		div[i].style.fontSize = fontSize;
+	div = document.getElementsByClassName ('large');
+	fontSize = 'medium';
+	if (largeFont)
+		fontSize = 'large';
+	for (var i = 0; i < div.length; i++)
+		div[i].style.fontSize = fontSize;
 }

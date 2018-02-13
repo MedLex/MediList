@@ -167,6 +167,7 @@ function showListStep3 (db, id)
 				div.innerHTML = szHTML;
 				overzicht.appendChild (div);
 			}
+			setFontSizes ();
 		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);

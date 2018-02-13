@@ -38,6 +38,12 @@ function init()
 	if (   setting
         && setting != '')
 		document.getElementById ('askOK').className = setting;
+	setting = loadSetting ('largeFont');
+	if (   setting
+        && setting != '')
+		document.getElementById ('largeFont').className = setting;
+	setFontSizes ();
+
 //	onDeviceReady ();
 	document.addEventListener("deviceready", onDeviceReady, false);
 }
@@ -244,14 +250,20 @@ function setVisibility(id, nVisible)
 function toggle (divID)
 {
 	var div = document.getElementById (divID);
+	var r = false;
 
 	if (div)
 	{
 		if (div.className == 'checked')
 			div.className = 'unchecked';
 		else
+		{
 			div.className = 'checked';
+			r = true;
+		}
 	}
+	
+	return r;
 }
 
 //------------------------------------------------------------------------------
