@@ -19,7 +19,7 @@
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 	<link rel="stylesheet" type="text/css" href="css/MediApp.css" />
 
-	<script type="text/javascript" src="phonegap.js"></script>
+<!--	<script type="text/javascript" src="phonegap.js"></script> -->
 	<script type="text/javascript" src="js/MediGen.js"></script>
 	<script type="text/javascript" src="js/MediApp.js"></script>
 	<script type="text/javascript" src="js/lijsten.js"></script>
@@ -53,11 +53,11 @@
 				<form>
 					<table>
 						<tr>
-							<td>Naam</td>
+							<td class="standard">Naam</td>
 							<td><input id="indiNaam" type="text" /></td>
 						</tr>
 						<tr>
-							<td>Geboortedatum</td>
+							<td class="standard">Geboortedatum</td>
 							<td><input id="indiGeboren" type="date" /></td>
 						</tr>
 					</table>
@@ -97,6 +97,10 @@
 					<tr class="cHeight">
 						<td class="cHeight large">Vraag toestemming voor verzenden</td>
 						<td class="cHeight"><div class="cHeight" style="position:relative;"><div id="askOK" class="unchecked" onmouseup="toggle('askOK');"></div></div></td>
+					</tr>
+					<tr class="cHeight">
+						<td class="cHeight large">Grote letters</td>
+						<td class="cHeight"><div class="cHeight" style="position:relative;"><div id="largeFont" class="unchecked" onmouseup="toggle('largeFont');"></div></div></td>
 					</tr>
 				</table>
 			</div>
