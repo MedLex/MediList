@@ -12,6 +12,8 @@ var scanner;
 function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
+	
+	alert ('The device is ready');
 
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
@@ -47,7 +49,7 @@ function init()
 //	setFontSizes ();
 
 //	onDeviceReady ();
-	alert ('not waiting for deviceready');
+	alert ('now waiting for deviceready');
 	document.addEventListener("deviceready", onDeviceReady, false);
 }
 
