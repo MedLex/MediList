@@ -13,7 +13,7 @@ function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
 	
-	alert ('The device is ready');
+//	alert ('The device is ready');
 
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
@@ -48,9 +48,9 @@ function init()
 		document.getElementById ('largeFont').className = setting;
 //	setFontSizes ();
 
-//	onDeviceReady ();
-	alert ('now waiting for deviceready');
-	document.addEventListener("deviceready", onDeviceReady, false);
+	onDeviceReady ();
+//	alert ('now waiting for deviceready');
+//	document.addEventListener ("deviceready", onDeviceReady, false);
 }
 
 function isDeviceReady ()
