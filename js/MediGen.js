@@ -98,7 +98,6 @@ function myAlert (szText)
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
     elemDiv.id = '__brAlertText';
-	elemDiv.className = 'standard';
     elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
     elemDiv.innerHTML = szText;
@@ -141,8 +140,12 @@ function showPrescription (szHeader, szText)
 
     var elemWrapper;
     var elemDiv;
+	var elemText;
 	var szHTML;
+	var fontSize = 'small';
 
+	if (document.getElementById ('largeFont').className == 'checked')
+		fontSize = 'medium';
     Cover ('__myPrescription', false);					// onderliggende tekst even bedekken
     elemWrapper = document.createElement ('div');		// wrapper voor alles
     elemWrapper.id = '__myPrescription';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
@@ -154,16 +157,19 @@ function showPrescription (szHeader, szText)
                           + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;border-radius:20px 20px 0 0;';
     elemDiv.innerHTML = szHeader;
     elemWrapper.appendChild (elemDiv);
-    elemDiv = document.createElement ('div');
-	elemDiv.className = 'standard';
-    elemDiv.id = '__brAlertText';
-    elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
+    elemText = document.createElement ('div');
+    elemText.id = '__brAlertText';
+    elemText.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
     szHTML  = '<table>';
     szHTML += szText;
     szHTML += '</table>';
-    elemDiv.innerHTML = szHTML;
-    elemWrapper.appendChild (elemDiv);
+    elemText.innerHTML = szHTML;
+    elemWrapper.appendChild (elemText);
+	var td = elemText.getElementsByTagName ('td');
+	var size = 'small';
+	for (var i = 0; i < td.length; i++)
+		td.style.fontSize = fontSize;
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
@@ -191,8 +197,6 @@ function showPrescription (szHeader, szText)
 	vHeight = parseInt (vHeight/2, 10);
 	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
 	elemWrapper.style.marginTop = '-' + vHeight + 'px';
-
-	setFontSizes ();
 }
 
 function onClickOK (szName)
