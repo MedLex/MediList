@@ -13,20 +13,15 @@ function onDeviceReady()
 {
 	g_bDeviceIsReady = true;
 
-	alert ('onDeviceReady');
 	db = window.openDatabase("MediList.db", "1.0", "MediList", 200000);
 	if (db)
 	{
-		alert ('initializing tables');
 		initTables (db);
-		alert ('tables initialized');
 		showList (db);
-		alert ('list built');
 	}
 	else
 		alert ('no database available!');
 	setFontSizes ();
-	alert ('fontsizes set');
 }
 
 //--------------------------------------------------------------
@@ -45,12 +40,14 @@ function init()
         && setting != '')
 		document.getElementById ('askOK').className = setting;
 	setting = loadSetting ('largeFont');
+	alert ('setting largeFont = \'' + setting + '\'');
 	if (   setting
         && setting != '')
 		document.getElementById ('largeFont').className = setting;
 //	setFontSizes ();
 
 //	onDeviceReady ();
+	alert ('not waiting for deviceready');
 	document.addEventListener("deviceready", onDeviceReady, false);
 }
 
