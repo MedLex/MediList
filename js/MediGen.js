@@ -146,33 +146,30 @@ function showPrescription (szHeader, szText)
 
 	if (document.getElementById ('largeFont').className == 'checked')
 		fontSize = 'medium';
-    Cover ('__myPrescription', false);					// onderliggende tekst even bedekken
-    elemWrapper = document.createElement ('div');		// wrapper voor alles
-    elemWrapper.id = '__myPrescription';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
-    elemWrapper.style.cssText = 'position:absolute;width:92%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;border-radius: 20px;';
-    elemWrapper.style.transition = 'opacity 0.5s ease';
-    elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
-    elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;border-radius:20px 20px 0 0;';
-    elemDiv.innerHTML = szHeader;
-    elemWrapper.appendChild (elemDiv);
-    elemText = document.createElement ('div');
-    elemText.id = '__brAlertText';
-    elemText.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
-    szHTML  = '<table>';
-    szHTML += szText;
-    szHTML += '</table>';
-    elemText.innerHTML = szHTML;
-    elemWrapper.appendChild (elemText);
-	var td = elemText.getElementsByTagName ('td');
-	var size = 'small';
-	for (var i = 0; i < td.length; i++)
-		td.style.fontSize = fontSize;
-    elemDiv = document.createElement ('div');
-    elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
+
+	Cover ('__myPrescription', false);					// onderliggende tekst even bedekken
+	elemWrapper = document.createElement ('div');		// wrapper voor alles
+	elemWrapper.id = '__myPrescription';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
+	elemWrapper.style.cssText = 'position:absolute;width:92%;top:50%;left:50%;height:auto;background-color:#ffffff;padding:0;opacity:0;-moz-opacity:0;-khtml-opacity:0;overflow:hidden;border-radius: 20px;';
+	elemWrapper.style.transition = 'opacity 0.5s ease';
+	elemWrapper.style.webkitTransition = 'opacity 0.5s ease';
+	elemDiv = document.createElement ('div');
+	elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
+						  + 'font-size:large;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;border-radius:20px 20px 0 0;';
+	elemDiv.innerHTML = szHeader;
+	elemWrapper.appendChild (elemDiv);
+	elemText = document.createElement ('div');
+	elemText.id = '__brAlertText';
+	elemText.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
+						  + 'text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
+	szHTML  = '<table>';
+	szHTML += szText;
+	szHTML += '</table>';
+	elemText.innerHTML = szHTML;
+	elemWrapper.appendChild (elemText);
+	elemDiv = document.createElement ('div');
+	elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
+						  + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
 	elemDiv.onclick = function () { onClickOK ('__myPrescription'); };
 	elemDiv.innerHTML = '<b>OK</b>';
 	elemDiv.onmouseover = function ()
@@ -190,6 +187,10 @@ function showPrescription (szHeader, szText)
 	elemWrapper.style.khtmlOpacity = '1';
 
 	document.body.appendChild (elemWrapper);
+
+	var td = elemText.getElementsByTagName ('td');
+	for (var i = 0; i < td.length; i++)
+		td[i].style.fontSize = fontSize;
 
 	var vWidth  = elemWrapper.offsetWidth;
 	var vHeight = elemWrapper.offsetHeight;
