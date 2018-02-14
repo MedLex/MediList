@@ -42,7 +42,6 @@ function init()
         && setting != '')
 		document.getElementById ('askOK').className = setting;
 	setting = loadSetting ('largeFont');
-	alert ('setting largeFont = \'' + setting + '\'');
 	if (   setting
         && setting != '')
 		document.getElementById ('largeFont').className = setting;
@@ -99,16 +98,15 @@ function myAlert (szText)
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
     elemDiv.id = '__brAlertText';
+	elemDiv.className = 'standard';
     elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
+                          + 'text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
     elemDiv.innerHTML = szText;
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
 	elemDiv.onclick = function () { onClickOK ('__myAlert'); };
-//	elemDiv.setAttribute('onclick', 'onClickOK(\'__myAlert\');');
-//	elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myAlert\');');
 	elemDiv.innerHTML = '<b>OK</b>';
 	elemDiv.onmouseover = function ()
 	{
@@ -118,19 +116,21 @@ function myAlert (szText)
 	{
 		this.style.backgroundColor = '#ffffff';
 	};
-    elemWrapper.appendChild (elemDiv);
-    
-    elemWrapper.style.opacity = '1';
-    elemWrapper.style.mozOpacity = '1';
-    elemWrapper.style.khtmlOpacity = '1';
+	elemWrapper.appendChild (elemDiv);
 
-    document.body.appendChild (elemWrapper);
-    var vWidth  = elemWrapper.offsetWidth;
-    var vHeight = elemWrapper.offsetHeight;
-    vWidth = parseInt (vWidth/2, 10);
-    vHeight = parseInt (vHeight/2, 10);
-    elemWrapper.style.marginLeft = '-' + vWidth + 'px';
-    elemWrapper.style.marginTop = '-' + vHeight + 'px';
+	elemWrapper.style.opacity = '1';
+	elemWrapper.style.mozOpacity = '1';
+	elemWrapper.style.khtmlOpacity = '1';
+
+	document.body.appendChild (elemWrapper);
+	var vWidth  = elemWrapper.offsetWidth;
+	var vHeight = elemWrapper.offsetHeight;
+	vWidth = parseInt (vWidth/2, 10);
+	vHeight = parseInt (vHeight/2, 10);
+	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
+	elemWrapper.style.marginTop = '-' + vHeight + 'px';
+
+	setFontSizes ();
 }
 
 //------------------------------------------------------------------------------------------------------
@@ -155,9 +155,10 @@ function showPrescription (szHeader, szText)
     elemDiv.innerHTML = szHeader;
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
+	elemDiv.className = 'standard';
     elemDiv.id = '__brAlertText';
     elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
-                          + 'font-size:medium;text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
+                          + 'text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
     szHTML  = '<table>';
     szHTML += szText;
     szHTML += '</table>';
@@ -167,8 +168,6 @@ function showPrescription (szHeader, szText)
     elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;border-radius:0 0 20px 20px;';
 	elemDiv.onclick = function () { onClickOK ('__myPrescription'); };
-//	elemDiv.setAttribute('onclick', 'onClickOK(\'__myPrescription\');');
-//	elemDiv.setAttribute('onmouseup', 'onClickOK(\'__myPrescription\');');
 	elemDiv.innerHTML = '<b>OK</b>';
 	elemDiv.onmouseover = function ()
 	{
@@ -192,6 +191,8 @@ function showPrescription (szHeader, szText)
 	vHeight = parseInt (vHeight/2, 10);
 	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
 	elemWrapper.style.marginTop = '-' + vHeight + 'px';
+
+	setFontSizes ();
 }
 
 function onClickOK (szName)
