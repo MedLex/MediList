@@ -31,9 +31,7 @@
 
 	<plugin spec="https://github.com/phonegap/phonegap-plugin-barcodescanner" source="git" />
 	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
-	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" />
-<!--	<plugin spec="https://github.com/VJAI/simple-crypto" source="git" />
-	<plugin spec="https://github.com/chariotsolutions/phonegap-nfc" source="git" /> -->
+<!--	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" /> -->
 
 	<platform name="android">
 		<preference name="StatusBarOverlaysWebView" value="false"/>
