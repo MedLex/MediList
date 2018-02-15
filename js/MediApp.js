@@ -287,26 +287,19 @@ function editPerson (id)
 	});
 }
 
-function displayContents(err, text)
-{
-	if (err)
-	{
-		myAlert ('Er is een fout opgetreden bij het scannen');
-	}
-	else
-	{
-		// The scan completed, display the contents of the QR code:
-		myAlert(text);
-	}
-}
-
 function plus ()
 {
 	var individual;
 	
 	if (screenID == 0)						// medicatielijst
 	{
-		cordova.plugins.barcodeScanner.scan(
+		if (!cordova)
+			alert ('Cordova not installed!');
+		else if (!cordova.plugins)
+			alert ('Cordova has no plugins!');
+		else if (!cordova.plugins.barcodeScanner)
+			alert ('barcodeScanner not installed!');
+		else cordova.plugins.barcodeScanner.scan(
 			function (result)
 			{
 				if (result.cancelled)
@@ -325,14 +318,13 @@ function plus ()
 				torchOn: false,					// Android, launch with the torch switched off
 				saveHistory: true,				// Android, save scan history (default false)
 				prompt : "Plaats de QR code binnen het scangebied", // Android
-				resultDisplayDuration: 500,		// Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+				resultDisplayDuration: 0,		// Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
 				formats : "QR_CODE,PDF_417",	// default: all but PDF_417 and RSS_EXPANDED
 				orientation : "unset",			// Android only (portrait|landscape), default unset so it rotates with the device
 				disableAnimations : true,		// iOS
 				disableSuccessBeep: false		// iOS and Android
 			}
 		);
-//		handleQRCode ('1;1;19520925;data/voorbeeld2.json');
 	}
 	else if (screenID == 1)					// gebruikers
 	{
