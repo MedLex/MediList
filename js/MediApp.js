@@ -293,42 +293,32 @@ function plus ()
 	
 	if (screenID == 0)						// medicatielijst
 	{
-		if (!cordova)
-			alert ('Cordova not installed!');
-		else if (!cordova.plugins)
-			alert ('Cordova has no plugins!');
-		else if (!cordova.plugins.barcodeScanner)
-			alert ('barcodeScanner not installed!');
-		else
-		{
-			alert ('we gaan scannen!');
-			cordova.plugins.barcodeScanner.scan(
-				function (result)
-				{
-					if (result.cancelled)
-						myAlert ('Het lezen van de QR code is afgebroken');
-					else
-						handleQRCode (result.text);
-				},
-				function (error)
-				{
-					alert("Scanning failed: " + error);
-				},
-				{
-					preferFrontCamera : false,		// iOS and Android
-					showFlipCameraButton : true,	// iOS and Android
-					showTorchButton : true,			// iOS and Android
-					torchOn: false,					// Android, launch with the torch switched off
-					saveHistory: true,				// Android, save scan history (default false)
-					prompt : "Plaats de QR code binnen het scangebied", // Android
-					resultDisplayDuration: 0,		// Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
-					formats : "QR_CODE,PDF_417",	// default: all but PDF_417 and RSS_EXPANDED
-					orientation : "unset",			// Android only (portrait|landscape), default unset so it rotates with the device
-					disableAnimations : true,		// iOS
-					disableSuccessBeep: false		// iOS and Android
-				}
-			);
-		}
+		cordova.plugins.barcodeScanner.scan(
+			function (result)
+			{
+				if (result.cancelled)
+					myAlert ('Het lezen van de QR code is afgebroken');
+				else
+					handleQRCode (result.text);
+			},
+			function (error)
+			{
+				alert("Scanning failed: " + error);
+			},
+			{
+				preferFrontCamera : false,		// iOS and Android
+				showFlipCameraButton : true,	// iOS and Android
+				showTorchButton : true,			// iOS and Android
+				torchOn: false,					// Android, launch with the torch switched off
+				saveHistory: true,				// Android, save scan history (default false)
+				prompt : "Plaats de QR code binnen het scangebied", // Android
+				resultDisplayDuration: 0,		// Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+				formats : "QR_CODE,PDF_417",	// default: all but PDF_417 and RSS_EXPANDED
+				orientation : "unset",			// Android only (portrait|landscape), default unset so it rotates with the device
+				disableAnimations : true,		// iOS
+				disableSuccessBeep: false		// iOS and Android
+			}
+		);
 	}
 	else if (screenID == 1)					// gebruikers
 	{
