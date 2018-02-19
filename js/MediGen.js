@@ -34,13 +34,16 @@ function init()
 	var setting;
 	
 	g_bDeviceIsReady = false;
+
 	setting = loadSetting ('monthsSave');
 	if (setting)
 		document.getElementById ('termijn').value = setting;
+
 	setting = loadSetting ('sendPermission');
 	if (   setting
         && setting != '')
 		document.getElementById ('askOK').className = setting;
+
 	setting = loadSetting ('largeFont');
 	if (   setting
         && setting != '')
@@ -83,6 +86,10 @@ function myAlert (szText)
 
     var elemWrapper;
     var elemDiv;
+	var fontSize = 'small';
+
+	if (document.getElementById ('largeFont').className == 'checked')
+		fontSize = 'medium';
 
     Cover ('__myAlert', false);    						// onderliggende tekst even bedekken
     elemWrapper = document.createElement ('div');		// wrapper voor alles
@@ -100,6 +107,7 @@ function myAlert (szText)
     elemDiv.id = '__brAlertText';
     elemDiv.style.cssText = 'position:relative;left:0px;right:0px;height:auto;padding-top:15px;padding-bottom:20px;border-bottom:solid 1px #afafaf;font-family:calibri, helvetica, sans-serif;'
                           + 'text-align:left;color:#000000;background-color:#ffffff;padding-left:15px;padding-right:15px;';
+	elemDiv.style.fontSize = fontSize;
     elemDiv.innerHTML = szText;
     elemWrapper.appendChild (elemDiv);
     elemDiv = document.createElement ('div');
