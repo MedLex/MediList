@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// MediCalender.js
-// de fncties voor het tonen en onderhouden van de medicatiekalender
+// Calender.js
+// de functies voor het tonen en onderhouden van de medicatiekalender
 //
 
 var calender;
