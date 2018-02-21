@@ -22,6 +22,7 @@
 <!--	<script type="text/javascript" src="phonegap.js"></script> -->
 	<script type="text/javascript" src="js/MediGen.js"></script>
 	<script type="text/javascript" src="js/MediApp.js"></script>
+	<script type="text/javascript" src="js/Calender.js"></script>
 	<script type="text/javascript" src="js/lijsten.js"></script>
 	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 	<title>Medicatieoverzicht</title>
@@ -96,10 +97,6 @@
 						<td class="cHeight large">&nbsp;<input type="number" id="termijn" min="0" max="12" value="0" style="width:4em;" /></td>
 					</tr>
 					<tr class="cHeight">
-						<td class="cHeight large">Vraag toestemming voor verzenden</td>
-						<td class="cHeight"><div class="cHeight" style="position:relative;"><div id="askOK" class="unchecked" onmouseup="toggle('askOK');"></div></div></td>
-					</tr>
-					<tr class="cHeight">
 						<td class="cHeight large">Grote letters</td>
 						<td class="cHeight"><div class="cHeight" style="position:relative;"><div id="largeFont" class="unchecked" onmouseup="largeFont ();"></div></div></td>
 					</tr>
@@ -115,6 +112,7 @@
             <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
             <div class="divMenu large" onclick="showAllLists();"><div class="allLists"></div>Toon alle lijsten</div>
             <div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
+            <div class="divMenu large" onclick="showCalender();"><div class="calender"></div>Medicatiekalender</div>
             <div class="divMenu large" onclick="showConfig();"><div class="settings"></div>Instellingen</div>
 		</div>
 		<!--
