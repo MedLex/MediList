@@ -63,7 +63,7 @@ function back ()
 	case 3:
 		configOK ();
 		break;
-	case 3:
+	case 4:
 		calenderOK ();
 		break;
 	}

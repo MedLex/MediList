@@ -11,7 +11,7 @@ function showCalender ()
 
 	showMenu (false);
 	calender = document.getElementById ('persons');
-	screenID = 1;
+	screenID = 4;
 
 	if (calender)
 	{
@@ -20,7 +20,6 @@ function showCalender ()
 		calender.style.display = 'block';
 		calender.style.opacity = '1';
 		setVisibility ('load', true);
-		screenID = 4;
 		fillCalender ();
 	}
 }
@@ -61,12 +60,12 @@ function fillCalender ()
 			if (results.rows.length > 0)
 			{
 				row = results.rows.item(0);
-				document.getElementById ('itemHeader').innerHTML = '<b>Innamekalender van ' + row['naam'] + '</b>';
+				document.getElementById ('personsHeader').innerHTML = '<b>Innamekalender van ' + row['naam'] + '</b>';
 				fillCalenderStep2 (row['id']);
 				currentUser = row['naam'];
 			}
 			else
-				document.getElementById ('itemHeader').innerHTML = '<b>Innamekalender</b>';
+				document.getElementById ('personsHeader').innerHTML = '<b>Innamekalender</b>';
 		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
@@ -122,7 +121,7 @@ function fillCalenderStep3 (personID)
 				var tijden = calender.getElementsByClassName ('personLine');
 				for (var i = 0; i < tijden.length; i++)
 				{
-					tijd = (tijden[i].getAttribute ('data-tijd')
+					tijd = tijden[i].getAttribute ('data-tijd');
 					if (tijd == row['tijdID'])
 					{
 						tx.executeSql('SELECT * FROM medicatie WHERE lijst = ' + lijst + ' AND prk = ' + row['prk'], [], function (tx, results)
