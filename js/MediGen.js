@@ -39,11 +39,6 @@ function init()
 	if (setting)
 		document.getElementById ('termijn').value = setting;
 
-	setting = loadSetting ('sendPermission');
-	if (   setting
-        && setting != '')
-		document.getElementById ('askOK').className = setting;
-
 	setting = loadSetting ('largeFont');
 	if (   setting
         && setting != '')

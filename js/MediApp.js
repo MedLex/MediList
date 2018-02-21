@@ -43,7 +43,6 @@ function showPersons ()
 		header.innerHTML = '<b>Gebruikers</b>';
 		setVisibility ('menubutton', false);
 		setVisibility ('back', true);
-		header = document.getElementById ('personsHeader');
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
 		setVisibility ('load', true);
@@ -63,6 +62,9 @@ function back ()
 		break;
 	case 3:
 		configOK ();
+		break;
+	case 3:
+		calenderOK ();
 		break;
 	}
 }
@@ -157,7 +159,6 @@ function configOK ()
 	var config;
 	
 	saveSetting ('monthsSave', document.getElementById ('termijn').value);
-	saveSetting ('sendPermission', document.getElementById ('askOK').className);
 	saveSetting ('largeFont', document.getElementById ('largeFont').className);
 
 	config = document.getElementById ('config');
@@ -903,6 +904,7 @@ function importOverzicht (id, lijst)
 			});
 		}
 		selectPerson (id);
+		setVisibility ('back', false);	// Er zou een terugknop kunnen staan. Die willen we nu niet meer
 		showList (db);
 	});
 }

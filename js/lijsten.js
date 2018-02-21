@@ -42,6 +42,15 @@ function initTables (db)
 															+ 'text3 TEXT,'							// bijvoorbeeld
 															+ 'text4 TEXT,'							// 1 maal per dag 2 tabletten Kuur afmaken<br/>Eerst uiteen laten vallen in water
 															+ 'text5 TEXT)');
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS tijden     (personID INTEGER,'					// Iedere gebruiker z'n eigen lijst
+															+ 'tijdID INTEGER PRIMARY KEY ASC,'		// Het tijdstip ID
+															+ 'tijdNaam TEXT,'						// De naam (ontbijt, lunch, etc)
+															+ 'periodiciteit TEXT,'					// Periodiciteit (dag, week, etc)
+															+ 'tijdStip TEXT)');					// Het bijbehorende tijdstip (hh:mm)
+		tx.executeSql ('CREATE TABLE IF NOT EXISTS inname     (personID INTEGER,'					// Iedere gebruiker z'n eigen lijst
+															+ 'tijdID INTEGER,'						// op dit tijdStip
+															+ 'prk TEXT,'							// neemt u dit medicijn
+															+ 'dosis TEXT)');						// in deze hoeveelheid
 	}, function (tx, error)
 	{
 		alert ('er is een fout opgetreden\r\n' + error.message);
