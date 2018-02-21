@@ -365,12 +365,12 @@ body
 {
 	position:absolute;
 	right:0px;
-	width: 30px;
-	height:30px;
+	width: 36px;
+	height:36px;
 	top:50%;
 	margin-top:-15px;
 	background:transparent url('../img/i.png') center no-repeat;
-    background-size:30px;
+    background-size:36px;
 }
 
 #menuBox
@@ -444,6 +444,17 @@ body
 	width:30px;
 	background:transparent url('../img/Persons.png') center no-repeat;
     background-size:30px;
+}
+
+.person
+{
+	position:absolute;
+	left:10px;
+	top:9px;
+	height:30px;
+	width:30px;
+	background:transparent url('../img/calender.png') center no-repeat;
+	background-size:30px;
 }
 
 .settings
