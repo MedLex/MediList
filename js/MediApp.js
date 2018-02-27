@@ -157,9 +157,12 @@ function showConfig ()
 function configOK ()
 {
 	var config;
-	
+	var largeFont = 'false';
+
+	if (isLargeFont ())
+		largeFont = 'true';
 	saveSetting ('monthsSave', document.getElementById ('termijn').value);
-	saveSetting ('largeFont', document.getElementById ('largeFont').className);
+	saveSetting ('largeFont', largeFont);
 
 	config = document.getElementById ('config');
 	setVisibility ('menubutton', true);
@@ -1193,23 +1196,58 @@ function ProcessReceivedData ()
 	});
 }
 
-function largeFont ()
+/* function largeFont ()
 {
 	var largeFont = toggle ('largeFont');
 
+//	setFont (largeFont);
 	setFontSizes ();
+}*/
+
+function setFontSize ()
+{
+
+	setFont (!isLargeFont ());
+	setFontSizes ();
+}
+
+function setFont (largeFont)
+{
+	var slider = document.getElementById ('lrgFont');
+	var back   = document.getElementById ('lrgBack');
+	if (slider && back)
+	{
+		if (largeFont)
+		{
+			slider.style.left = '';
+			slider.style.right = '0px';
+			back.style.background = 'transparent url("img/sliderBackSelected.png") center no-repeat';
+		}
+		else
+		{
+			slider.style.right = '';
+			slider.style.left = '0px';
+			back.style.background = 'transparent url("img/sliderBack.png") center no-repeat';
+		}
+		back.style.backgroundSize = '50px 25px';
+	}
+}
+
+function isLargeFont ()
+{
+	var r = false;
+	var font = document.getElementById ('lrgFont');
+
+	if (font.style.left == '')
+		r = true;
+	
+	return r;
 }
 
 function setFontSizes ()
 {
-	var vFont = document.getElementById ('largeFont');
-	if (!vFont)
-		return ;
 
-	var className = vFont.className;
-	var largeFont = false;
-	if (className == 'checked')
-		largeFont = true;
+	var largeFont = isLargeFont ();
 	var div = document.getElementsByClassName ('standard');
 	if (!div)
 		return;

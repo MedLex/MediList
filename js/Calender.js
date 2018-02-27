@@ -87,7 +87,7 @@ function fillCalenderStep2 (personID)
 		{
 			var fontSize = 'small';
 
-			if (document.getElementById ('largeFont').className == 'checked')
+			if (isLargeFont ())
 				fontSize = 'medium';
 
 			for (var i = 0; i < results.rows.length; i++)
@@ -186,7 +186,7 @@ function openTijdstip ()
 {
 	var fontSize = 'small';
 
-	if (document.getElementById ('largeFont').className == 'checked')
+	if (isLargeFont ())
 		fontSize = 'medium';
 
 	setVisibility ('individualCover', true);

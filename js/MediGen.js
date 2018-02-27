@@ -40,9 +40,10 @@ function init()
 		document.getElementById ('termijn').value = setting;
 
 	setting = loadSetting ('largeFont');
-	if (   setting
-        && setting != '')
-		document.getElementById ('largeFont').className = setting;
+	var bSetting = true;
+	if (setting == 'false')
+		bSetting = false;
+	setFont (bSetting);
 //	setFontSizes ();
 
 	onDeviceReady ();
