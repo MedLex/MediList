@@ -151,6 +151,20 @@ label
 	border-bottom:solid 1px #a0a0a0;
 }
 
+.okWrap
+{
+	border-top:solid 1px #a0a0a0;
+	position:absolute;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	height:50px;
+	line-height:50px;
+	text-align: center;
+	padding:0;
+	margin:0;
+}
+
 .ok
 {
 	border-top:solid 1px #a0a0a0;
@@ -358,7 +372,7 @@ body
 
 .item:hover
 {
-	background-color:#a6a6a6;
+	background-color:#bfbfbf;
 }
 
 .warning
@@ -479,7 +493,7 @@ body
     background-size:30px;
 }
 
-#persons
+#list
 {
 	position:absolute;
 	top:50px;
@@ -533,6 +547,17 @@ body
 }
 
 .individualHeader
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	height:50px;
+	line-height:50px;
+	padding-left:10px;
+}
+
+.stipHeader
 {
 	position:absolute;
 	top:0px;
@@ -616,6 +641,40 @@ body
 	padding-bottom:10px;
 }
 
+#tijdStip
+{
+	position:absolute;
+	width:86%;
+	top:20%;
+	left:7%;
+	height:60%;
+	padding:0px;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+	display:none;
+	background-color:white;
+	color:black;
+	opacity:0;
+	border-radius:20px;
+	overflow:hidden;
+}
+
+#stipBody
+{
+	position:absolute;
+	top:50px;
+	right:0px;
+	left:0px;
+	bottom:50px;
+	padding-left:15px;
+	padding-top:15px;
+}
+
+#stipBody td
+{
+	margin-top:5px;
+}
+
 .unchecked
 {
 	position:absolute;
@@ -678,7 +737,27 @@ body
 
 .personLine:hover
 {
-	background-color:#afafaf;
+	background-color:#cfcfcf;
+}
+
+.tijdLine
+{
+	display:block;
+	position:relative;
+	left:0px;
+	right:0px;
+	border-bottom:solid 1px #e0e0e0;
+	vertical-align:center;
+	padding-left:8px;
+	height:auto;
+	padding-top:10px;
+	padding-bottom:10px;
+	background-color:#ffffff;
+}
+
+.tijdLine:hover
+{
+	background-color:#cfcfcf;
 }
 
 .personDelete
