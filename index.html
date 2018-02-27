@@ -18,6 +18,7 @@
 <!--      <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 	<link rel="stylesheet" type="text/css" href="css/MediApp.css" />
+	<link rel="stylesheet" type="text/css" href="css/inputs.css" />
 
 <!--	<script type="text/javascript" src="phonegap.js"></script> -->
 	<script type="text/javascript" src="js/MediGen.js"></script>
@@ -25,6 +26,8 @@
 	<script type="text/javascript" src="js/Calender.js"></script>
 	<script type="text/javascript" src="js/lijsten.js"></script>
 	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	<script type="text/javascript" src="../../jquery.mobile/jquery-1.5.2.js"></script>
+	<script type="text/javascript" src="../../jquery.mobile/jquery.mobile-1.0a4.1.js"></script>
 	<title>Medicatieoverzicht</title>
 </head>
 <body onload="init()">
@@ -38,8 +41,8 @@
 		<!--
 			De lijst met personen, wordt ook gebruikt voor de lijst met lijsten en de kalender :)
 		 -->
-		<div id="persons">
-			<div id="personsHeader" class="itemHeader standardWhite standard">
+		<div id="list">
+			<div id="listHeader" class="itemHeader standardWhite standard">
 				<b>Gebruikers</b>
 			</div>
 		</div>
@@ -65,7 +68,7 @@
 					</table>
 				</form>
 			</div>
-			<div id="individualButton" class="ok button" onmouseup="indiOK(-1,0);"><b>OK</b></div>
+			<div id="individualButton" class="ok okWrap button" onmouseup="indiOK(-1,0);"><b>OK</b></div>
 		</div>
 		<!--
 			Verwijderen van een persoon en/of de medicatielijst(en) van een persoon
@@ -79,9 +82,49 @@
 				<div id="deleteAll" class="large" onmouseup="toggle('iconDeleteAll');"><div id="iconDeleteAll" class="unchecked"></div>Gebruiker en medicatielijsten</div>
 				<div id="deleteLists" onmouseup="toggle('iconDeleteLists');"><div id="iconDeleteLists" class="unchecked"></div><div id="deleteListsText" class="large">Medicatielijsten</div></div>
 			</div>
-			<div class="ok">
+			<div class="okWrap">
 				<div id="deleteIndividual" class="ok2 button" onmouseup="deleteOK(-1);"><b>Verwijder</b></div>
 				<div class="ok3 button" onmouseup="deleteCancel();"><b>Annuleer</b></div>
+			</div>
+		</div>
+		<!--
+			Nieuw tijdstip of wijzigen bestaand tijdstip
+		 -->
+		<div id="tijdStip">
+			<div class="stipHeader popHeader"><div id="stipText"><b>Wijzigen tijdstip</b></div>
+				<div class="individualClose" onmouseup="stipCancel();"></div>
+			</div>
+			<div id="stipBody">
+				<table width="100%" style="border-collapse:collapse;">
+					<tr>
+						<td style="padding-right:10px;">Naam</td>
+						<td><input id="stipNaam" type="text" /></td>
+					</tr>
+					<tr>
+						<td style="padding-right:10px;">Tijd</td>
+						<td><input id="stipTijd" type="text" /></td>
+					</tr>
+					<tr><td>&nbsp;</td><td></td></tr>
+					<tr>
+						<td style="padding-right:10px;">Iedere</td>
+						<td><input id="iedereDag" type="radio" name="iedere" value="0" />
+						    <label for="iedereDag"><span></span>dag</label></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input id="iedereWeek" type="radio" name="iedere" value="0" />
+						    <label for="iedereWeek"><span></span>week</label></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input id="iedereAndereDag" type="radio" name="iedere" value="0" />
+						    <label for="iedereAndereDag"><span></span>andere dag</label></td>
+					</tr>
+				</table>
+			</div>
+			<div class="okWrap">
+				<div class="ok2 button" onmouseup="stipOK();"><b>OK</b></div>
+				<div class="ok3 button" onmouseup="stipCancel();"><b>Annuleer</b></div>
 			</div>
 		</div>
 
@@ -100,6 +143,14 @@
 						<td class="cHeight large">Grote letters</td>
 						<td class="cHeight"><div class="cHeight" style="position:relative;"><div id="largeFont" class="unchecked" onmouseup="largeFont ();"></div></div></td>
 					</tr>
+					<tr>
+						<td class="cHeight large">Nogmaals</td>
+						<td>
+							<select name="flip-2" id="flip-2" data-role="slider" data-track-theme="a" data-theme="a">
+								<option value="off">Off</option>
+								<option value="on">On</option>
+							</select>
+						</td>
 				</table>
 			</div>
 		</div>
@@ -112,7 +163,7 @@
             <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
             <div class="divMenu large" onclick="showAllLists();"><div class="allLists"></div>Toon alle lijsten</div>
             <div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
-            <div class="divMenu large" onclick="showCalender();"><div class="calender"></div>Medicatiekalender</div>
+            <div class="divMenu large" onclick="showCalender();"><div class="calender"></div>Medicijn kalender</div>
             <div class="divMenu large" onclick="showConfig();"><div class="settings"></div>Instellingen</div>
 		</div>
 		<!--
