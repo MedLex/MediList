@@ -34,12 +34,12 @@ function showPersons ()
 	var persons;
 	
 	showMenu (false);
-	persons = document.getElementById ('persons');
+	persons = document.getElementById ('list');
 	screenID = 1;
 	
 	if (persons)
 	{
-		header = document.getElementById ('personsHeader');
+		header = document.getElementById ('listHeader');
 		header.innerHTML = '<b>Gebruikers</b>';
 		setVisibility ('menubutton', false);
 		setVisibility ('back', true);
@@ -73,7 +73,7 @@ function personsOK ()
 {
 	var persons;
 	
-	persons = document.getElementById ('persons');
+	persons = document.getElementById ('list');
 	setVisibility ('menubutton', true);
 	setVisibility ('back', false);
 	screenID = 0;							// weer het medicatielijst scherm
@@ -84,7 +84,7 @@ function personsOK ()
 		showList (db);
 		setTimeout(function()
 		{
-			setVisibility ('persons', false);
+			setVisibility ('list', false);
 		}, 500);
 	}
 }
@@ -93,7 +93,7 @@ function listsOK ()
 {
 	var persons;
 	
-	persons = document.getElementById ('persons');
+	persons = document.getElementById ('list');
 	setVisibility ('menubutton', true);
 	setVisibility ('back', false);
 	screenID = 0;							// weer het medicatielijst scherm
@@ -104,7 +104,7 @@ function listsOK ()
 		showList (db);
 		setTimeout(function()
 		{
-			setVisibility ('persons', false);
+			setVisibility ('list', false);
 		}, 500);
 	}
 }
@@ -116,17 +116,17 @@ function showAllLists ()
 
 	screenID = 2;
 	showMenu (false);
-	lists = document.getElementById ('persons');
+	lists = document.getElementById ('list');
 	
 	if (lists)
 	{
-		header = document.getElementById ('personsHeader');
+		header = document.getElementById ('listHeader');
 		if (currentUser == '')
 			header.innerHTML = '<b>Er is nog geen gebruiker geselecteerd</b>';
 		else
 			header.innerHTML = '<b>Lijsten van ' + currentUser + '</b>';
-		persons.style.display = 'block';
-		persons.style.opacity = '1';
+		lists.style.display = 'block';
+		lists.style.opacity = '1';
 		setVisibility ('menubutton', false);
 		setVisibility ('load', false);
 		setVisibility ('back', true);
@@ -185,7 +185,7 @@ function fillPersons (person)
 	var action;
 	var colorName;
 	
-	div = person.getElementsByClassName ('personLine');
+	div = person.getElementsByClassName ('listLine');
 	var i = div.length;
 	while (i--)
 	{
@@ -199,7 +199,7 @@ function fillPersons (person)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-				div.className = 'personLine large standardWhite';
+				div.className = 'listLine personLine large standardWhite';
 				var date = new Date (row['gebJaar'], (row['gebMaand']-1), row['gebDag'], 5, 5, 5, 5)
 				var day = date.getDate();
 				if(day<10){ day="0"+day;}
@@ -209,7 +209,7 @@ function fillPersons (person)
 				szHTML += ', ';
 				szHTML += row['naam'];
 				div.innerHTML = szHTML;
-				
+
 				action = document.createElement ('div');
 				action.className = 'personDelete standardWhite';
 				action.setAttribute('onmouseup', 'deletePerson(' + row['id'] + ');');
@@ -321,7 +321,7 @@ function plus ()
 			}
 		);
 	}
-	else if (screenID == 1)					// gebruikers
+	else if (screenID == 1)						// gebruikers
 	{
 		individual = document.getElementById ('individual');
 		setVisibility ('individualCover', true);
@@ -339,6 +339,8 @@ function plus ()
 			individual.style.opacity = '1';
 		}
 	}
+	else if (screenID == 4)						// Tijdstippen
+		nieuwTijdstip ();
 }
 
 function getReadableDate (year, month, day)
@@ -478,7 +480,7 @@ function indiOK (id, qr)
 			}
 			else								// Handmatig een nieuwe persoon toegevoegd
 			{
-				var persons = document.getElementById ('persons');
+				var persons = document.getElementById ('list');
 				fillPersons (persons);			// Dan zitten we nu in de gebruikerlijst, dus opnieuw opbouwen
 			}
 		}, function (tx, error)
@@ -553,7 +555,7 @@ function deleteOK (id)
 						}, function ()
 						{
 						};
-						var persons = document.getElementById ('persons');
+						var persons = document.getElementById ('list');
 					
 						fillPersons (persons);
 					}
@@ -649,7 +651,7 @@ function deletePerson (id)
 function deleteCancel ()
 {
 	var individual;
-	
+
 	document.getElementById ('individualDelete').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
 	setVisibility ('load', true);
@@ -694,7 +696,7 @@ function selectPerson (id)
 		};
 	});
 
-	var persons = document.getElementById ('persons');
+	var persons = document.getElementById ('list');
 	fillPersons (persons);
 }
 
@@ -918,7 +920,7 @@ function fillLists (lists)
 	var action;
 	var colorName;
 	
-	div = lists.getElementsByClassName ('personLine');
+	div = lists.getElementsByClassName ('listLine');
 	var i = div.length;
 	while (i--)
 	{
@@ -928,7 +930,7 @@ function fillLists (lists)
 	{
 		tx.executeSql('SELECT * FROM person WHERE selected = 1', [], function (tx, results)
 		{
-			var header = document.getElementById ('personsHeader');
+			var header = document.getElementById ('listHeader');
 			if (results.rows.length > 0)
 			{
 				row = results.rows.item(0);
@@ -963,7 +965,7 @@ function showListsStep2 (db, lists, id)
 			{
 				row = results.rows.item(i);
 				div = document.createElement ('div');
-				div.className = 'personLine standard';
+				div.className = 'listLine personLine standard';
 				div.setAttribute ('onmouseup', 'showSimpleList (' + row['id'] + ')');
 				var day = row['listDag'];
 				if(day<10){ day="0"+day;}
@@ -994,7 +996,7 @@ function showSimpleList (lijst)
 	var szHTML = '';
 	var persons;
 	
-	persons = document.getElementById ('persons');
+	persons = document.getElementById ('list');
 	setVisibility ('menubutton', true);
 	setVisibility ('back', false);
 	if (persons)
@@ -1002,7 +1004,7 @@ function showSimpleList (lijst)
 		persons.style.opacity = '0';
 		setTimeout(function()
 		{
-			setVisibility ('persons', false);
+			setVisibility ('list', false);
 		}, 500);
 	}
 	while (i-- > 0)			// verwijder alle regels uit een eventuele huidige lijst, behalve de header
@@ -1015,7 +1017,7 @@ function showSimpleList (lijst)
 	{
 		tx.executeSql('SELECT * FROM person WHERE selected = 1', [], function (tx, results)
 		{
-			var header = document.getElementById ('personsHeader');
+			var header = document.getElementById ('listHeader');
 			if (results.rows.length > 0)
 			{
 				row = results.rows.item(0);
