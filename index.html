@@ -103,23 +103,35 @@
 					</tr>
 					<tr>
 						<td style="padding-right:10px;">Tijd</td>
-						<td><input id="stipTijd" type="text" /></td>
+						<td colspan="2"><input id="stipTijd" type="text" /></td>
 					</tr>
-					<tr><td>&nbsp;</td><td></td></tr>
+					<tr><td colspan="3">&nbsp;</td></tr>			<!-- lege regel -->
 					<tr>
-						<td style="padding-right:10px;">Iedere</td>
-						<td><input id="iedereDag" type="radio" name="iedere" value="0" />
-						    <label for="iedereDag"><span></span>dag</label></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input id="iedereWeek" type="radio" name="iedere" value="0" />
-						    <label for="iedereWeek"><span></span>week</label></td>
+						<td>Innemen op</td>
+						<td><input id="maandag" type="checkbox" name="iedere" value="0" />
+						    <label for="maandag"><span></span>maandag</label></td>
+						<td><input id="vrijdag" type="checkbox" name="iedere" value="0" />
+						    <label for="vrijdag"><span></span>vrijdag</label></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><input id="iedereAndereDag" type="radio" name="iedere" value="0" />
-						    <label for="iedereAndereDag"><span></span>andere dag</label></td>
+						<td><input id="dinsdag" type="checkbox" name="iedere" value="0" />
+						    <label for="dinsdag"><span></span>dinsdag</label></td>
+						<td><input id="zaterdag" type="checkbox" name="iedere" value="0" />
+						    <label for="zaterdag"><span></span>zaterdag</label></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input id="woensdag" type="checkbox" name="iedere" value="0" />
+						    <label for="woensdag"><span></span>woensdag</label></td>
+						<td><input id="zondag" type="checkbox" name="iedere" value="0" />
+						    <label for="zondag"><span></span>zondag</label></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input id="donderdag" type="checkbox" name="iedere" value="0" />
+						    <label for="donderdag"><span></span>donderdag</label></td>
+						<td>&nbsp;</td>
 					</tr>
 				</table>
 			</div>
@@ -135,19 +147,21 @@
 		<div id="config">
 			<div class="itemHeader standardWhite standard"><b>Instellingen</b></div>
 			<div id="configBody" class="large">
-				<table>
+				<table width="98%" style="border-collapse:collapse;">
 					<tr class="cHeight">
 						<td class="cHeight large">Bewaartermijn oude lijsten<br />(maanden)</td>
 						<td class="cHeight large">&nbsp;<input type="number" id="termijn" min="0" max="12" value="0" style="width:4em;" /></td>
 					</tr>
-<!--					<tr class="cHeight">
-						<td class="cHeight large">Grote letters</td>
-						<td class="cHeight"><div class="cHeight" style="position:relative;"><div id="largeFont" class="unchecked" onmouseup="largeFont ();"></div></div></td>
-					</tr> -->
-					<tr>
-						<td class="cHeight large">Grote letters</td>
-						<td class="cHeight">
-							<div class="cHeight" style="position:relative;"><div id="lrgBack" class="sliderBack" onmouseup="setFontSize ();"><div id="lrgFont" class="sliderBall"></div></div></div></td>
+					<tr class="cHeight">
+						<td class="cHeight large">Letters</td>
+						<td>
+							<div class="flipswitch">
+								<input type="checkbox" name="flipswitch" class="flipswitch-cb" onclick="setFontSize();" id="largeFont" checked" />
+								<label class="flipswitch-label" for="largeFont">
+									<div class="flipswitch-inner"></div>
+									<div class="flipswitch-switch"></div>
+								</label>
+							</div>
 						</td>
 				</table>
 			</div>
