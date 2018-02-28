@@ -1207,38 +1207,22 @@ function ProcessReceivedData ()
 function setFontSize ()
 {
 
-	setFont (!isLargeFont ());
 	setFontSizes ();
 }
 
 function setFont (largeFont)
 {
-	var slider = document.getElementById ('lrgFont');
-	var back   = document.getElementById ('lrgBack');
-	if (slider && back)
-	{
-		if (largeFont)
-		{
-			slider.style.left = '';
-			slider.style.right = '0px';
-			back.style.background = 'transparent url("img/sliderBackSelected.png") center no-repeat';
-		}
-		else
-		{
-			slider.style.right = '';
-			slider.style.left = '0px';
-			back.style.background = 'transparent url("img/sliderBack.png") center no-repeat';
-		}
-		back.style.backgroundSize = '50px 25px';
-	}
+	var slider = document.getElementById ('largeFont');
+	if (slider)
+		slider.checked = largeFont;
 }
 
 function isLargeFont ()
 {
 	var r = false;
-	var font = document.getElementById ('lrgFont');
+	var font = document.getElementById ('largeFont');
 
-	if (font.style.left == '')
+	if (font.checked)
 		r = true;
 	
 	return r;

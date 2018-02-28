@@ -98,16 +98,47 @@ function fillCalenderStep2 (personID)
 				div.style.fontSize = fontSize;
 				div.style.fontFamily = 'calibri';
 				div.setAttribute ('data-tijd', row['tijdID']);
-				div.setAttribute('onmouseup', 'editTijd(' + row['tijdID'] + ');');
+				div.setAttribute('onmouseup', 'editTijd(' + row['personID'] + ', ' + row['tijdID'] + ');');
 
-				var periodiciteit = parseInt (row['periodiciteit']);
-				var szHTML = 'iedere ';
-				if (periodiciteit == 0)
-					szHTML += 'dag';
-				else if (periodiciteit == 1)
-					szHTML += 'week';
+				var periodiciteit = row['periodiciteit'];
+				var szHTML = '';
+				if (periodiciteit == '1111111')
+					szHTML = 'Iedere dag';
 				else
-					szHTML += 'andere dag';
+				{
+					for (var j=0; j < periodiciteit.length; j++)
+					{
+						if (periodiciteit.charAt (j) == '1')
+						{
+							if (szHTML != '')
+								szHTML += ', ';
+							switch (j)
+							{
+							case 0:
+								szHTML = "Ma";
+								break;
+							case 1:
+								szHTML += "Di";
+								break;
+							case 2:
+								szHTML += "Woe";
+								break;
+							case 3:
+								szHTML += "Do";
+								break;
+							case 4:
+								szHTML += "Vrij";
+								break;
+							case 5:
+								szHTML += "Zat";
+								break;
+							case 6:
+								szHTML += "Zon";
+								break;
+							}
+						}
+					}
+				}
 				szHTML += '<br /><b>';
 				szHTML += row['tijdStip'];
 				szHTML += ', ';
@@ -123,6 +154,74 @@ function fillCalenderStep2 (personID)
 			}
 			fillCalenderStep3 (personID);
 			setFontSizes ();
+		}), function (tx, error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	});
+}
+
+function editTijd (personID, rowID)
+{
+	db.transaction(function(tx)
+	{
+		tx.executeSql('SELECT * FROM tijden WHERE personID = '+ personID + ' AND tijdID = ' + rowID, [], function (tx, results)
+		{
+			var fontSize = 'small';
+
+			if (isLargeFont ())
+				fontSize = 'medium';
+			if (results.length < 1)
+				myAlert ('Oeps, deze tijd kan niet meer worden teruggevonden in de database');
+			else
+			{
+				var szHTML = '';
+				var row = results.rows.item (0);
+				document.getElementById ('stipNaam').value = row['tijdNaam'];
+				document.getElementById ('stipTijd').value = row['tijdStip'];
+				var periodiciteit = row['periodiciteit'];
+				var iedere = document.getElementsByName ('iedere');
+				for (var j=0; j < iedere.length; j++)
+					iedere[j].checked = false;
+				for (var j=0; j < periodiciteit.length; j++)
+				{
+					if (periodiciteit.charAt (j) == '1')
+					{
+						if (szHTML != '')
+							szHTML += ', ';
+						switch (j)
+						{
+						case 0:
+							document.getElementById ('maandag').checked = true;
+							break;
+						case 1:
+							document.getElementById ('dinsdag').checked = true;
+							break;
+						case 2:
+							document.getElementById ('woensdag').checked = true;
+							break;
+						case 3:
+							document.getElementById ('donderdag').checked = true;
+							break;
+						case 4:
+							document.getElementById ('vrijdag').checked = true;
+							break;
+						case 5:
+							document.getElementById ('zaterdag').checked = true;
+							break;
+						case 6:
+							document.getElementById ('zondag').checked = true;
+							break;
+						}
+					}
+				}
+				var stip = document.getElementById ('tijdStip');
+				stip.setAttribute ('data-person', '' + row['personID']);
+				stip.setAttribute ('data-stip', '' + row['tijdID']);
+				openTijdstip (false);
+			}
 		}), function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);
@@ -178,11 +277,18 @@ function fillCalenderStep3 (personID)
 
 function nieuwTijdstip ()
 {
-	document.getElementById ('iedereDag').checked = true;
-	openTijdstip ();
+	var iedere = document.getElementsByName ('iedere');
+	for (var i = 0; i < iedere.length; i++)
+		iedere[i].checked = true;
+	var stip = document.getElementById ('tijdStip');
+	stip.setAttribute ('data-person', '');
+	stip.setAttribute ('data-stip', '');
+	document.getElementById ('stipNaam').value = '';
+	document.getElementById ('stipTijd').value = '';
+	openTijdstip (true);
 }
 
-function openTijdstip ()
+function openTijdstip (bNieuw)
 {
 	var fontSize = 'small';
 
@@ -193,7 +299,10 @@ function openTijdstip ()
 	setVisibility ('tijdStip', true);
 	setVisibility ('load', false);
 	setVisibility ('back', false);
-	document.getElementById ('stipText').innerHTML = '<b>Nieuw tijdstip</b>';
+	if (bNieuw)
+		document.getElementById ('stipText').innerHTML = '<b>Nieuw tijdstip</b>';
+	else
+		document.getElementById ('stipText').innerHTML = '<b>Wijzig tijdstip</b>';
 	document.getElementById ('individualCover').style.opacity = '0.4';
 	var stip = document.getElementById ('tijdStip');
 	var td = stip.getElementsByTagName ('td');
@@ -223,33 +332,108 @@ function openTijdstip ()
 	document.getElementById ('stipNaam').focus ();
 }
 
+function isDayChecked (dayName)
+{
+	var r = false;
+	
+	if (document.getElementById (dayName).checked)
+		r = true;
+	
+	return r;
+}
+
 function stipOK ()
 {
-	var periodiciteit = '0';
+	var periodiciteit = '';
 	var stipNaam;
 	var stipTijd;
+	var ooit = false;
 
 	stipNaam = document.getElementById ('stipNaam').value;
 	stipTijd = document.getElementById ('stipTijd').value;
+
+	if (isDayChecked ('maandag'))
+	{
+		ooit = true;
+		periodiciteit += '1';
+	}
+	else
+		periodiciteit += '0';
+	if (isDayChecked ('dinsdag'))
+	{
+		ooit = true;
+		periodiciteit += '1';
+	}
+	else
+		periodiciteit += '0';
+	if (isDayChecked ('woensdag'))
+	{
+		ooit = true;
+		periodiciteit += '1';
+	}
+	else
+		periodiciteit += '0';
+	if (isDayChecked ('donderdag'))
+	{
+		ooit = true;
+		periodiciteit += '1';
+	}
+	else
+		periodiciteit += '0';
+	if (isDayChecked ('vrijdag'))
+	{
+		ooit = true;
+		periodiciteit += '1';
+	}
+	else
+		periodiciteit += '0';
+	if (isDayChecked ('zaterdag'))
+	{
+		ooit = true;
+		periodiciteit += '1';
+	}
+	else
+		periodiciteit += '0';
+	if (isDayChecked ('zondag'))
+	{
+		ooit = true;
+		periodiciteit += '1';
+	}
+	else
+		periodiciteit += '0';
+
 	if (stipNaam == '')
 		myAlert (  'U hebt nog geen naam ingevuld voor dit tijdstip.<br />'
 				 + 'Denk bijvoorbeeld aan namen als \'ontbijt\', \'voor het slapen\' en dergelijke');
 	else if (stipTijd == '')
 		myAlert ('U hebt nog geen tijd ingevuld voor dit tijdstip.<br />'
 				 + 'Tijden worden ingevuld als bijvoorbeeld 8:00, 13:30 en dergelijke');
+	else if (!ooit)
+		myAlert (  'Er zijn geen dagen aangekruist waarop dit tijdstip van toepassing is<br />'
+				 + 'U moet tenminste één dag selecteren');
 	else
 	{
-		var iedere = document.getElementsByName ('iedere');
-		for (var i = 0; i < iedere.length; i++)
-		{
-			if (iedere[i].checked)
-				periodiciteit = '' + i;
-		}
 		db.transaction(function(tx)
 		{
 			var sqlStatement;
+			var tijdstip = document.getElementById ('tijdStip');
+			var personID = '';
+			var tijdID = '';
+			
+			if (tijdstip)
+			{
+				personID = tijdstip.getAttribute ('data-person');
+				tijdID   = tijdstip.getAttribute ('data-stip');
+			}
 
-			sqlStatement = 'INSERT INTO tijden (personID, tijdNaam, periodiciteit, tijdStip) VALUES (' + globalID + ', \'' + stipNaam + '\', \'' + periodiciteit + '\', \'' + stipTijd + '\')';
+			if (tijdID == '')
+				sqlStatement = 'INSERT INTO tijden (personID, tijdNaam, periodiciteit, tijdStip) VALUES (' + globalID + ', \'' + stipNaam + '\', \'' + periodiciteit + '\', \'' + stipTijd + '\')';
+			else
+				sqlStatement =	  'UPDATE tijden SET tijdNaam=\'' + stipNaam + '\''
+								+ ', periodiciteit=\'' + periodiciteit + '\''
+								+ ', tijdStip=\'' + stipTijd + '\''
+								+ ' WHERE personID=' + parseInt (personID)
+								+ ' AND tijdID=' + parseInt (tijdID);
 
 			tx.executeSql(sqlStatement, [], function (tx, result)
 			{
