@@ -330,6 +330,10 @@ function openTijdstip (bNieuw)
 	else
 		alert ('kan tijdStip niet vinden');
 	document.getElementById ('stipNaam').focus ();
+
+	var vHeight = screen.height;
+	vHeight = parseInt (vHeight*0.65);
+	document.getElementById ('tijdStip').style.height = vHeight + 'px';
 }
 
 function isDayChecked (dayName)
