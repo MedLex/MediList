@@ -147,21 +147,23 @@
 		<div id="config">
 			<div class="itemHeader standardWhite standard"><b>Instellingen</b></div>
 			<div id="configBody" class="large">
-				<table width="98%" style="border-collapse:collapse;">
+				<table style="border-collapse:collapse;">
 					<tr class="cHeight">
-						<td class="cHeight large">Bewaartermijn oude lijsten<br />(maanden)</td>
+						<td class="cHeight large">Bewaartermijn&nbsp;oude&nbsp;lijsten<br />(maanden)</td>
 						<td class="cHeight large">&nbsp;<input type="number" id="termijn" min="0" max="12" value="0" style="width:4em;" /></td>
 					</tr>
 					<tr class="cHeight">
-						<td class="cHeight large">Letters</td>
+						<td class="cHeight large"><label for="largeFont" class="large">Grote letters</label></td>
 						<td>
-							<div class="flipswitch">
+							<input id="largeFont" type="checkbox" onclick="setFontSize();"/>
+						    <label for="largeFont"><span></span>&nbsp;</label>
+<!--						<div class="flipswitch">
 								<input type="checkbox" name="flipswitch" class="flipswitch-cb" onclick="setFontSize();" id="largeFont" checked" />
 								<label class="flipswitch-label" for="largeFont">
 									<div class="flipswitch-inner"></div>
 									<div class="flipswitch-switch"></div>
 								</label>
-							</div>
+							</div> -->
 						</td>
 				</table>
 			</div>
