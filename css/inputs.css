@@ -41,7 +41,7 @@ input[type="checkbox"]:checked + label span
 /*-------------------------------------------------------------------------------------------
  * Flipswitch
  */
- 
+/* 
 .flipswitch
 {
 	position: relative;
@@ -127,3 +127,5 @@ input[type="checkbox"]:checked + label span
 {
 	right: 0;
 }
+
+*/
