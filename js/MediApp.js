@@ -771,15 +771,35 @@ function addMedicationList (patient)
 	var listDag   = date.getDate ();
 	var listMaand = date.getMonth ()+1;
 	var listJaar  = date.getFullYear ();
-
+	
 	db.transaction (function (tx)
 	{
-		sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
-		             + apotheekID + '\', \'' + apotheek + '\', ' + listDag + ', ' + listMaand + ', ' + listJaar + ', ' + patient + ')';
-		tx.executeSql(sqlStatement, [], function (tx, results)
+		tx.executeSql ('SELECT * from lijsten WHERE apotheekID=\'' + apotheek + '\' AND patient=' + patient + ' AND listDag=' + listDag + ' AND listMaand=' + listMaand + ' AND listJaar=' + listJaar, [], function (tx, results)
 		{
-			lijst = results.insertId;
-			importOverzicht (patient, lijst);
+			var verder = true;
+			if (results.length > 0)
+				verder = confirm ('Deze medicatielijst lijkt al aanwezig te zijn. Wilt u deze lijst toch toevoegen?');
+			if (verder)
+			{
+				var apotheek = receivedList.pharmacyName;
+				var apotheekID = receivedList.agbCode;
+				var date = new Date (receivedList.timestamp);
+				var listDag   = date.getDate ();
+				var listMaand = date.getMonth ()+1;
+				var listJaar  = date.getFullYear ();
+				sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
+							 + apotheekID + '\', \'' + apotheek + '\', ' + listDag + ', ' + listMaand + ', ' + listJaar + ', ' + patient + ')';
+				tx.executeSql(sqlStatement, [], function (tx, results)
+				{
+					lijst = results.insertId;
+					importOverzicht (patient, lijst);
+				}, function (tx, error)
+				{
+					alert ('er is een fout opgetreden\r\n' + error.message);
+				}, function ()
+				{
+				});
+			}
 		}, function (tx, error)
 		{
 			alert ('er is een fout opgetreden\r\n' + error.message);

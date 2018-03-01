@@ -84,7 +84,8 @@ function myAlert (szText)
     var elemDiv;
 	var fontSize = 'small';
 
-	if (document.getElementById ('largeFont').className == 'checked')
+	if (isLargeFont ())
+//	if (document.getElementById ('largeFont').className == 'checked')
 		fontSize = 'medium';
 
     Cover ('__myAlert', false);    						// onderliggende tekst even bedekken
@@ -148,7 +149,8 @@ function showPrescription (szHeader, szText)
 	var szHTML;
 	var fontSize = 'small';
 
-	if (document.getElementById ('largeFont').className == 'checked')
+//	if (document.getElementById ('largeFont').className == 'checked')
+	if (isLargeFont ())
 		fontSize = 'medium';
 
 	Cover ('__myPrescription', false);					// onderliggende tekst even bedekken
