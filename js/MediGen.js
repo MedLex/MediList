@@ -5,6 +5,8 @@ var g_bDeviceIsReady	= false;
 var db = null;
 var xmlDoc = null;
 var scanner;
+var enterHandlers = [];
+var enterHandlerIndex = -1;
 
 //---------------------------------------------------------------
 // Cordova is ready
@@ -20,10 +22,31 @@ function onDeviceReady()
 	{
 		initTables (db);
 		showList (db);
+		fillCalender ();
 	}
 	else
 		alert ('no database available!');
 	setFontSizes ();
+}
+
+function addEnterListener (listenFunction)
+{
+	if (enterHandlerIndex > -1)
+		removeEventListener ('keypress', enterHandlers[enterHandlerIndex]);
+	addEventListener ('keypress', listenFunction);
+	enterHandlerIndex += 1;
+	enterHandlers[enterHandlerIndex] = listenFunction;
+}
+
+function removeEnterListener ()
+{
+	if (enterHandlerIndex > -1)
+	{
+		removeEventListener ('keypress', enterHandlers[enterHandlerIndex]);
+		enterHandlerIndex -= 1;
+		if (enterHandlerIndex > -1)
+			addEventListener ('keypress', enterHandlers[enterHandlerIndex]);
+	}
 }
 
 //--------------------------------------------------------------
@@ -35,16 +58,24 @@ function init()
 	
 	g_bDeviceIsReady = false;
 
-	setting = loadSetting ('monthsSave');
+	setting = loadSetting ('monthsSave');						// Hoe lang bewaren we lijsten?
 	if (setting)
 		document.getElementById ('termijn').value = setting;
 
-	setting = loadSetting ('largeFont');
+	setting = loadSetting ('largeFont');						// grote letters gekozen?
 	var bSetting = true;
 	if (setting == 'false')
 		bSetting = false;
 	setFont (bSetting);
-//	setFontSizes ();
+	
+	setting = loadSetting ('screen');							// Welk scherm staat voor?
+	var nScreen = 0;
+	if (setting)
+	{
+		if (setting == 'lijst')
+			nScreen = 1;
+	}
+	setMain (nScreen);
 
 	onDeviceReady ();
 //	alert ('now waiting for deviceready');
@@ -133,8 +164,22 @@ function myAlert (szText)
 	vHeight = parseInt (vHeight/2, 10);
 	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
 	elemWrapper.style.marginTop = '-' + vHeight + 'px';
+	addEnterListener (onEnterAlert);
 
 	setFontSizes ();
+}
+
+function onEnterAlert (e)
+{
+	var key = e.which;
+	if (key === 13)							// The enter key
+	{
+		e.cancelBubble = true;
+		e.returnValue = false;
+		onClickOK ('__myAlert');
+		removeEnterListener ();
+		return false;
+	}
 }
 
 //------------------------------------------------------------------------------------------------------
@@ -204,6 +249,20 @@ function showPrescription (szHeader, szText)
 	vHeight = parseInt (vHeight/2, 10);
 	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
 	elemWrapper.style.marginTop = '-' + vHeight + 'px';
+	addEnterListener (onEnterPrescription);
+}
+
+function onEnterPrescription (e)
+{
+	var key = e.which;
+	if (key === 13)							// The enter key
+	{
+		e.cancelBubble = true;
+		e.returnValue = false;
+		removeEnterListener ();
+		onClickOK ('__myPrescription');
+		return false;
+	}
 }
 
 function onClickOK (szName)

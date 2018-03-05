@@ -25,11 +25,11 @@ function showCalender ()
 
 function calenderOK ()
 {
-	calender = document.getElementById ('list');
+	calender = document.getElementById ('kalender');
 	setVisibility ('menubutton', true);
 	setVisibility ('back', false);
 	screenID = 0;							// weer het medicatielijst scherm
-	setVisibility ('load', true);
+	setVisibility ('plus', true);
 	if (calender)
 	{
 		calender.style.opacity = '0';
@@ -46,6 +46,7 @@ function fillCalender ()
 	var action;
 	var colorName;
 	
+	calender = document.getElementById ('kalender');
 	div = calender.getElementsByClassName ('listLine');
 	var i = div.length;
 	while (i--)
@@ -53,7 +54,6 @@ function fillCalender ()
 		calender.removeChild (div[i]);
 	}
 	globalID = -1;
-	setVisibility ('load', false);
 	db.transaction(function(tx)
 	{
 		tx.executeSql('SELECT * FROM person WHERE selected = 1', [], function (tx, results)
@@ -65,7 +65,7 @@ function fillCalender ()
 				currentUser = row['naam'];
 				globalID = row['id'];
 				fillCalenderStep2 (row['id']);
-				setVisibility ('load', true);
+				setVisibility ('plus', true);
 			}
 			else
 				document.getElementById ('listHeader').innerHTML = '<b>Medicijn kalender</b>';
@@ -83,7 +83,7 @@ function fillCalenderStep2 (personID)
 
 	db.transaction(function(tx)
 	{
-		tx.executeSql('SELECT * FROM tijden WHERE personID = '+ personID, [], function (tx, results)
+		tx.executeSql('SELECT * FROM tijden WHERE personID = '+ personID + ' ORDER BY tijdStip', [], function (tx, results)
 		{
 			var fontSize = 'small';
 
@@ -297,7 +297,7 @@ function openTijdstip (bNieuw)
 
 	setVisibility ('individualCover', true);
 	setVisibility ('tijdStip', true);
-	setVisibility ('load', false);
+	setVisibility ('plus', false);
 	setVisibility ('back', false);
 	if (bNieuw)
 		document.getElementById ('stipText').innerHTML = '<b>Nieuw tijdstip</b>';
@@ -334,6 +334,21 @@ function openTijdstip (bNieuw)
 	var vHeight = screen.height;
 	vHeight = parseInt (vHeight*0.65);
 	document.getElementById ('tijdStip').style.height = vHeight + 'px';
+	
+	addEnterListener (stipEnter);
+}
+
+function stipEnter (e)
+{
+	var key = e.which;
+	if (key === 13)							// The enter key
+	{
+		stipOK ();
+
+		e.cancelBubble = true;
+		e.returnValue = false;
+		return false;
+	}
 }
 
 function isDayChecked (dayName)
@@ -461,8 +476,9 @@ function stipCancel ()
 
 	document.getElementById ('tijdStip').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
-	setVisibility ('load', true);
+	setVisibility ('plus', true);
 	setVisibility ('back', true);
+	removeEnterListener ();
 	setTimeout(function()
 	{
 		setVisibility ('tijdStip', false);

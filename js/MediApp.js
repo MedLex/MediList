@@ -18,13 +18,13 @@ function showMenu (vShow)
     if (vShow == 0)
     {
     	setVisibility ('menuCover', false);
-		setVisibility ('load', true);
+		setVisibility ('plus', true);
     	menuBox.style.left  = '-70%';
     }
     else
     {
     	setVisibility ('menuCover', true);
-		setVisibility ('load', false);
+		setVisibility ('plus', false);
     	menuBox.style.left  = '0px';
     }
 }
@@ -45,7 +45,7 @@ function showPersons ()
 		setVisibility ('back', true);
 		persons.style.display = 'block';
 		persons.style.opacity = '1';
-		setVisibility ('load', true);
+		setVisibility ('plus', true);
 		fillPersons (persons);
 	}
 }
@@ -76,12 +76,13 @@ function personsOK ()
 	persons = document.getElementById ('list');
 	setVisibility ('menubutton', true);
 	setVisibility ('back', false);
-	screenID = 0;							// weer het medicatielijst scherm
-	setVisibility ('load', true);
+	screenID = 0;							// weer het medicatielijst of kalender scherm
+	setVisibility ('plus', true);
 	if (persons)
 	{
 		persons.style.opacity = '0';
 		showList (db);
+		fillCalender ();
 		setTimeout(function()
 		{
 			setVisibility ('list', false);
@@ -97,7 +98,7 @@ function listsOK ()
 	setVisibility ('menubutton', true);
 	setVisibility ('back', false);
 	screenID = 0;							// weer het medicatielijst scherm
-	setVisibility ('load', true);
+	setVisibility ('plus', true);
 	if (persons)
 	{
 		persons.style.opacity = '0';
@@ -114,6 +115,9 @@ function showAllLists ()
 	var lists;
 	var header;
 
+	if (whichMainScreen () == 1)				// Werkt niet in het kalenderscherm
+		return ;
+	
 	screenID = 2;
 	showMenu (false);
 	lists = document.getElementById ('list');
@@ -128,7 +132,7 @@ function showAllLists ()
 		lists.style.display = 'block';
 		lists.style.opacity = '1';
 		setVisibility ('menubutton', false);
-		setVisibility ('load', false);
+		setVisibility ('plus', false);
 		setVisibility ('back', true);
 		lists.style.display = 'block';
 		lists.style.opacity = '1';
@@ -149,7 +153,7 @@ function showConfig ()
 		config.style.display = 'block';
 		config.style.opacity = '1';
 		setVisibility ('back', true);
-		setVisibility ('load', false);
+		setVisibility ('plus', false);
 	}
 	screenID = 3;
 }
@@ -167,7 +171,7 @@ function configOK ()
 	config = document.getElementById ('config');
 	setVisibility ('menubutton', true);
 	setVisibility ('back', false);
-	setVisibility ('load', true);
+	setVisibility ('plus', true);
 	if (config)
 	{
 		config.style.opacity = '0';
@@ -244,6 +248,32 @@ function fillPersons (person)
 	});
 }
 
+function indiEnter (e)
+{
+	var key = e.which;
+	if (key === 13)							// The enter key
+	{
+		var individual = document.getElementById ('individual');
+		var nID = -1;
+		var nNew = 0;
+		if (individual)
+		{
+			nID = individual.getAttribute ('data-id');
+			nNew = individual.getAttribute ('data-new');
+			if (nID == undefined)
+			{
+				nID = -1;
+				nNew = 0;
+			}
+		}
+		indiOK (nID, nNew);
+		
+		e.cancelBubble = true;
+		e.returnValue = false;
+		return false;
+	}
+}
+
 function editPerson (id)
 {
 	var individual;
@@ -260,15 +290,19 @@ function editPerson (id)
 				row = results.rows.item(0);
 
 				individual = document.getElementById ('individual');
+
 				if (individual)
 				{
+					addEnterListener(indiEnter);
 					var date = new Date (row['gebJaar'], (row['gebMaand']-1), row['gebDag'], 5, 5, 5, 5)
 					var day = date.getDate();
 					if(day<10){ day="0"+day;}
 					var month = date.getMonth()+1;
 					if(month<10){ month="0"+month;}
 					var dateString = date.getFullYear() + '-' + month + '-' + day;
-					
+
+					individual.setAttribute ('data-id', row['id']);
+					individual.setAttribute ('data-new', 0);
 					document.getElementById ('indiNaam').value = row['naam'];
 					document.getElementById ('indiGeboren').value = dateString;
 					document.getElementById ('individualText').innerHTML = '<b>wijzigen gegevens</b>';
@@ -277,7 +311,7 @@ function editPerson (id)
 					setVisibility ('individual', true);
 					setVisibility ('back', false);
 					document.getElementById ('individualCover').style.opacity = '0.4';
-					setVisibility ('load', false);
+					setVisibility ('plus', false);
 					individual.style.opacity = '1';
 				}
 			}
@@ -295,39 +329,45 @@ function plus ()
 {
 	var individual;
 	
-	if (screenID == 0)						// medicatielijst
+	if (screenID == 0)						// lijsten
 	{
-		cordova.plugins.barcodeScanner.scan(
-			function (result)
-			{
-				if (result.cancelled)
-					myAlert ('Het lezen van de QR code is afgebroken');
-				else
-					handleQRCode (result.text);
-			},
-			function (error)
-			{
-				alert("Scanning failed: " + error);
-			},
-			{
-				preferFrontCamera : false,		// iOS and Android
-				showFlipCameraButton : true,	// iOS and Android
-				showTorchButton : true,			// iOS and Android
-				torchOn: false,					// Android, launch with the torch switched off
-				saveHistory: true,				// Android, save scan history (default false)
-				prompt : "Plaats de QR code binnen het scangebied", // Android
-				resultDisplayDuration: 0,		// Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
-				formats : "QR_CODE,PDF_417",	// default: all but PDF_417 and RSS_EXPANDED
-				orientation : "unset",			// Android only (portrait|landscape), default unset so it rotates with the device
-				disableAnimations : true,		// iOS
-				disableSuccessBeep: false		// iOS and Android
-			}
-		);
+		if (whichMainScreen () == 0)		// Medicatielijst
+		{
+			cordova.plugins.barcodeScanner.scan(
+				function (result)
+				{
+					if (result.cancelled)
+						myAlert ('Het lezen van de QR code is afgebroken');
+					else
+						handleQRCode (result.text);
+				},
+				function (error)
+				{
+					alert("Scanning failed: " + error);
+				},
+				{
+					preferFrontCamera : false,		// iOS and Android
+					showFlipCameraButton : true,	// iOS and Android
+					showTorchButton : true,			// iOS and Android
+					torchOn: false,					// Android, launch with the torch switched off
+					saveHistory: true,				// Android, save scan history (default false)
+					prompt : "Plaats de QR code binnen het scangebied", // Android
+					resultDisplayDuration: 0,		// Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+					formats : "QR_CODE,PDF_417",	// default: all but PDF_417 and RSS_EXPANDED
+					orientation : "unset",			// Android only (portrait|landscape), default unset so it rotates with the device
+					disableAnimations : true,		// iOS
+					disableSuccessBeep: false		// iOS and Android
+				}
+			);
+		}
+		else								// momenten
+			nieuwTijdstip ();
 	}
 	else if (screenID == 1)						// gebruikers
 	{
 		individual = document.getElementById ('individual');
 		setVisibility ('individualCover', true);
+		addEnterListener(indiEnter);
 		document.getElementById ('individualCover').style.opacity = '0.4';
 		setVisibility ('individual', true);
 		document.getElementById ('individualText').innerHTML = '<b>Nieuwe gebruiker</b>';
@@ -336,14 +376,28 @@ function plus ()
 		document.getElementById ('indiGeboren').disabled = false;
 		document.getElementById ('individualButton').setAttribute ('onmouseup', 'indiOK (-1,0);');
 		document.getElementById ('indiNaam').focus();
+		individual.setAttribute ('data-id', -1);
+		individual.setAttribute ('data-new', 0);
 		setVisibility ('back', false);
 		if (individual)
 		{
 			individual.style.opacity = '1';
 		}
 	}
-	else if (screenID == 4)						// Tijdstippen
-		nieuwTijdstip ();
+}
+
+function whichMainScreen ()
+{
+	var r = 0;
+	
+	var screen = document.getElementById ('mainSlider');
+	if (screen)
+	{
+		if (screen.getAttribute ('data-screen') == 'kalender')
+			r = 1;
+	}
+	
+	return r;
 }
 
 function getReadableDate (year, month, day)
@@ -472,12 +526,12 @@ function indiOK (id, qr)
 		else
 			sqlStatement = 'UPDATE person SET naam = \'' + globalNaam + '\', gebJaar = ' + globalDate.getFullYear() + ', gebMaand = ' + (globalDate.getMonth()+1) + ', gebDag = ' + globalDate.getDate() + ' WHERE id = ' + globalID;
 
-		tx.executeSql(sqlStatement, [], function (tx, result)
+		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
 			indiCancel ();						// Sluit de vensters
 			if (qr)								// Er is iemand toegevoegd op basis van een gelezen QR code
 			{
-				globalID = result.insertId;
+				globalID = results.insertId;
 				selectPerson (globalID);
 				addMedicationList (globalID);	// en voeg nu de lijst toe voor deze nieuwe gebruikert
 			}
@@ -502,8 +556,9 @@ function indiCancel ()
 	
 	document.getElementById ('individual').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
-	setVisibility ('load', true);
+	setVisibility ('plus', true);
 	setVisibility ('back', true);
+	removeEnterListener ();
 	setTimeout(function()
 	{
 		setVisibility ('individual', false);
@@ -516,13 +571,15 @@ function deleteOK (id)
 	var individual;
 	var row;
 	var aantal = 1;
-	
-	if (   !isChecked ('iconDeleteAll')
-	    && !isChecked ('iconDeleteLists'))
+	var bDeleteAll = document.getElementById ('deleteAll').checked;
+	var bDeleteLists = document.getElementById ('deleteLists').checked;
+
+	if (   !bDeleteAll
+		&& !bDeleteLists)
 	{
 		myAlert ('U hebt niets aangegeven om te verwijderen');
 	}
-	else if (isChecked ('iconDeleteAll'))
+	else if (bDeleteAll)
 	{
 		db.transaction(function(tx)
 		{
@@ -573,8 +630,8 @@ function deleteOK (id)
 		});
 		deleteCancel ();								// haal het scherm weg
 	}
-	if (   isChecked ('iconDeleteAll')					// Alleen medicatielijsten weg
-		|| isChecked ('iconDeleteLists'))				// Of persoon inclusief de lijsten
+	if (   bDeleteAll					// Alleen medicatielijsten weg
+		|| bDeleteLists)				// Of persoon inclusief de lijsten
 	{
 		db.transaction(function(tx)
 		{
@@ -623,14 +680,16 @@ function deletePerson (id)
 				globalDeleteLists = false;
 				szQuestion = 'Weet u  zeker dat u de gegevens van ' + row['naam'] + ' wilt verwijderen?';
 				document.getElementById ('deleteQuestion').innerHTML = szQuestion;
-				szQuestion = aantal + ' medicatielijsten';
-				document.getElementById ('iconDeleteAll').className = 'unchecked';
-				document.getElementById ('iconDeleteLists').className = 'unchecked';
+				szQuestion = '<span></span>Alleen ' + aantal + ' medicatielijsten';
+//				document.getElementById ('iconDeleteAll').className = 'unchecked';
+//				document.getElementById ('iconDeleteLists').className = 'unchecked';
+				document.getElementById ('deleteAll').checked = false;
+				document.getElementById ('deleteLists').checked = false;
 				document.getElementById ('deleteListsText').innerHTML = szQuestion;
 				document.getElementById ('deleteIndividual').setAttribute('onmouseup','deleteOK(' + id + ');');
 				setVisibility ('individualCover', true);
 				setVisibility ('individualDelete', true);
-				setVisibility ('load', false);
+				setVisibility ('plus', false);
 				setVisibility ('back', false);
 				document.getElementById ('individualCover').style.opacity = '0.4';
 				var individual = document.getElementById ('individualDelete');
@@ -657,7 +716,7 @@ function deleteCancel ()
 
 	document.getElementById ('individualDelete').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
-	setVisibility ('load', true);
+	setVisibility ('plus', true);
 	setVisibility ('back', true);
 	setTimeout(function()
 	{
@@ -727,6 +786,9 @@ function nieuwePatient (year, month, day)
 			preset += '0';
 		preset += day;
 		var individual = document.getElementById ('individual');
+		document.addEnterListener (indiEnter);
+		individual.setAttribute ('data-id', -1);
+		individual.setAttribute ('data-new', 1);
 		setVisibility ('individualCover', true);
 		document.getElementById ('individualCover').style.opacity = '0.4';
 		setVisibility ('individual', true);
@@ -1216,14 +1278,6 @@ function ProcessReceivedData ()
 	});
 }
 
-/* function largeFont ()
-{
-	var largeFont = toggle ('largeFont');
-
-//	setFont (largeFont);
-	setFontSizes ();
-}*/
-
 function setFontSize ()
 {
 
@@ -1269,4 +1323,46 @@ function setFontSizes ()
 		fontSize = 'large';
 	for (var i = 0; i < div.length; i++)
 		div[i].style.fontSize = fontSize;
+}
+
+
+function setMain (setTo)
+{
+	var slider = document.getElementById ('mainSlider');
+	var calender = document.getElementById ('kalender');
+	var list = document.getElementById ('overzicht');
+
+	if (setTo == 0)							// innamekalender
+	{
+		slider.style.left = '0px';
+		calender.style.left = '0px';
+		overzicht.style.left = '100%';
+		slider.setAttribute ('data-screen', 'kalender');
+		document.getElementById ('allLists').style.color='#afafaf';
+		document.getElementById ('allListsImg').style.background = 'transparent url(\'img/documentsGrey.png\') center no-repeat';
+		document.getElementById ('allListsImg').style.backgroundSize = '30px';
+		document.getElementById ('selectLijst').style.color='#afafaf';
+		document.getElementById ('selectKalender').style.color='#0152a1';
+	}
+	else									// lijsten
+	{
+		slider.style.left = '50%';
+		calender.style.left = '-100%';
+		overzicht.style.left = '0px';
+		slider.setAttribute ('data-screen', 'lijst');
+		document.getElementById ('allLists').style.color='#0152a1';
+		document.getElementById ('allListsImg').style.background = 'transparent url(\'img/documents.png\') center no-repeat';
+		document.getElementById ('allListsImg').style.backgroundSize = '30px';
+		document.getElementById ('selectLijst').style.color='#0152a1';
+		document.getElementById ('selectKalender').style.color='#afafaf';
+	}
+	saveSetting ('screen', slider.getAttribute ('data-screen'));
+
+	setTimeout(function()
+	{
+		var transition = 'all 0.5s ease';
+		calender.style.transition = transition;
+		slider.style.transition = transition;
+		list.style.transition = transition;
+	}, 500);
 }
