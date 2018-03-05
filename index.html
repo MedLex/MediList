@@ -39,11 +39,14 @@
 		<div id="overzicht">
 			<div id="itemHeader" class="itemHeader standardWhite standard"><b>Medicatielijst</b></div>
 		</div>
+		<!--
+			Hierin bevindt zich de medicijnkalender. Ofwel het medicatieoverzicht of de kalender worden getoond.
+		-->
 		<div id="kalender">
 			<div id="wekkerHeader" class="itemHeader standardWhite standard"><b>Medicijnwekker</b></div>
 		</div>
 		<!--
-			De lijst met personen, wordt ook gebruikt voor de lijst met lijsten en de kalender :)
+			De lijst met personen, wordt ook gebruikt voor de lijst met lijsten :)
 		 -->
 		<div id="list">
 			<div id="listHeader" class="itemHeader standardWhite standard">
@@ -85,8 +88,6 @@
 				<div id="deleteQuestion" class="large"></div>
 				<div class="delete large"><input id="deleteAll" type="checkbox"><label class="large" for="deleteAll"><span></span>Gebruiker en medicatielijsten</label></div>
 				<div class="delete large"><input id="deleteLists" type="checkbox"><label class="large" id="deleteListsText" for="deleteLists"><span></span>Alleen medicatielijsten</label></div>
-<!--			<div id="deleteAll" class="large" onmouseup="toggle('iconDeleteAll');"><div id="iconDeleteAll" class="unchecked"></div>Gebruiker en medicatielijsten</div>
-				<div id="deleteLists" onmouseup="toggle('iconDeleteLists');"><div id="iconDeleteLists" class="unchecked"></div><div id="deleteListsText" class="large">Medicatielijsten</div></div> -->
 			</div>
 			<div class="okWrap">
 				<div id="deleteIndividual" class="ok2 button" onmouseup="deleteOK(-1);"><b>Verwijder</b></div>
@@ -174,11 +175,21 @@
 			<div id="headertext" class="standardWhite header">Medin</div>
 			<div id="menubutton" onmouseup="showMenu(1);"></div>
 		</div>
+		<!--
+			Onder de menubalk komt de keuze tussen de beide hoofdschermen. Kalender en Medicijnlijst.
+			de "slider" geeft aan waar we zitten. Deze krijgt ook een attribuut "data-screen" waarin dit wordt vastgelegd
+			De programmatuur haalt hier de informatie vandaan.
+		-->
 		<div id="select" class="materialHeader">
 			<div id="selectKalender" class="large" onclick="setMain (0);"><b>Kalender</b></div>
 			<div id="selectLijst" class="large" onclick="setMain (1);"><b>Medicijnlijst</b></div>
 			<div id="mainSlider"></div>
 		</div>
+		<!--
+			Het "plus" knopje heeft meerdere functies, afhankelijk van het scherm waar we ons bevinden.
+			In het medicijnlijstscherm bijboorbeeld het ophalen van een nieuwe lijst (via QR code)
+			In het kalenderscherm het toevoegen van een nieuw tijdstip enzovoorts
+		-->
 		<div id="plus" class="altGrey material" onmouseup="plus();"></div>
 
 		<!--
@@ -186,11 +197,10 @@
 		 -->
 		<div id="menuCover" onclick="showMenu (0);"></div>
 		<div id="menuBox" class="standard material">
-            <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
-            <div id="allLists" class="divMenu large" onclick="showAllLists();"><div id="allListsImg"></div>Toon alle lijsten</div>
-            <div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
-            <div class="divMenu large" onclick="showConfig();"><div class="settings"></div>Instellingen</div>
+			<div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
+			<div id="allLists" class="divMenu large" onclick="showAllLists();"><div id="allListsImg"></div>Toon alle lijsten</div>
+			<div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
+			<div class="divMenu large" onclick="showConfig();"><div class="settings"></div>Instellingen</div>
 		</div>
-    </div>
-  </body>
+	</body>
 </html>
