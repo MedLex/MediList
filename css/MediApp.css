@@ -767,28 +767,6 @@ body
 	margin-top:5px;
 }
 
-.unchecked
-{
-	position:absolute;
-	top:0px;
-	left:0px;
-	height:35px;
-	width:35px;
-	background:transparent url('../img/unchecked.png') center no-repeat;
-	background-size:35px;
-}
-
-.checked
-{
-	position:absolute;
-	top:0px;
-	left:0px;
-	height:35px;
-	width:35px;
-	background:transparent url('../img/checked.png') center no-repeat;
-	background-size:35px;
-}
-
 .delete
 {
 	position:relative;
@@ -798,32 +776,6 @@ body
 	line-height:35px;
 	padding-left:48px;
 }
-
-/*
-#deleteAll
-{
-	position:absolute;
-	display:block;
-	left:0px;
-	right:0px;
-	height:35px;
-	top:60px;
-	line-height:35px;
-	padding-left:48px;
-}
-
-#deleteLists
-{
-	position:absolute;
-	display:block;
-	top:95px;
-	left:0px;
-	right:0px;
-	height:35px;
-	line-height:35px;
-	padding-left:48px;
-}
-*/
 
 .personLine
 {
