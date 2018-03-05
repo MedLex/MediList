@@ -237,22 +237,24 @@ body
     overflow:hidden;
 }
 
-#load
+#plus
 {
 	display:block;
 	position:absolute;
-	top:20px;
-	border-radius: 20px;
-	right:20%;
-	height:40px;
-	width:40px;
+	bottom:20px;
+	right:20px;
+/*	top:20px;
+	right:20%; */
+	border-radius: 28px;
+	height:56px;
+	width:56px;
     background-image: url('../img/plus.png');
 	background-position:center;
 	background-repeat:no-repeat;
-    background-size:30px;
+    background-size:56px;
 }
 
-#load:hover
+#plus:hover
 {
 	background-color:#e0e0e0;			/* alt A 100 */
 }
@@ -290,6 +292,48 @@ body
 	height:50px;
 }
 
+#select
+{
+	position:absolute;
+	left:0px;
+	right:0px;
+	top:50px;
+	height:30px;
+	background:white;
+}
+
+#selectKalender
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:25px;
+	width:50%;
+	text-align: center;
+	line-height:25px;
+}
+
+#selectLijst
+{
+	position:absolute;
+	top:0px;
+	right:0px;
+	height:25px;
+	width:50%;
+	text-align: center;
+	line-height:25px;
+}
+
+#mainSlider
+{
+	position:absolute;
+	bottom:0px;
+	height:5px;
+	width:50%;
+	background:#1056ef;
+	left:0px;
+}
+
 #headertext
 {
 	position:absolute;
@@ -323,11 +367,23 @@ body
 #overzicht
 {
 	position:absolute;
-	top:50px;
-	left:0px;
-	right:0px;
+	top:80px;
+	left:100%;
+	width:100%;
 	bottom:0px;
-	overflow:auto;
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+
+#kalender
+{
+	position:absolute;
+	top:80px;
+	left:-100%;
+	width:100%;
+	bottom:0px;
+	overflow-y:auto;
+	overflow-x:hidden;
 }
 
 .item
@@ -425,7 +481,7 @@ body
 #menuBox
 {
 	position:absolute;
-	top:50px;
+	top:80px;
 	bottom:0px;
 	left:-70%;
 	width:65%;
@@ -473,7 +529,7 @@ body
 	vertical-align: center;
 }
 
-.allLists
+#allListsImg
 {
 	position:absolute;
 	left:10px;
@@ -531,7 +587,7 @@ body
 #list
 {
 	position:absolute;
-	top:50px;
+	top:80px;
 	bottom:0px;
 	left:0px;
 	right:0px;
@@ -617,7 +673,7 @@ body
 #individualBody
 {
 	position:absolute;
-	top:50px;
+	top:70px;
 	right:0px;
 	left:0px;
 	bottom:50px;
@@ -657,7 +713,7 @@ body
 #deleteBody
 {
 	position:absolute;
-	top:50px;
+	top:70px;
 	right:0px;
 	left:0px;
 	bottom:50px;
@@ -665,7 +721,7 @@ body
 
 #deleteQuestion
 {
-	position:absolute;
+	position:relative;
 	top:0px;
 	left:0px;
 	right:0px;
@@ -674,6 +730,7 @@ body
 	padding-left:8px;
 	padding-right:8px;
 	padding-bottom:10px;
+	display:block;
 }
 
 #tijdStip
@@ -697,7 +754,7 @@ body
 #stipBody
 {
 	position:absolute;
-	top:50px;
+	top:70px;
 	right:0px;
 	left:0px;
 	bottom:50px;
@@ -732,6 +789,17 @@ body
 	background-size:35px;
 }
 
+.delete
+{
+	position:relative;
+	display:block;
+	left:0px;
+	height:35px;
+	line-height:35px;
+	padding-left:48px;
+}
+
+/*
 #deleteAll
 {
 	position:absolute;
@@ -755,6 +823,7 @@ body
 	line-height:35px;
 	padding-left:48px;
 }
+*/
 
 .personLine
 {
@@ -864,7 +933,7 @@ body
 #config
 {
 	position:absolute;
-	top:50px;
+	top:80px;
 	bottom:0px;
 	left:0px;
 	right:0px;
@@ -883,7 +952,7 @@ body
 #configBody
 {
 	position:absolute;
-	top:50px;
+	top:70px;
 	bottom:50px;
 	left:10px;
 	right:0px;
