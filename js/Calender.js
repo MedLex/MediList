@@ -6,23 +6,6 @@
 var calender;
 var tijd;
 
-function showCalender ()
-{
-
-	showMenu (false);
-	calender = document.getElementById ('list');
-	screenID = 4;
-
-	if (calender)
-	{
-		setVisibility ('menubutton', false);
-//		setVisibility ('back', true);
-		calender.style.display = 'block';
-		calender.style.opacity = '1';
-		fillCalender ();
-	}
-}
-
 function calenderOK ()
 {
 	calender = document.getElementById ('kalender');
@@ -179,6 +162,7 @@ function editTijd (personID, rowID)
 			{
 				var szHTML = '';
 				var row = results.rows.item (0);
+				setVisibility ('stipDelete', true);
 				document.getElementById ('stipNaam').value = row['tijdNaam'];
 				document.getElementById ('stipTijd').value = row['tijdStip'];
 				var periodiciteit = row['periodiciteit'];
@@ -285,7 +269,63 @@ function nieuwTijdstip ()
 	stip.setAttribute ('data-stip', '');
 	document.getElementById ('stipNaam').value = '';
 	document.getElementById ('stipTijd').value = '';
+	setVisibility ('stipDelete', false);
 	openTijdstip (true);
+}
+
+function deleteStip ()
+{
+	var dataPerson = '';
+	var dataStip = '';
+	var stipNaam = '';
+	var stip = document.getElementById ('tijdStip');
+	var bDelete = false;
+	dataPerson = stip.getAttribute ('data-person');
+	dataStip   = stip.getAttribute ('data-stip');
+	stipNaam = document.getElementById ('stipNaam').value;
+
+	if (   dataPerson == ''
+		|| dataStip == '')
+	{
+		myAlert ('oeps... dit tijdstip kan niet worden verwijderd');
+		return ;
+	}
+	else
+		bDelete = confirm ('Weet u zeker dat u tijdstip "' + stipNaam + '" wilt verwijderen?');
+	if (bDelete)
+	{
+		db.transaction(function(tx)
+		{
+			var dataPerson = '';
+			var dataStip = '';
+			var stip = document.getElementById ('tijdStip');
+			dataPerson = stip.getAttribute ('data-person');
+			dataStip   = stip.getAttribute ('data-stip');
+			tx.executeSql('DELETE FROM tijden WHERE personID = ' + dataPerson + ' AND tijdID = ' + dataStip, [], function (tx, results)
+			{
+				var dataPerson = '';
+				var dataStip = '';
+				var stip = document.getElementById ('tijdStip');
+				dataPerson = stip.getAttribute ('data-person');
+				dataStip   = stip.getAttribute ('data-stip');
+				tx.executeSql('DELETE FROM inname WHERE personID = ' + dataPerson + ' AND tijdID = ' + dataStip, [], function (tx, results)
+				{
+					stipCancel ();
+					fillCalender ();
+				}), function (tx, error)
+				{
+					alert ('er is een fout opgetreden\r\n' + error.message);
+				}, function ()
+				{
+				};
+			}), function (tx, error)
+			{
+				alert ('er is een fout opgetreden\r\n' + error.message);
+			}, function ()
+			{
+			};
+		});
+	}
 }
 
 function openTijdstip (bNieuw)
