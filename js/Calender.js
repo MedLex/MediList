@@ -16,7 +16,7 @@ function showCalender ()
 	if (calender)
 	{
 		setVisibility ('menubutton', false);
-		setVisibility ('back', true);
+//		setVisibility ('back', true);
 		calender.style.display = 'block';
 		calender.style.opacity = '1';
 		fillCalender ();
