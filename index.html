@@ -39,6 +39,9 @@
 		<div id="overzicht">
 			<div id="itemHeader" class="itemHeader standardWhite standard"><b>Medicatielijst</b></div>
 		</div>
+		<div id="kalender">
+			<div id="wekkerHeader" class="itemHeader standardWhite standard"><b>Medicijnwekker</b></div>
+		</div>
 		<!--
 			De lijst met personen, wordt ook gebruikt voor de lijst met lijsten en de kalender :)
 		 -->
@@ -79,9 +82,11 @@
 				<div class="individualClose" onmouseup="deleteCancel();"></div>
 			</div>
 			<div id="deleteBody">
-				<div id="deleteQuestion" class="standard"></div>
-				<div id="deleteAll" class="large" onmouseup="toggle('iconDeleteAll');"><div id="iconDeleteAll" class="unchecked"></div>Gebruiker en medicatielijsten</div>
-				<div id="deleteLists" onmouseup="toggle('iconDeleteLists');"><div id="iconDeleteLists" class="unchecked"></div><div id="deleteListsText" class="large">Medicatielijsten</div></div>
+				<div id="deleteQuestion" class="large"></div>
+				<div class="delete large"><input id="deleteAll" type="checkbox"><label class="large" for="deleteAll"><span></span>Gebruiker en medicatielijsten</label></div>
+				<div class="delete large"><input id="deleteLists" type="checkbox"><label class="large" id="deleteListsText" for="deleteLists"><span></span>Alleen medicatielijsten</label></div>
+<!--			<div id="deleteAll" class="large" onmouseup="toggle('iconDeleteAll');"><div id="iconDeleteAll" class="unchecked"></div>Gebruiker en medicatielijsten</div>
+				<div id="deleteLists" onmouseup="toggle('iconDeleteLists');"><div id="iconDeleteLists" class="unchecked"></div><div id="deleteListsText" class="large">Medicatielijsten</div></div> -->
 			</div>
 			<div class="okWrap">
 				<div id="deleteIndividual" class="ok2 button" onmouseup="deleteOK(-1);"><b>Verwijder</b></div>
@@ -103,34 +108,34 @@
 					</tr>
 					<tr>
 						<td style="padding-right:10px;">Tijd</td>
-						<td colspan="2"><input id="stipTijd" type="text" /></td>
+						<td colspan="2"><input id="stipTijd" type="time" /></td>
 					</tr>
 					<tr><td colspan="3">&nbsp;</td></tr>			<!-- lege regel -->
 					<tr>
 						<td>Innemen op</td>
 						<td><input id="maandag" type="checkbox" name="iedere" value="0" />
-						    <label for="maandag"><span></span>maandag</label></td>
+						    <label for="maandag"><span></span>Ma</label></td>
 						<td><input id="vrijdag" type="checkbox" name="iedere" value="0" />
-						    <label for="vrijdag"><span></span>vrijdag</label></td>
+						    <label for="vrijdag"><span></span>Vrij</label></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td><input id="dinsdag" type="checkbox" name="iedere" value="0" />
-						    <label for="dinsdag"><span></span>dinsdag</label></td>
+						    <label for="dinsdag"><span></span>Din</label></td>
 						<td><input id="zaterdag" type="checkbox" name="iedere" value="0" />
-						    <label for="zaterdag"><span></span>zaterdag</label></td>
+						    <label for="zaterdag"><span></span>Zat</label></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td><input id="woensdag" type="checkbox" name="iedere" value="0" />
-						    <label for="woensdag"><span></span>woensdag</label></td>
+						    <label for="woensdag"><span></span>Woe</label></td>
 						<td><input id="zondag" type="checkbox" name="iedere" value="0" />
-						    <label for="zondag"><span></span>zondag</label></td>
+						    <label for="zondag"><span></span>Zon</label></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td><input id="donderdag" type="checkbox" name="iedere" value="0" />
-						    <label for="donderdag"><span></span>donderdag</label></td>
+						    <label for="donderdag"><span></span>Don</label></td>
 						<td>&nbsp;</td>
 					</tr>
 				</table>
@@ -157,17 +162,24 @@
 						<td>
 							<input id="largeFont" type="checkbox" onclick="setFontSize();"/>
 						    <label for="largeFont"><span></span>&nbsp;</label>
-<!--						<div class="flipswitch">
-								<input type="checkbox" name="flipswitch" class="flipswitch-cb" onclick="setFontSize();" id="largeFont" checked" />
-								<label class="flipswitch-label" for="largeFont">
-									<div class="flipswitch-inner"></div>
-									<div class="flipswitch-switch"></div>
-								</label>
-							</div> -->
 						</td>
 				</table>
 			</div>
 		</div>
+		<!--
+			En de menubalk
+		 -->
+		<div id="menubar" class="standard standardWhite">
+			<div id="back" onclick="back();"></div>
+			<div id="headertext" class="standardWhite header">Medin</div>
+			<div id="menubutton" onmouseup="showMenu(1);"></div>
+		</div>
+		<div id="select" class="materialHeader">
+			<div id="selectKalender" class="large" onclick="setMain (0);"><b>Kalender</b></div>
+			<div id="selectLijst" class="large" onclick="setMain (1);"><b>Medicatielijst</b></div>
+			<div id="mainSlider"></div>
+		</div>
+		<div id="plus" class="altGrey material" onmouseup="plus();"></div>
 
 		<!--
 			Hier komt het menu. Dit moet helemaal onderaan blijven om te zorgen dat het overal overheen kan
@@ -175,20 +187,10 @@
 		<div id="menuCover" onclick="showMenu (0);"></div>
 		<div id="menuBox" class="standard material">
             <div class="divMenu large" onclick="showMenu(0);"><div class="menuBack"></div>Terug</div>
-            <div class="divMenu large" onclick="showAllLists();"><div class="allLists"></div>Toon alle lijsten</div>
+            <div id="allLists" class="divMenu large" onclick="showAllLists();"><div id="allListsImg"></div>Toon alle lijsten</div>
             <div class="divMenu large" onclick="showPersons();"><div class="person"></div>Gebruikers</div>
-            <div class="divMenu large" onclick="showCalender();"><div class="calender"></div>Medicijn kalender</div>
             <div class="divMenu large" onclick="showConfig();"><div class="settings"></div>Instellingen</div>
 		</div>
-		<!--
-			En de menubalk
-		 -->
-		<div id="menubar" class="standard standardWhite materialHeader">
-			<div id="back" onclick="back();"></div>
-			<div id="headertext" class="standardWhite header">Medin</div>
-			<div id="menubutton" onmouseup="showMenu(1);"></div>
-		</div>
-		<div id="load" class="altGrey material" onmouseup="plus();"></div>
     </div>
   </body>
 </html>
