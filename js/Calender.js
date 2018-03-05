@@ -477,7 +477,6 @@ function stipCancel ()
 	document.getElementById ('tijdStip').style.opacity = '0';
 	document.getElementById ('individualCover').style.opacity = '0';
 	setVisibility ('plus', true);
-	setVisibility ('back', true);
 	removeEnterListener ();
 	setTimeout(function()
 	{
