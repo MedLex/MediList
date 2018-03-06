@@ -274,6 +274,12 @@ function indiEnter (e)
 	}
 }
 
+function indiBack (e)
+{
+	e.preventDefault ();
+	indiCancel ();
+}
+
 function editPerson (id)
 {
 	var individual;
@@ -294,6 +300,7 @@ function editPerson (id)
 				if (individual)
 				{
 					addEnterListener(indiEnter);
+					addBackListener (indiBack);
 					var date = new Date (row['gebJaar'], (row['gebMaand']-1), row['gebDag'], 5, 5, 5, 5)
 					var day = date.getDate();
 					if(day<10){ day="0"+day;}
@@ -368,6 +375,7 @@ function plus ()
 		individual = document.getElementById ('individual');
 		setVisibility ('individualCover', true);
 		addEnterListener(indiEnter);
+		addBackListener (indiBack);
 		document.getElementById ('individualCover').style.opacity = '0.4';
 		setVisibility ('individual', true);
 		document.getElementById ('individualText').innerHTML = '<b>Nieuwe gebruiker</b>';
@@ -559,6 +567,7 @@ function indiCancel ()
 	setVisibility ('plus', true);
 	setVisibility ('back', true);
 	removeEnterListener ();
+	removeBackListener ();
 	setTimeout(function()
 	{
 		setVisibility ('individual', false);
@@ -786,7 +795,8 @@ function nieuwePatient (year, month, day)
 			preset += '0';
 		preset += day;
 		var individual = document.getElementById ('individual');
-		document.addEnterListener (indiEnter);
+		addEnterListener (indiEnter);
+		addBackListener (indiBack);
 		individual.setAttribute ('data-id', -1);
 		individual.setAttribute ('data-new', 1);
 		setVisibility ('individualCover', true);

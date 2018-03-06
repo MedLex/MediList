@@ -7,6 +7,8 @@ var xmlDoc = null;
 var scanner;
 var enterHandlers = [];
 var enterHandlerIndex = -1;
+var backHandlers = [];
+var backHandlerIndex = -1;
 
 //---------------------------------------------------------------
 // Cordova is ready
@@ -46,6 +48,26 @@ function removeEnterListener ()
 		enterHandlerIndex -= 1;
 		if (enterHandlerIndex > -1)
 			addEventListener ('keypress', enterHandlers[enterHandlerIndex]);
+	}
+}
+
+function addBackListener (listenFunction)
+{
+	if (backHandlerIndex > -1)
+		removeEventListener ('backbutton', backHandlers[backHandlerIndex]);
+	addEventListener ('backbutton', listenFunction);
+	backHandlerIndex += 1;
+	backHandlers[backHandlerIndex] = listenFunction;
+}
+
+function removeBackListener ()
+{
+	if (backHandlerIndex > -1)
+	{
+		removeEventListener ('backbutton', backHandlers[backHandlerIndex]);
+		backHandlerIndex -= 1;
+		if (backHandlerIndex > -1)
+			addEventListener ('backbutton', backHandlers[backHandlerIndex]);
 	}
 }
 
@@ -165,8 +187,17 @@ function myAlert (szText)
 	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
 	elemWrapper.style.marginTop = '-' + vHeight + 'px';
 	addEnterListener (onEnterAlert);
+	addBackListener (onAlertBack);
 
 	setFontSizes ();
+}
+
+function onAlertBack (e)
+{
+	e.preventDefault ();
+	removeEnterListener ();
+	removeBackListener ();
+	onClickOK ('__myAlert');
 }
 
 function onEnterAlert (e)
@@ -250,6 +281,15 @@ function showPrescription (szHeader, szText)
 	elemWrapper.style.marginLeft = '-' + vWidth + 'px';
 	elemWrapper.style.marginTop = '-' + vHeight + 'px';
 	addEnterListener (onEnterPrescription);
+	addBackListener (onBackPrescription);
+}
+
+function onBackPrescription (e)
+{
+	e.preventDefault ();
+	removeEnterListener ();
+	removeBackListener ();
+	onClickOK ('__myPrescription');
 }
 
 function onEnterPrescription (e)

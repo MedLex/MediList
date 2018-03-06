@@ -376,6 +376,7 @@ function openTijdstip (bNieuw)
 	document.getElementById ('tijdStip').style.height = vHeight + 'px';
 	
 	addEnterListener (stipEnter);
+	addBackListener (stipBack);
 }
 
 function stipEnter (e)
@@ -389,6 +390,12 @@ function stipEnter (e)
 		e.returnValue = false;
 		return false;
 	}
+}
+
+function stipBack (e)
+{
+	e.preventDefault ();
+	stipCancel ();
 }
 
 function isDayChecked (dayName)
@@ -518,6 +525,7 @@ function stipCancel ()
 	document.getElementById ('individualCover').style.opacity = '0';
 	setVisibility ('plus', true);
 	removeEnterListener ();
+	removeBackListener ();
 	setTimeout(function()
 	{
 		setVisibility ('tijdStip', false);
