@@ -55,7 +55,7 @@ function addBackListener (listenFunction)
 {
 	if (backHandlerIndex > -1)
 		removeEventListener ('backbutton', backHandlers[backHandlerIndex]);
-	addEventListener ('backbutton', listenFunction, true);
+	addEventListener ('backbutton', listenFunction, false);
 	backHandlerIndex += 1;
 	backHandlers[backHandlerIndex] = listenFunction;
 }
@@ -195,10 +195,11 @@ function myAlert (szText)
 function onAlertBack (e)
 {
 	e.preventDefault ();
+	alert ('backbutton pressed');
 	removeEnterListener ();
 	removeBackListener ();
 	onClickOK ('__myAlert');
-	
+
 	return false;
 }
 

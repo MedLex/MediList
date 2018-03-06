@@ -278,6 +278,8 @@ function indiBack (e)
 {
 	e.preventDefault ();
 	indiCancel ();
+	
+	return false;
 }
 
 function editPerson (id)
