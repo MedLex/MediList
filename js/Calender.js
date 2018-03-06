@@ -396,6 +396,8 @@ function stipBack (e)
 {
 	e.preventDefault ();
 	stipCancel ();
+	
+	return false;
 }
 
 function isDayChecked (dayName)

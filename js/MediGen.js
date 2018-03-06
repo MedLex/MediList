@@ -55,7 +55,7 @@ function addBackListener (listenFunction)
 {
 	if (backHandlerIndex > -1)
 		removeEventListener ('backbutton', backHandlers[backHandlerIndex]);
-	addEventListener ('backbutton', listenFunction);
+	addEventListener ('backbutton', listenFunction, true);
 	backHandlerIndex += 1;
 	backHandlers[backHandlerIndex] = listenFunction;
 }
@@ -198,6 +198,8 @@ function onAlertBack (e)
 	removeEnterListener ();
 	removeBackListener ();
 	onClickOK ('__myAlert');
+	
+	return false;
 }
 
 function onEnterAlert (e)
@@ -290,6 +292,7 @@ function onBackPrescription (e)
 	removeEnterListener ();
 	removeBackListener ();
 	onClickOK ('__myPrescription');
+	return false;
 }
 
 function onEnterPrescription (e)
