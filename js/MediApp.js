@@ -342,13 +342,15 @@ function plus ()
 	{
 		if (whichMainScreen () == 0)		// Medicatielijst
 		{
-			cordova.plugins.barcodeScanner.scan(
+			if (typeof cordova == 'undefined' || !cordova)	// Aha, we draaien niet op een mobiel!
+				handleQRCode ('1;1;19250925;data/voorbeeld2.json',0);
+			else cordova.plugins.barcodeScanner.scan(
 				function (result)
 				{
 					if (result.cancelled)
 						myAlert ('Het lezen van de QR code is afgebroken');
 					else
-						handleQRCode (result.text);
+						handleQRCode (result.text,1);
 				},
 				function (error)
 				{
@@ -423,7 +425,7 @@ function getReadableDate (year, month, day)
 	return r;
 }
 
-function handleQRCode (QRCode)
+function handleQRCode (QRCode, bScanned)
 {
 	var actionCode = '?';
 	var birthDate  = '?';
@@ -474,7 +476,7 @@ function handleQRCode (QRCode)
 	}
 	if (errorCode != 0)
 		myAlert ('Er is een onjuiste QR code gelezen.<br />Foutcode = 10' + errorCode);
-	else
+	else if (bScanned)
 	{
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function()
@@ -483,6 +485,7 @@ function handleQRCode (QRCode)
 				&& this.status == 200)
 			{
 				receivedList = JSON.parse(this.responseText);
+				receivedList.birthdate = globalBirthdate;
 				ProcessReceivedData ();
 			}
 			else if (this.readyState == 4)
@@ -501,9 +504,41 @@ function handleQRCode (QRCode)
 		};
 
 		globalURL = url;
-		xhttp.open("GET", url, true);
+			xhttp.open("GET", url, true);
 		xhttp.send();
 	}
+	else
+	{
+		setVisibility ('jsonCover', true);
+		setVisibility ('askJSON', true);
+	}
+}
+
+function jsonLoad ()
+{
+	var curFiles = document.getElementById ('files').files;
+	if(curFiles.length === 0)
+	{
+		myAlert ('No files currently selected for upload');
+	}
+	else
+	{
+		var reader = new FileReader();
+		reader.onload = function(e)
+		{
+			receivedList = JSON.parse(e.target.result);
+			receivedList.birthdate = '1952-09-25';
+			ProcessReceivedData ();
+		}
+		reader.readAsText(curFiles[0]);
+		jsonCancel ();
+	}
+}
+
+function jsonCancel ()
+{
+	setVisibility ('jsonCover', false);
+	setVisibility ('askJSON', false);
 }
 
 function indiOK (id, qr)
@@ -538,17 +573,18 @@ function indiOK (id, qr)
 
 		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
-			indiCancel ();						// Sluit de vensters
-			if (qr)								// Er is iemand toegevoegd op basis van een gelezen QR code
+			indiCancel ();							// Sluit de vensters
+			if (qr)									// Er is iemand toegevoegd op basis van een gelezen QR code
 			{
-				globalID = results.insertId;
-				selectPerson (globalID);
-				addMedicationList (globalID);	// en voeg nu de lijst toe voor deze nieuwe gebruikert
+				receivedList.patientID = results.insertId;
+				alert ('patientID = ' + receivedList.patientID);
+				selectPerson (receivedList.patientID);
+				addMedicationList ();				// en voeg nu de lijst toe voor deze nieuwe gebruikert
 			}
-			else								// Handmatig een nieuwe persoon toegevoegd
+			else									// Handmatig een nieuwe persoon toegevoegd
 			{
 				var persons = document.getElementById ('list');
-				fillPersons (persons);			// Dan zitten we nu in de gebruikerlijst, dus opnieuw opbouwen
+				fillPersons (persons);				// Dan zitten we nu in de gebruikerlijst, dus opnieuw opbouwen
 			}
 		}, function (tx, error)
 		{
@@ -821,7 +857,7 @@ function nieuwePatient (year, month, day)
 //------------------------------------------------------------------------------------------------
 // Voeg een nieuwe medicatielijst toe
 //
-function addMedicationList (patient)
+function addMedicationList ()
 {
 	var sqlStatement;
 	var apotheek;
@@ -842,25 +878,42 @@ function addMedicationList (patient)
 		myAlert ('Geen geldig medApp bestand ontvangen (3)');
 		return ;
 	}
-	var listDag   = date.getDate ();
-	var listMaand = date.getMonth ()+1;
-	var listJaar  = date.getFullYear ();
-	
+
 	db.transaction (function (tx)
 	{
-		tx.executeSql ('SELECT * from lijsten WHERE apotheekID=\'' + apotheek + '\' AND patient=' + patient + ' AND listDag=' + listDag + ' AND listMaand=' + listMaand + ' AND listJaar=' + listJaar, [], function (tx, results)
+		var apotheekID = null;
+		var date = null;
+		var lijst;
+
+		if (receivedList == null)
+			return ;
+
+		var patient = receivedList.patientID;
+		apotheekID = receivedList.agbCode;
+		if (receivedList.timestamp)
+			date = new Date (receivedList.timestamp);
+		var listDag   = date.getDate ();
+		var listMaand = date.getMonth ()+1;
+		var listJaar  = date.getFullYear ();
+
+		tx.executeSql ('SELECT * from lijsten WHERE apotheekID=\'' + apotheekID + '\' AND patient=' + patient + ' AND listDag=' + listDag + ' AND listMaand=' + listMaand + ' AND listJaar=' + listJaar, [], function (tx, results)
 		{
 			var verder = true;
 			if (results.length > 0)
 				verder = confirm ('Deze medicatielijst lijkt al aanwezig te zijn. Wilt u deze lijst toch toevoegen?');
 			if (verder)
 			{
+				var date = null;
+				var lijst;
+				var patient = receivedList.patientID;
 				var apotheek = receivedList.pharmacyName;
 				var apotheekID = receivedList.agbCode;
-				var date = new Date (receivedList.timestamp);
+				if (receivedList.timestamp)
+					date = new Date (receivedList.timestamp);
 				var listDag   = date.getDate ();
 				var listMaand = date.getMonth ()+1;
 				var listJaar  = date.getFullYear ();
+
 				sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
 							 + apotheekID + '\', \'' + apotheek + '\', ' + listDag + ', ' + listMaand + ', ' + listJaar + ', ' + patient + ')';
 				tx.executeSql(sqlStatement, [], function (tx, results)
@@ -890,7 +943,9 @@ function importOverzicht (id, lijst)
 {
 	var sqlStatement;
 	var medicatie = receivedList.medicationDispenseEvents;
-	
+
+	receivedList.listID = lijst;
+
 	db.transaction (function (tx)
 	{
 		for (var i = 0; i < medicatie.length; i++)
@@ -917,6 +972,7 @@ function importOverzicht (id, lijst)
 			var text3                   = '';
 			var text4                   = '';
 			var text5                   = '';
+			var nhg25					= '';
 
 			if (medicijn.id)
 				uuid = medicijn.id;
@@ -935,6 +991,8 @@ function importOverzicht (id, lijst)
 			}
 			if (medicijn.usageStartDate)
 				startGebruik = medicijn.usageStartDate;
+			if (medicijn.nhg25)
+				nhg25 = medicijn.nhg25;
 			if (medicijn.usageEndDate)
 				eindGebruik = medicijn.usageEndDate;
 			if (medicijn.amount)
@@ -968,8 +1026,8 @@ function importOverzicht (id, lijst)
 			sqlStatement = 'INSERT INTO medicatie (lijst, regel, uuid, transcriptTimestamp, dispenseTimestamp,'
 						 + 'voorschrijverNaam, voorschrijverAGB, voorschrijverSpec, startGebruik, eindGebruik,'
 						 + 'hoeveelheid, codeUnit, zi, hpk, prk, dispensedMedicationName, iterationCredit,'
-						 + 'iterationDate, text1, text2, text3, text4, text5) VALUES ('
-			             +        lijst                   + ','
+						 + 'iterationDate, text1, text2, text3, text4, text5, nhg25) VALUES ('
+			             +        receivedList.listID     + ','
 						 +        (i+1)                   + ','
 						 + '\'' + uuid                    + '\','
 						 + '\'' + transcriptTimestamp     + '\','
@@ -991,7 +1049,8 @@ function importOverzicht (id, lijst)
 						 + '\'' + text2                   + '\','
 						 + '\'' + text3                   + '\','
 						 + '\'' + text4                   + '\','
-						 + '\'' + text5                   + '\')';
+						 + '\'' + text5                   + '\','
+						 + '\'' + nhg25                   + '\')';
 
 			tx.executeSql(sqlStatement, [], function (tx, results)
 			{
@@ -1157,15 +1216,15 @@ function ProcessReceivedData ()
 	// Zo niet, dan vragen we of we iemand moeten aanmaken.
 	// Als er meer dan één is (tweeling) dan vragen we welke we moeten hebben.
 	//
-	var dateTemp = globalBirthDate.split ('-');		// haal even uit elkaar
+	var dateTemp = receivedList.birthdate.split ('-');		// haal even uit elkaar
 	if (dateTemp.length != 3)						// daaruit moeten we drie componenten overhouden
 	{
 		myAlert ('Er is iets misgegaan in het interpreteren van de geboortedatum');
 		return ;
 	}
-	g_year  = dateTemp[0];							// Namelijk het geboortejaar,
-	g_month = dateTemp[1];							// de maand
-	g_day   = dateTemp[2];							// en de dag
+	g_year  = parseInt (dateTemp[0]);							// Namelijk het geboortejaar,
+	g_month = parseInt (dateTemp[1]);							// de maand
+	g_day   = parseInt (dateTemp[2]);							// en de dag
 
 	db.transaction(function(tx)
 	{
@@ -1176,12 +1235,13 @@ function ProcessReceivedData ()
 		{
 			if (results.rows.length == 0)								// Geen patient gevonden
 				r = nieuwePatient (g_year, g_month, g_day)				// vraag of we er een moeten aanmaken
-				
+
 			else if (results.rows.length == 1)							// Precies één gebruiker gevonden
 			{
 				row = results.rows.item (0);
 				var id = row['id'];										// Die heeft dus deze id
-				addMedicationList (id);									// En daarvoor moeten we een lijst gaan toevoegen
+				receivedList.patientID = row['id'];
+				addMedicationList ();									// En daarvoor moeten we een lijst gaan toevoegen
 			}
 
 			else														// Oeps, meerdere gebruikers met dezelfde geboortedatum (tweeling of zo?)
@@ -1208,7 +1268,7 @@ function ProcessReceivedData ()
 
 				var div = document.createElement ('div');
 				div.className = 'item standard50 standard selDiv';
-				div.setAttribute ('onmouseup', 'selectImportPatient(0);');
+				div.setAttribute ('onmouseup', 'selectImportPatient(-2);');
 				div.innerHTML = 'Maak een nieuwe gebruiker';
 				var action = document.createElement ('div');
 				action.className = 'importUnselected';
@@ -1219,7 +1279,7 @@ function ProcessReceivedData ()
 				
 				div = document.createElement ('div');
 				div.className = 'item standard200 standard selDiv';
-				div.setAttribute ('onmouseup', 'selectImportPatient(1);');
+				div.setAttribute ('onmouseup', 'selectImportPatient(-1);');
 				div.innerHTML = 'Deze lijst niet importeren';
 				div.setAttribute ('data-selected', 'true');
 				div.setAttribute ('data-patient', '-2');
@@ -1235,7 +1295,7 @@ function ProcessReceivedData ()
 					div.className = 'item standard selDiv';
 					div.setAttribute ('data-selected', 'false');
 					div.setAttribute ('data-patient', '\'' + row['id'] + '\'');
-					div.setAttribute ('onmouseup', 'selectImportPatient(' + (i+2) + ');');
+					div.setAttribute ('onclick', 'selectImportPatient(' + row['id'] + ');');
 					var date = new Date (row['gebJaar'], row['gebMaand'], row['gebDag'], 5, 5, 5, 5)
 					var day = date.getDate();
 					if(day<10){ day="0"+day;}
@@ -1256,8 +1316,6 @@ function ProcessReceivedData ()
 				elemDiv.style.cssText = 'position:relative;width:100%;height:auto;padding-top:10px;padding-bottom:10px;border-bottom:solid 1px #afafaf;font-family:arial, helvetica, sans-serif;'
 									+ 'font-size:medium;text-align:center;color:#000000;background-color:#ffffff;';
 				elemDiv.onclick = function () { onClickOK ('__selectImportPatient'); };
-//				elemDiv.setAttribute('onclick', 'onClickOK(\'__selectImportPatient\');');
-//				elemDiv.setAttribute('onmouseup', 'onClickOK(\'__selectImportPatient\');');
 				elemDiv.innerHTML = 'OK';
 				elemDiv.onmouseover = function ()
 				{
@@ -1288,6 +1346,34 @@ function ProcessReceivedData ()
 		{
 		};
 	});
+}
+
+//------------------------------------------------------------------------------------------------------------------------
+// Er waren meerdere gebruikers met dezelfde geboortedatum. We hadden de gebruiker een keuze gegeven.
+// Nu eens kijken wat hij of zij heeft gekozen.
+//
+function selectImportPatient (id)
+{
+	if (id == -2)										// Toe maar, er moeten er nog meer zijn!
+	{
+		var dateTemp = receivedList.birthdate.split ('-');		// haal even uit elkaar
+		if (dateTemp.length != 3)						// daaruit moeten we drie componenten overhouden
+		{
+			myAlert ('Er is iets misgegaan in het interpreteren van de geboortedatum');
+			return ;
+		}
+		year  = dateTemp[0];							// Namelijk het geboortejaar,
+		month = dateTemp[1];							// de maand
+		day   = dateTemp[2];							// en de dag
+		nieuwePatient (year, month, day);				// En daarvoor maken we een nieuwe patient aan
+	}
+	else if (id == -1)									// Helemaal maar niet
+		return ;
+	else												// er is er een gekozen!
+	{
+		receivedList.patientID = id;
+		addMedicationList ();							// En daarvoor moeten we een lijst gaan toevoegen
+	}
 }
 
 function setFontSize ()
