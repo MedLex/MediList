@@ -80,20 +80,6 @@
 		<!--
 			Verwijderen van een persoon en/of de medicatielijst(en) van een persoon
 		 -->
-		<div id="individualDelete">
-			<div class="individualHeader popHeader"><div id="deleteText"><b>Verwijderen</b></div>
-				<div class="individualClose" onmouseup="deleteCancel();"></div>
-			</div>
-			<div id="deleteBody">
-				<div id="deleteQuestion" class="large"></div>
-				<div class="delete large"><input id="deleteAll" type="checkbox"><label class="large" for="deleteAll"><span></span>Gebruiker en medicatielijsten</label></div>
-				<div class="delete large"><input id="deleteLists" type="checkbox"><label class="large" id="deleteListsText" for="deleteLists"><span></span>Alleen medicatielijsten</label></div>
-			</div>
-			<div class="okWrap">
-				<div id="deleteIndividual" class="ok2 button" onmouseup="deleteOK(-1);"><b>Verwijder</b></div>
-				<div class="ok3 button" onmouseup="deleteCancel();"><b>Annuleer</b></div>
-			</div>
-		</div>
 		<!--
 			Nieuw tijdstip of wijzigen bestaand tijdstip
 		 -->
@@ -194,7 +180,26 @@
 			In het medicijnlijstscherm bijboorbeeld het ophalen van een nieuwe lijst (via QR code)
 			In het kalenderscherm het toevoegen van een nieuw tijdstip enzovoorts
 		-->
-		<div id="plus" class="altGrey material" onmouseup="plus();"></div>
+		<div id="plus" class="material" onmouseup="plus();"></div>
+		
+		<!--
+			Alleen ter test: een vakje om een bestandsnaam op te vragen als er om een upload
+			wordt gevraagd en we zitten in een browser en niet in de app op een mobiel
+		-->
+		<div id="jsonCover"></div>
+		<div id="askJSON">
+			<div class="individualHeader popHeader"><div><b>kies een JSON bestand</b></div>
+				<div class="individualClose" onmouseup="jsonCancel();"></div>
+			</div>
+			<div id="jsonBody" class="large">
+				<label for="files">Choose file to upload</label>&nbsp;
+				<input type="file" id="files" name="files" />
+			</div>
+			<div class="okWrap">
+				<div class="ok2 button" onmouseup="jsonLoad ();"><b>Laden</b></div>
+				<div class="ok3 button" onmouseup="jsonCancel();"><b>Annuleer</b></div>
+			</div>
+		</div>
 
 		<!--
 			Hier komt het menu. Dit moet helemaal onderaan blijven om te zorgen dat het overal overheen kan
