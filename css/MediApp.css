@@ -243,15 +243,14 @@ body
 	position:absolute;
 	bottom:20px;
 	right:20px;
-/*	top:20px;
-	right:20%; */
 	border-radius: 28px;
 	height:56px;
 	width:56px;
-    background-image: url('../img/plus.png');
+	background-image: url('../img/plus.png');
 	background-position:center;
 	background-repeat:no-repeat;
-    background-size:56px;
+	background-size:56px;
+	background-color:#0152a1;
 }
 
 #plus:hover
@@ -601,6 +600,48 @@ body
     transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
 	display:none;
+}
+
+#jsonCover
+{
+	position:absolute;
+	top:50px;
+	bottom:0px;
+	left:0px;
+	left:0px;
+	right:0px;
+	background-color:black;
+	opacity:0.3;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+	display:none;
+}
+
+#askJSON
+{
+	position:absolute;
+	width:86%;
+	top:20%;
+	left:7%;
+	height:60%;
+	padding:0px;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease; /* For Safari 3.1 to 6.0 */
+	background-color:white;
+	color:black;
+/*	opacity:0; */
+	border-radius:20px;
+	overflow:hidden;
+	display:none;
+}
+
+#jsonBody
+{
+	position:absolute;
+	top:70px;
+	right:0px;
+	left:0px;
+	bottom:50px;
 }
 
 #individualCover
