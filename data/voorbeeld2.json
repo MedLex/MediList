@@ -14,6 +14,7 @@
       },
       "usageStartDate": "2018-01-19",
       "usageEndDate": "2018-01-26",
+	  "nhg25": "1-3D1-3CA",
       "amount": 30,
       "codedUnit": "stuks",
       "zi": "16044940",
@@ -30,10 +31,11 @@
       "dispenseTimestamp": "2018-01-19T14:45:57.652Z",
       "prescriber": {
         "agbCode": "03030228",
-        "name": "H. Huisarts",
-        "speciality": "Huisarts"
+        "name": "S. Pecialist",
+        "speciality": "Very special"
       },
       "usageStartDate": "2017-10-19",
+	  "nhg25": "1UZ1DR",
       "amount": 40,
       "codedUnit": "stuks",
       "zi": "16044941",
@@ -51,6 +53,7 @@
         "speciality": "Huisarts"
       },
       "usageStartDate": "2017-01-01",
+	  "nhg25": "1D1T",
       "amount": 2,
       "codedUnit": "doosjes",
       "zi": "16044942",
@@ -58,7 +61,7 @@
       "prk": "17811",
       "dispensedMedicationName": "Atorvastatine",
       "guidanceText": [
-        "Zie maar wanneer je dr zin inh hebt!",
+        "Zie maar wanneer je dr zin an hebt!",
 		"En anders laat dan maar zitten"
       ]
     }
