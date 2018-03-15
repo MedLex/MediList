@@ -75,6 +75,7 @@ function showList (db)
 	var div = overzicht.childNodes;
 	var i = div.length;
 
+	log ('showList ()');
 	while (i-- > 0)			// verwijder alle regels uit een eventuele huidige lijst, behalve de header
 	{
 		if (div[i].id != 'itemHeader')
@@ -89,6 +90,7 @@ function showList (db)
 				row = results.rows.item(0);
 				document.getElementById ('itemHeader').innerHTML = '<b>Medicatielijst van ' + row['naam'] + '</b>';
 				currentUser = row['naam'];
+				log ('selected user = ' + row['id'] + ', ' + row['naam']);
 				showListStep2 (db, row['id']);
 			}
 			else
@@ -124,6 +126,7 @@ function showListStep2 (db, id)
 			{
 				var row = results.rows.item(0);
 				var d = formatDate (row['listDag'], row['listMaand'], row['listJaar']);
+				log ('most recent list = ' + row['id'] + ', ' + d);
 				szHTML += '<br><span class="standard">Lijst van ' + row['apotheek'] + ', ' + d + '</span>';
 				document.getElementById ('itemHeader').innerHTML = szHTML;
 				showListStep3 (db, row['id']);

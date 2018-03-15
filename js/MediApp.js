@@ -343,7 +343,7 @@ function plus ()
 		if (whichMainScreen () == 0)		// Medicatielijst
 		{
 			if (typeof cordova == 'undefined' || !cordova)	// Aha, we draaien niet op een mobiel!
-				handleQRCode ('1;1;19250925;data/voorbeeld2.json',0);
+				handleQRCode ('1;1;19250925;data/voorbeeld2.json;--',0);
 			else cordova.plugins.barcodeScanner.scan(
 				function (result)
 				{
@@ -435,6 +435,8 @@ function handleQRCode (QRCode, bScanned)
 	var listID = '';
 	var parts = QRCode.split (';');
 
+	document.getElementById ('debugWindow').innerHTML = '';
+	
 	if (   parts.length < 4
 		|| parts.length > 5)
 		errorCode = 1;
@@ -465,10 +467,16 @@ function handleQRCode (QRCode, bScanned)
 		
 		if (parts.length == 5)
 		{
-			listID = parts[4];
-			url += '?listID=' + listID;
+			if (parts[4] == '--')
+				setVisibility ('debug', true);
+
+			else
+			{
+				listID = parts[4];
+				url += '?listID=' + listID;
+			}
 		}
-	
+
 		if (actionCode != 1)
 			errorCode = 3;
 		else if (docType != 1)
@@ -481,6 +489,7 @@ function handleQRCode (QRCode, bScanned)
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function()
 		{
+			log ('XMLhttprequest ended with ready state = ' + this.readyState + ', and status = ' + this.status);
 			if (   this.readyState == 4
 				&& this.status == 200)
 			{
@@ -496,7 +505,6 @@ function handleQRCode (QRCode, bScanned)
 							 + ' kon niet worden gevonden of is verlopen');
 				else
 				{
-//					myAlert ('Er is een fout opgetreden! (url = \'' + globalURL + '\'\r\nstatus = ' + this.status + ', ' + this.statusText + ')');
 					receivedList = JSON.parse(this.responseText);
 					ProcessReceivedData ();
 				}
@@ -504,14 +512,31 @@ function handleQRCode (QRCode, bScanned)
 		};
 
 		globalURL = url;
-			xhttp.open("GET", url, true);
+		log ('Starting \'GET\' for url \'' + url + '\'');
+		xhttp.open("GET", url, true);
 		xhttp.send();
 	}
 	else
 	{
+		log ('not scanned. asking for json file');
 		setVisibility ('jsonCover', true);
 		setVisibility ('askJSON', true);
 	}
+}
+
+function debugClose ()
+{
+	setVisibility ('debug', false);
+}
+
+function log (szText)
+{
+	var debug = document.getElementById ('debugWindow');
+	var szHTML = debug.innerHTML;
+
+	szHTML += szText;
+	szHTML += '<br/>';
+	debug.innerHTML = szHTML;
 }
 
 function jsonLoad ()
@@ -526,6 +551,7 @@ function jsonLoad ()
 		var reader = new FileReader();
 		reader.onload = function(e)
 		{
+			log ('parsing JSON file');
 			receivedList = JSON.parse(e.target.result);
 			receivedList.birthdate = '1952-09-25';
 			ProcessReceivedData ();
@@ -866,8 +892,12 @@ function addMedicationList ()
 	var date = null;
 	var lijst;
 
+	log ('addMedicationList ()');
 	if (receivedList == null)
+	{
+		log ('shit! receivedList is null!');
 		return ;
+	}
 	apotheek = receivedList.pharmacyName;
 	apotheekID = receivedList.agbCode;
 	if (receivedList.timestamp)
@@ -895,14 +925,19 @@ function addMedicationList ()
 		var listDag   = date.getDate ();
 		var listMaand = date.getMonth ()+1;
 		var listJaar  = date.getFullYear ();
+		
+		var sqlStatement = 'SELECT * from lijsten WHERE apotheekID=\'' + apotheekID + '\' AND patient=' + patient + ' AND listDag=' + listDag + ' AND listMaand=' + listMaand + ' AND listJaar=' + listJaar;
+		
+		log ('finding possible existing list<br />&nbsp;&nbsp;' + sqlStatement);
 
-		tx.executeSql ('SELECT * from lijsten WHERE apotheekID=\'' + apotheekID + '\' AND patient=' + patient + ' AND listDag=' + listDag + ' AND listMaand=' + listMaand + ' AND listJaar=' + listJaar, [], function (tx, results)
+		tx.executeSql (sqlStatement, [], function (tx, results)
 		{
 			var verder = true;
 			if (results.length > 0)
 				verder = confirm ('Deze medicatielijst lijkt al aanwezig te zijn. Wilt u deze lijst toch toevoegen?');
 			if (verder)
 			{
+				log ('not found or OK to import');
 				var date = null;
 				var lijst;
 				var patient = receivedList.patientID;
@@ -914,11 +949,13 @@ function addMedicationList ()
 				var listMaand = date.getMonth ()+1;
 				var listJaar  = date.getFullYear ();
 
-				sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
-							 + apotheekID + '\', \'' + apotheek + '\', ' + listDag + ', ' + listMaand + ', ' + listJaar + ', ' + patient + ')';
+				var sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
+							      + apotheekID + '\', \'' + apotheek + '\', ' + listDag + ', ' + listMaand + ', ' + listJaar + ', ' + patient + ')';
+				log ('inserting new list<br/>&nbsp;&nbsp;' + sqlStatement);
 				tx.executeSql(sqlStatement, [], function (tx, results)
 				{
 					lijst = results.insertId;
+					log ('new list inserted, id = ' + lijst);
 					importOverzicht (patient, lijst);
 				}, function (tx, error)
 				{
@@ -945,6 +982,8 @@ function importOverzicht (id, lijst)
 	var medicatie = receivedList.medicationDispenseEvents;
 
 	receivedList.listID = lijst;
+	
+	log ('importing list. Patient=' + id + ', lijst=' + lijst);
 
 	db.transaction (function (tx)
 	{
@@ -1228,24 +1267,30 @@ function ProcessReceivedData ()
 
 	db.transaction(function(tx)
 	{
+		log ('finding user with ' + g_day + '-' + g_month + '-' + g_year);
 		// ---------------------------------------------------------------------------------------
 		// Zoek de gebruiker
 		//
 		tx.executeSql('SELECT * FROM person WHERE gebDag = ' + g_day + ' AND gebMaand = ' + g_month + ' AND gebJaar = ' + g_year, [], function (tx, results)
 		{
 			if (results.rows.length == 0)								// Geen patient gevonden
+			{
+				log ('asking new user');
 				r = nieuwePatient (g_year, g_month, g_day)				// vraag of we er een moeten aanmaken
+			}
 
 			else if (results.rows.length == 1)							// Precies één gebruiker gevonden
 			{
 				row = results.rows.item (0);
 				var id = row['id'];										// Die heeft dus deze id
 				receivedList.patientID = row['id'];
+				log ('found user with id=' + receivedList.patientID);
 				addMedicationList ();									// En daarvoor moeten we een lijst gaan toevoegen
 			}
 
 			else														// Oeps, meerdere gebruikers met dezelfde geboortedatum (tweeling of zo?)
 			{															// Dan moeten we dus vragen wie het gaat worden
+				log ('asking to select one user');
 				Cover ('__selectImportPatient', false); 				// onderliggende tekst even bedekken
 				var elemWrapper = document.createElement ('div');		// wrapper voor alles
 				elemWrapper.id = '__selectImportPatient';				// met deze ID. Kunnen we hem straks bij de OK knop terugvinden om weg te gooien
