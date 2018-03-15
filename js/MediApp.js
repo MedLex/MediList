@@ -496,6 +496,7 @@ function handleQRCode (QRCode, bScanned)
 				receivedList = JSON.parse(this.responseText);
 				log ('parsed JSON data');
 				receivedList.birthdate = globalBirthdate;
+				log ('added global birthdate: \'' + receivedList.birthdate + '\', start processing data');
 				ProcessReceivedData ();
 			}
 			else if (this.readyState == 4)
