@@ -1061,6 +1061,7 @@ function importOverzicht (id, lijst)
 				if (length > 4)
 					text5 = medicijn.guidanceText[4];
 			}
+			log ('adding \'' + dispensedMedicationName + '\'');
 
 			sqlStatement = 'INSERT INTO medicatie (lijst, regel, uuid, transcriptTimestamp, dispenseTimestamp,'
 						 + 'voorschrijverNaam, voorschrijverAGB, voorschrijverSpec, startGebruik, eindGebruik,'
@@ -1101,7 +1102,9 @@ function importOverzicht (id, lijst)
 			});
 		}
 		selectPerson (id);
+		log ('selecting user ' + id);
 		setVisibility ('back', false);	// Er zou een terugknop kunnen staan. Die willen we nu niet meer
+		log ('showing list');
 		showList (db);
 	});
 }
