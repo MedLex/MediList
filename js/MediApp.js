@@ -495,7 +495,7 @@ function handleQRCode (QRCode, bScanned)
 				log ('XMLhttprequest ended with ready state = ' + this.readyState + ', and status = ' + this.status);
 				receivedList = JSON.parse(this.responseText);
 				log ('parsed JSON data');
-				receivedList.birthdate = globalBirthdate;
+				receivedList['birthdate'] = globalBirthdate;
 				log ('added global birthdate: \'' + receivedList.birthdate + '\', start processing data');
 				ProcessReceivedData ();
 			}
@@ -556,7 +556,7 @@ function jsonLoad ()
 		{
 			log ('parsing JSON file');
 			receivedList = JSON.parse(e.target.result);
-			receivedList.birthdate = '1952-09-25';
+			receivedList['birthdate'] = '1952-09-25';
 			ProcessReceivedData ();
 		}
 		reader.readAsText(curFiles[0]);
@@ -605,7 +605,7 @@ function indiOK (id, qr)
 			indiCancel ();							// Sluit de vensters
 			if (qr)									// Er is iemand toegevoegd op basis van een gelezen QR code
 			{
-				receivedList.patientID = results.insertId;
+				receivedList['patientID'] = results.insertId;
 				alert ('patientID = ' + receivedList.patientID);
 				selectPerson (receivedList.patientID);
 				addMedicationList ();				// en voeg nu de lijst toe voor deze nieuwe gebruikert
@@ -984,7 +984,7 @@ function importOverzicht (id, lijst)
 	var sqlStatement;
 	var medicatie = receivedList.medicationDispenseEvents;
 
-	receivedList.listID = lijst;
+	receivedList['listID'] = lijst;
 	
 	log ('importing list. Patient=' + id + ', lijst=' + lijst);
 
@@ -1289,7 +1289,7 @@ function ProcessReceivedData ()
 			{
 				row = results.rows.item (0);
 				var id = row['id'];										// Die heeft dus deze id
-				receivedList.patientID = row['id'];
+				receivedList['patientID'] = row['id'];
 				log ('found user with id=' + receivedList.patientID);
 				addMedicationList ();									// En daarvoor moeten we een lijst gaan toevoegen
 			}
@@ -1422,7 +1422,7 @@ function selectImportPatient (id)
 		return ;
 	else												// er is er een gekozen!
 	{
-		receivedList.patientID = id;
+		receivedList['patientID'] = id;
 		addMedicationList ();							// En daarvoor moeten we een lijst gaan toevoegen
 	}
 }
