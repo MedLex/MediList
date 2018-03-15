@@ -489,16 +489,18 @@ function handleQRCode (QRCode, bScanned)
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function()
 		{
-			log ('XMLhttprequest ended with ready state = ' + this.readyState + ', and status = ' + this.status);
 			if (   this.readyState == 4
 				&& this.status == 200)
 			{
+				log ('XMLhttprequest ended with ready state = ' + this.readyState + ', and status = ' + this.status);
 				receivedList = JSON.parse(this.responseText);
+				log ('parsed JSON data');
 				receivedList.birthdate = globalBirthdate;
 				ProcessReceivedData ();
 			}
 			else if (this.readyState == 4)
 			{
+				log ('XMLhttprequest ended with ready state = ' + this.readyState + ', and status = ' + this.status);
 				if (this.status == 404)
 					myAlert (  'De opgegeven medicatielijst voor de gebruiker met geboortedatum '
 							 + globalShowDate
