@@ -88,6 +88,8 @@
 		<splash src="res/screen/ios/TabletNonRetinaLandscape.png" platform="ios" width="1024" height="768"/>
 		<splash src="res/screen/ios/TabletRetinaPortrait.png"     platform="ios" width="1536" height="2048"/>
 		<splash src="res/screen/ios/TabletRetinaLandscape.png"    platform="ios" width="2048" height="1536"/>
+		<splash src="res/screen/ios/iPadProPortrait.png"          platform="ios" width="2048" height="2732"/>
+		<splash src="res/screen/ios/iPadProLandscape.png"         platform="ios" width="2732" height="2048"/>
 		<!-- iPhone -->
 		<splash src="res/screen/ios/iPhoneRetinaPortrait.png"     platform="ios" width="640" height="960" />
 		<splash src="res/screen/ios/iPhoneRetinaLandscape.png"    platform="ios" width="960" height="640" />
@@ -96,12 +98,18 @@
 		<!-- iPhone 5 -->
 		<splash src="res/screen/ios/iPhone5RetinaPortrait.png"    platform="ios" width="640" height="1136" />
 		<splash src="res/screen/ios/iPhone5RetinaLandscape.png"   platform="ios" width="1136" height="640" />
-		<!-- iPhone 6 -->
+		<!-- iPhone 6 en 8 -->
 		<splash src="res/screen/ios/iPhone6Portrait.png"          platform="ios" width="750" height="1334" />
 		<splash src="res/screen/ios/iPhone6Landscape.png"         platform="ios" width="1334" height="750" />
 		<!-- iPhone 6Plus -->
 		<splash src="res/screen/ios/iPhone6PlusPortrait.png"      platform="ios" width="1242" height="2208" />
 		<splash src="res/screen/ios/iPhone6PlusLandscape.png"     platform="ios" width="2208" height="1242" />
+		<!-- iPhone 8Plus -->
+		<splash src="res/screen/ios/iPhone8PlusPortrait.png"      platform="ios" width="1080" height="1920" />
+		<splash src="res/screen/ios/iPhone8PlusLandscape.png"     platform="ios" width="1920" height="1080" />
+		<!-- iPhone 10 -->
+		<splash src="res/screen/ios/iPhone10Portrait.png"         platform="ios" width="1125" height="2436" />
+		<splash src="res/screen/ios/iPhone10Landscape.png"        platform="ios" width="2436" height="1136" />
 
 		<preference name="SplashScreenDelay" value="5000" />
 		<preference name="SplashMaintainAspectRatio" value="false" />
