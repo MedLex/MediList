@@ -77,7 +77,6 @@ function updateListTijd ()
 				var row = results.rows.item (i);
 				if (row['listTijd'] == null)
 				{
-					alert ('setting listTijd for lijsten ' + row['id']);
 					tx.executeSql ('UPDATE lijsten SET listTijd=\'00:00\' where id=' + row['id']);
 				}
 			}
