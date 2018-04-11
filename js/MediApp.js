@@ -465,7 +465,7 @@ function handleQRCode (QRCode, bScanned)
 		globalBirthDate = year + '-' + month + '-' + day;
 		globalShowDate  = bd;
 		
-		if (parts.length == 5)
+		if (parts.length >= 5)
 		{
 			if (parts[4] == '--')
 				setVisibility ('debug', true);
@@ -474,6 +474,8 @@ function handleQRCode (QRCode, bScanned)
 			{
 				listID = parts[4];
 				url += '?listID=' + listID;
+				if (parts.length > 5 && parts[5] == '--')
+					setVisibility ('debug', true);
 			}
 		}
 
@@ -509,6 +511,9 @@ function handleQRCode (QRCode, bScanned)
 				else
 				{
 					receivedList = JSON.parse(this.responseText);
+					log ('parsed JSON data');
+					receivedList['birthdate'] = globalBirthDate;
+					log ('added global birthdate: \'' + receivedList.birthdate + '\', start processing data');
 					ProcessReceivedData ();
 				}
 			}
@@ -606,7 +611,6 @@ function indiOK (id, qr)
 			if (qr)									// Er is iemand toegevoegd op basis van een gelezen QR code
 			{
 				receivedList['patientID'] = results.insertId;
-				alert ('patientID = ' + receivedList.patientID);
 				selectPerson (receivedList.patientID);
 				addMedicationList ();				// en voeg nu de lijst toe voor deze nieuwe gebruikert
 			}
@@ -928,8 +932,20 @@ function addMedicationList ()
 		var listDag   = date.getDate ();
 		var listMaand = date.getMonth ()+1;
 		var listJaar  = date.getFullYear ();
-		
-		var sqlStatement = 'SELECT * from lijsten WHERE apotheekID=\'' + apotheekID + '\' AND patient=' + patient + ' AND listDag=' + listDag + ' AND listMaand=' + listMaand + ' AND listJaar=' + listJaar;
+		var listTijd = '';
+		if (date.getHours () < 10)
+			listTijd = '0';
+		listTijd += date.getHours () + ':';
+		if (date.getMinutes () < 10)
+			listTijd += '0';
+		listTijd += date.getMinutes ();
+
+		var sqlStatement = 'SELECT * from lijsten WHERE apotheekID=\'' + apotheekID
+						 + '\' AND patient=' + patient
+						 + ' AND listDag=' + listDag
+						 + ' AND listMaand=' + listMaand
+						 + ' AND listJaar=' + listJaar
+						 + ' AND listTijd=\'' + listTijd + '\'';
 		
 		log ('finding possible existing list<br />&nbsp;&nbsp;' + sqlStatement);
 
@@ -951,9 +967,16 @@ function addMedicationList ()
 				var listDag   = date.getDate ();
 				var listMaand = date.getMonth ()+1;
 				var listJaar  = date.getFullYear ();
+				var listTijd = '';
+				if (date.getHours () < 10)
+					listTijd = '0';
+				listTijd += date.getHours () + ':';
+				if (date.getMinutes () < 10)
+					listTijd += '0';
+				listTijd += date.getMinutes ();
 
-				var sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, patient) VALUES (\''
-							      + apotheekID + '\', \'' + apotheek + '\', ' + listDag + ', ' + listMaand + ', ' + listJaar + ', ' + patient + ')';
+				var sqlStatement = 'INSERT INTO lijsten (apotheekID, apotheek, listDag, listMaand, listJaar, listTijd, patient) VALUES (\''
+							      + apotheekID + '\', \'' + apotheek + '\', ' + listDag + ', ' + listMaand + ', ' + listJaar + ', \'' + listTijd + '\', ' + patient + ')';
 				log ('inserting new list<br/>&nbsp;&nbsp;' + sqlStatement);
 				tx.executeSql(sqlStatement, [], function (tx, results)
 				{

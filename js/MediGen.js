@@ -23,6 +23,7 @@ function onDeviceReady()
 	if (db)
 	{
 		initTables (db);
+		updateListTijd ();
 		showList (db);
 		fillCalender ();
 	}

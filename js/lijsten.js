@@ -66,6 +66,30 @@ function initTables (db)
 	});
 }
 
+function updateListTijd ()
+{
+	db.transaction(function (tx)
+	{
+		tx.executeSql ('SELECT * from lijsten', [], function (tx, results)
+		{
+			for (var i=0; i < results.rows.length; i++)
+			{
+				var row = results.rows.item (i);
+				if (row['listTijd'] == null)
+				{
+					alert ('setting listTijd for lijsten ' + row['id']);
+					tx.executeSql ('UPDATE lijsten SET listTijd=\'00:00\' where id=' + row['id']);
+				}
+			}
+		}), function (tx, error)
+		{
+			alert ('er is een fout opgetreden\r\n' + error.message);
+		}, function ()
+		{
+		};
+	});
+}
+
 //-------------------------------------------------------------------------------------
 // Toon de juiste medicatielijst. Stap1: vind een geselecteerde gebruiker
 //
@@ -113,7 +137,7 @@ function showListStep2 (db, id)
 	
 	db.transaction(function(tx)
 	{
-		var sqlStatement = 'SELECT * FROM lijsten WHERE patient = ' + id + ' ORDER BY listJaar, listMaand, listDag, listTijd DESC';
+		var sqlStatement = 'SELECT * FROM lijsten WHERE patient = ' + id + ' ORDER BY listJaar DESC, listMaand DESC, listDag DESC, listTijd DESC';
 		tx.executeSql(sqlStatement, [], function (tx, results)
 		{
 			var szHTML   = document.getElementById ('itemHeader').innerHTML;
