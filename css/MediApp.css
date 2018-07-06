@@ -223,18 +223,20 @@ label
 
 body
 {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: text;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    
-    background:transparent;
-    margin:0;
-    padding:0;
-    top:0px;
-    left:0px;
-    right:0px;
-    bottom:0px;
-    overflow:hidden;
+	-webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+	-webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+	-webkit-user-select: text;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+
+	background:transparent;
+	margin:0;
+	padding:0;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	overflow:hidden;
+	background-color:#ffffff;
+	color:#000000;
 }
 
 #plus
@@ -271,14 +273,16 @@ body
 
 #wrapper
 {
-    position:absolute;
-    left:0px;
-    right:0px;
-    top:0px;
-    bottom:0px;
-    padding:0;
-    margin:0;
-    overflow:hidden;
+	margin: constant(safe-area-inset-top) constant(safe-area-inset-right) constant(safe-area-inset-bottom) constant(safe-area-inset-left);		/* <iOS 11.2 */
+	margin: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);							/* >iOS 11.2 */
+	position:absolute;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	padding:0;
+	margin:0;
+	overflow:hidden;
 	background:transparent;
 }
 
