@@ -1,6 +1,5 @@
 <widget xmlns="http://www.w3.org/ns/widgets"
 	xmlns:gap="http://phonegap.com/ns/1.0"
-	xmlns:android="http://schemas.android.com/apk/res/android"
 	id="nl.medlex.medin"
 	versionCode="100"
 	version="1.0.0">
@@ -30,14 +29,10 @@
 	<preference name="iosPersistentFileLocation" value="Compatibility" />
 
 	<plugin spec="https://github.com/phonegap/phonegap-plugin-barcodescanner" source="git" />
-	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" />
+<!--	<plugin spec="https://github.com/apache/cordova-plugin-statusbar" source="git" /> -->
 <!--	<plugin spec="https://github.com/napolitano/cordova-plugin-intent" source="git" /> -->
 
 	<platform name="android">
-		<preference name="StatusBarOverlaysWebView" value="false"/>
-		<preference name="StatusBarBackgroundColor" value="#000000"/>
-		<preference name="StatusBarStyle" value="lightcontent" />
-
 		<icon   src="res/icon/android/drawable-mdpi-icon.png"     platform="android" density="mdpi"    qualifier="mdpi"   />
 		<icon   src="res/icon/android/drawable-hdpi-icon.png"     platform="android" density="hdpi"    qualifier="hdpi"   />
 		<icon   src="res/icon/android/drawable-xhdpi-icon.png"    platform="android" density="xhdpi"   qualifier="xhdpi"  />
@@ -83,37 +78,13 @@
 		<icon   src="res/icon/ios/icon-small.png"                 platform="ios" width="29"   height="29" />
 		<icon   src="res/icon/ios/icon-small@2x.png"              platform="ios" width="58"   height="58" />
 		<icon   src="res/icon/ios/icon-small@3x.png"              platform="ios" width="87"   height="87" />
-		<!-- iPad -->
-		<splash src="res/screen/ios/TabletNonRetinaPortrait.png"  platform="ios" width="768" height="1024"/>
-		<splash src="res/screen/ios/TabletNonRetinaLandscape.png" platform="ios" width="1024" height="768"/>
-		<splash src="res/screen/ios/TabletRetinaPortrait.png"     platform="ios" width="1536" height="2048"/>
-		<splash src="res/screen/ios/TabletRetinaLandscape.png"    platform="ios" width="2048" height="1536"/>
-		<splash src="res/screen/ios/iPadProPortrait.png"          platform="ios" width="2048" height="2732"/>
-		<splash src="res/screen/ios/iPadProLandscape.png"         platform="ios" width="2732" height="2048"/>
-		<!-- iPhone -->
-		<splash src="res/screen/ios/iPhoneRetinaPortrait.png"     platform="ios" width="640" height="960" />
-		<splash src="res/screen/ios/iPhoneRetinaLandscape.png"    platform="ios" width="960" height="640" />
-		<splash src="res/screen/ios/iPhoneNonRetinaPortrait.png"  platform="ios" width="320" height="480" />
-		<splash src="res/screen/ios/iPhoneNonRetinaLandscape.png" platform="ios" width="480" height="320" />
-		<!-- iPhone 5 -->
-		<splash src="res/screen/ios/iPhone5RetinaPortrait.png"    platform="ios" width="640" height="1136" />
-		<splash src="res/screen/ios/iPhone5RetinaLandscape.png"   platform="ios" width="1136" height="640" />
-		<!-- iPhone 6 en 8 -->
-		<splash src="res/screen/ios/iPhone6Portrait.png"          platform="ios" width="750" height="1334" />
-		<splash src="res/screen/ios/iPhone6Landscape.png"         platform="ios" width="1334" height="750" />
-		<!-- iPhone 6Plus -->
-		<splash src="res/screen/ios/iPhone6PlusPortrait.png"      platform="ios" width="1242" height="2208" />
-		<splash src="res/screen/ios/iPhone6PlusLandscape.png"     platform="ios" width="2208" height="1242" />
-		<!-- iPhone 8Plus -->
-		<splash src="res/screen/ios/iPhone8PlusPortrait.png"      platform="ios" width="1080" height="1920" />
-		<splash src="res/screen/ios/iPhone8PlusLandscape.png"     platform="ios" width="1920" height="1080" />
-		<!-- iPhone 10 -->
-		<splash src="res/screen/ios/iPhone10Portrait.png"         platform="ios" width="1125" height="2436" />
-		<splash src="res/screen/ios/iPhone10Landscape.png"        platform="ios" width="2436" height="1136" />
 
-		<preference name="SplashScreenDelay" value="5000" />
+		<!-- One general splash screen 2732x2732 -->
+		<splash src="res/screen/ios/Default@2x~universal~anyany.png" />
+
+<!--		<preference name="SplashScreenDelay" value="5000" />
 		<preference name="SplashMaintainAspectRatio" value="false" />
-		<preference name="SplashShowOnlyFirstTime" value="false" />
+		<preference name="SplashShowOnlyFirstTime" value="false" /> -->
 
 		<edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">	<!-- Verplicht om op te geven waarvoor de camera nodig is -->
 			<string>Om de QR code bij de apotheek te kunnen lezen</string>
